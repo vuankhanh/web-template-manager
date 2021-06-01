@@ -1,0 +1,70 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Thông tin nhận diện</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ng-container *ngIf="identificationInfor">
+    <ion-list>
+
+      <ion-item
+        (click)="changePhoneNumber('logo')"
+        [routerLink]="['/main/identification-information', 'logo']"
+      >
+        <ion-label>
+          <span class="primary-key">Logo</span>
+        </ion-label>
+        <div class="width-space"></div>
+        <div class="value horizontal-container">
+          <img height="40" width="40" src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y" alt="">
+        </div>
+      </ion-item>
+      
+      <ion-item
+        (click)="changePhoneNumber('phoneNumber')"
+        [routerLink]="['/main/identification-information', 'phoneNumber']"
+      >
+        <ion-label>
+          <ion-text class="primary-key">Số điện thoại</ion-text>
+        </ion-label>
+        <div class="width-space"></div>
+        <div class="value horizontal-container secondary-key">
+          <span>{{ identificationInfor.phoneNumber }}</span>
+        </div>
+      </ion-item>
+
+      <ion-item
+        (click)="changePhoneNumber('socialNetworking')"
+        [routerLink]="['/main/identification-information', 'socialNetworking']"
+      >
+        <ion-label>
+          <ion-text class="primary-key">Mạng xã hội</ion-text>
+        </ion-label>
+        <div class="width-space"></div>
+        <div class="value horizontal-container">
+          <span>{{ identificationInfor.socialNetworking }}</span>
+        </div>
+      </ion-item>
+
+      <ion-item
+        (click)="changePhoneNumber('address')"
+        [routerLink]="['/main/identification-information', 'address']"
+      >
+        <ion-label>
+          <span class="primary-key">
+            Địa chỉ
+          </span>
+        </ion-label>
+        <div class="width-space"></div>
+        <div class="value horizontal-container">
+          <span>{{ identificationInfor.address.street +', '+ identificationInfor.address.ward +', '+ identificationInfor.address.district +', '+ identificationInfor.address.province}}</span>
+        </div>
+      </ion-item>
+      
+    </ion-list>
+  </ng-container>
+</ion-content>
