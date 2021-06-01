@@ -8,5 +8,12 @@
 </ion-header>
 
 <ion-content>
-
+  <ion-segment (ionChange)="segmentChanged($event)" value="sunny">
+    <ion-segment-button value="sunny">
+      <ion-label>Sunny</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="rainy">
+      <ion-label>Rainy</ion-label>
+    </ion-segment-button>
+  </ion-segment>
 </ion-content>

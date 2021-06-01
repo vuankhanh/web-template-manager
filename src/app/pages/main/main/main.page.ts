@@ -10,7 +10,18 @@ export class MainPage implements OnInit {
     { title: 'Trang chủ', url: '/main/dashboard', icon: 'apps' },
     { title: 'Quản lý đơn hàng', url: '/main/order-manager', icon: 'receipt' },
     { title: 'Quản lý sản phẩm', url: '/main/product-manager', icon: 'fish' },
-    { title: 'Quản lý bài viết', url: '/main/post-manager', icon: 'reader' },
+    {
+      title: 'Quản lý bài viết',
+      url: '/main/post-manager',
+      icon: 'reader',
+      subItem:[
+        {
+          title: 'Về chúng tôi',
+          url: '/main/post-manager/about-us',
+          icon: 'reader',
+        }
+      ]
+    },
     { title: 'Thông tin nhận diện', url: '/main/identification-information', icon: 'cog' },
     { title: 'Trả lời khách hàng', url: '/main/chat', icon: 'chatbubbles' },
   ];
