@@ -1,0 +1,15 @@
+ion-content{
+    .login-container{
+        box-sizing: border-box;
+        padding: 15px;
+        justify-content: center;
+        form{
+            border: 1px solid #ededed;
+            max-width: 415px;
+            align-items: center;
+            ion-button[type="submit"]{
+                max-width: 150px;
+            }
+        }
+    }
+}

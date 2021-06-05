@@ -1,9 +1,23 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>login</ion-title>
+    <ion-title>Đăng nhập</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <div class="login-container horizontal-container">
+    <form [formGroup]="loginGroup" (ngSubmit)="submitForm()" class="vertical-container">
+      <ion-item>
+        <ion-label>Tài khoản</ion-label>
+        <ion-input type="text" formControlName="userName"></ion-input>
+      </ion-item>
+  
+      <ion-item>
+        <ion-label>Mật khẩu</ion-label>
+        <ion-input type="password" formControlName="password"></ion-input>
+      </ion-item>
 
+      <ion-button type="submit">Đăng nhập</ion-button>
+    </form>
+  </div>
 </ion-content>

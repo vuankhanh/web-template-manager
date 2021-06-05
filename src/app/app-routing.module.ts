@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
+import { RouteGuard } from './services/guards/route.guard';
+
 const routes: Routes = [
   {
     path: '',
@@ -13,7 +15,8 @@ const routes: Routes = [
   },
   {
     path: 'main',
-    loadChildren: () => import('./pages/main/main/main.module').then( m => m.MainPageModule)
+    loadChildren: () => import('./pages/main/main/main.module').then( m => m.MainPageModule),
+    canActivate: [RouteGuard]
   }
 ];
 
