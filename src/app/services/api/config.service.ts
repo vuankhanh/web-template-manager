@@ -9,7 +9,7 @@ import { catchError } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class ConfigService {
-  private url: string = hostConfiguration.host+'/friends';
+  private url: string = hostConfiguration.host+'/config';
   constructor(
     private httpClient: HttpClient
   ) { }

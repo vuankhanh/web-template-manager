@@ -27,7 +27,7 @@ export class RouteGuard implements CanActivate {
         let a = await this.configService.getConfig(accessToken).toPromise().then(_=>{
           return true;
         }).catch(_=>{
-          this.router.navigate['/login'];
+          this.router.navigateByUrl('/login');
           return false;
         });
         console.log(a);
