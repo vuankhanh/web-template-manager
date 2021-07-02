@@ -1,0 +1,137 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="end" (click)="modalController.dismiss()">
+      <ion-button>
+        <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>{{ type === 'update' ? 'Chỉnh sửa Sản Phẩm' : 'Tạo mới sản phẩm' }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form *ngIf="productForm" [formGroup]="productForm" (ngSubmit)="modify()">
+
+    <ion-list>
+
+      <ion-item>
+        <ion-label>Tên Sản phẩm: </ion-label>
+        <ion-input formControlName="name"></ion-input>
+      </ion-item>
+  
+      <ion-item>
+        <ion-label>Danh mục: </ion-label>
+        <ion-select placeholder="Chọn danh mục" formControlName="category">
+          <ion-select-option
+            *ngFor="let productCategory of productCategorys; let i = index;"
+            [value]="productCategory"
+          >
+            {{ productCategory.name }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item-divider></ion-item-divider>
+
+      <ion-item>
+        <ion-label>Đơn giá: </ion-label>
+        <ion-input formControlName="price"></ion-input>
+      </ion-item>
+  
+      <ion-item>
+        <ion-label>Đơn vị tiền tệ: </ion-label>
+        <ion-select placeholder="Chọn danh mục" formControlName="currencyUnit">
+          <ion-select-option
+            *ngFor="let currencyUnit of currencyUnits; let i = index;"
+            [value]="currencyUnit"
+          >
+            {{ currencyUnit }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Tổng số lượng: </ion-label>
+        <ion-input formControlName="theRemainingAmount"></ion-input>
+      </ion-item>
+  
+      <ion-item>
+        <ion-label>Đơn vị: </ion-label>
+        <ion-select placeholder="Chọn danh mục" formControlName="unit">
+          <ion-select-option
+            *ngFor="let unit of units; let i = index;"
+            [value]="unit"
+          >
+            {{ unit }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item-divider></ion-item-divider>
+
+      <ion-item>
+        <ion-label>Mô tả ngắn: </ion-label>
+        <ion-input formControlName="sortDescription"></ion-input>
+      </ion-item>
+
+      <ion-item-divider></ion-item-divider>
+  
+      <ion-item>
+        <ion-label>Mô tả chi tiết: </ion-label>
+        <ion-input formControlName="longDescription"></ion-input>
+      </ion-item>
+
+      <ion-item (click)="chooseGallery()">
+        <ion-label>Ảnh: </ion-label>
+        
+        <div *ngIf="productForm.controls['albumImg'].value as albumImgValue; else btnChooseGallery">
+          <ion-item>
+            <ion-avatar slot="start">
+              <img src="{{ albumImgValue.thumbnail | galleryRoute }}">
+            </ion-avatar>
+            <ion-label>
+              <h2>{{ albumImgValue.productName }}</h2>
+              <h3>{{ albumImgValue.createdAt | date: 'dd/MM/yyyy HH:mm:ss' }}</h3>
+            </ion-label>
+          </ion-item>
+        </div>
+        <ng-template #btnChooseGallery>
+          <ion-button >Chọn trong thư viện</ion-button>
+        </ng-template>
+        <!-- <ion-input
+          type="file"
+          accept="image/*"
+          (change)="addImage($event)"
+          multiple
+        ></ion-input> -->
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Video: </ion-label>
+        <ion-input formControlName="albumVideo"></ion-input>
+      </ion-item>
+
+      <ion-item-divider></ion-item-divider>
+
+      <ion-item>
+        <ion-label>Đưa lên trang chủ: </ion-label>
+        <ion-checkbox slot="end" formControlName="highlight"></ion-checkbox>
+      </ion-item>
+
+      <ion-item *ngIf="productForm.controls['highlight'].value">
+        <ion-label>Ảnh Banner: </ion-label>
+        <ion-input
+          type="file"
+          accept="image/*"
+          (change)="addBanner($event)"
+        ></ion-input>
+      </ion-item>
+
+    </ion-list>
+
+
+    <ion-button type="submit">
+      {{ params && (params.type === 'update') ? 'Cập nhật' : 'Tạo mới' }}
+    </ion-button>
+  </form>
+</ion-content>

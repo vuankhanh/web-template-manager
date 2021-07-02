@@ -8,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class MainPage implements OnInit {
   public appPages = [
     { title: 'Trang chủ', url: '/main/dashboard', icon: 'apps' },
+    { title: 'Thư viện hình ảnh', url: '/main/gallery', icon: 'images' },
     { title: 'Quản lý đơn hàng', url: '/main/order-manager', icon: 'receipt' },
     { title: 'Quản lý sản phẩm', url: '/main/product-manager', icon: 'fish' },
     {

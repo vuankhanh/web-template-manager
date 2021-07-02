@@ -7,6 +7,9 @@ ion-content{
             border: 1px solid #ededed;
             max-width: 415px;
             align-items: center;
+            ion-item{
+                max-width: 300px;
+            }
             ion-button[type="submit"]{
                 max-width: 150px;
             }

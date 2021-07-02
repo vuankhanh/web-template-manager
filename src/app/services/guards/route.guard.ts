@@ -3,8 +3,12 @@ import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTr
 
 import { LocalStorageService } from '../local-storage.service';
 import { ConfigService } from '../api/config.service';
+import { ResponseLogin } from '../api/login.service';
+import { AuthService } from '../auth.service';
 
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { catchError , map } from 'rxjs/operators'
+
 const tokenKey = "authentication-information";
 @Injectable({
   providedIn: 'root'
@@ -12,6 +16,7 @@ const tokenKey = "authentication-information";
 export class RouteGuard implements CanActivate {
   constructor(
     private router: Router,
+    private authService: AuthService,
     private localStorageService: LocalStorageService,
     private configService: ConfigService
   ){}
@@ -19,23 +24,17 @@ export class RouteGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return this.localStorageService.get(tokenKey).then(async authenticationToken=>{
-      console.log(authenticationToken);
-      if(authenticationToken && authenticationToken.accessToken){
-        let accessToken = authenticationToken.accessToken;
-        console.log(accessToken);
-        let a = await this.configService.getConfig(accessToken).toPromise().then(_=>{
-          return true;
-        }).catch(_=>{
-          this.router.navigateByUrl('/login');
-          return false;
-        });
-        console.log(a);
-        return a;
+      let tokenStoraged: ResponseLogin = this.localStorageService.get(tokenKey);
+      if(tokenStoraged && tokenStoraged.accessToken){
+        let accessToken = tokenStoraged.accessToken;
+        return this.configService.getConfig(accessToken).pipe(map(res=>true), catchError(error=>{
+          this.authService.logout();
+          return of(false);
+        }));
+      }else{
+        this.authService.logout();
+        return false;
       }
-      this.router.navigateByUrl('/login');
-      return false;
-    });
   }
   
 }

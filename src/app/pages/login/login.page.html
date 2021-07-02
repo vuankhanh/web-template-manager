@@ -15,6 +15,13 @@
       <ion-item>
         <ion-label>Mật khẩu</ion-label>
         <ion-input type="password" formControlName="password"></ion-input>
+        <ion-button>
+          <ion-icon
+            slot="icon-only"
+            [name]="!fieldTextType ? 'eye-outline' : 'eye-off-outline'"
+            (click)="fieldTextType = !fieldTextType">
+        </ion-icon>
+        </ion-button>
       </ion-item>
 
       <ion-button type="submit">Đăng nhập</ion-button>

@@ -10,13 +10,14 @@ import { catchError } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class LoginService {
-  private url: string = hostConfiguration.host+'/login';
+  private urlLogin: string = hostConfiguration.host+'/login';
+  private urlRefreshToken = hostConfiguration.host+'/refresh-token';
   constructor(
     private httpClient: HttpClient
   ) { }
 
   login(userName: UserName){
-    return this.httpClient.post<AuthenticationInformation>(this.url, userName).pipe(
+    return this.httpClient.post<ResponseLogin>(this.urlLogin, userName).pipe(
       catchError((err: HttpErrorResponse)=>{
         if(err.status === 403 && err.error.message){
           alert(err.error.message)
@@ -25,6 +26,10 @@ export class LoginService {
       })
     );
   }
+
+  refreshToken(refreshToken: string){
+    return this.httpClient.post<ResponseRefreshToken>(this.urlRefreshToken, { refreshToken });
+  }
 }
 
 export interface UserName{
@@ -32,10 +37,14 @@ export interface UserName{
   password: string
 }
 
-export interface AuthenticationInformation{
+export interface ResponseLogin{
   accessToken: string,
   refreshToken: string,
   message: string
+}
+
+export interface ResponseRefreshToken{
+  accessToken: string
 }
 
 export interface UserInformation{

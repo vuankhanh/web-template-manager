@@ -1,0 +1,17 @@
+ion-content{
+    .container{
+        ion-list{
+            height: 100%;
+            overflow-y: scroll;
+            ion-item{
+                .item-container{
+                    justify-content: space-between;
+                    width: 100%;
+                    .action-container{
+                        
+                    }
+                }
+            }
+        }
+    }
+}

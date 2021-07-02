@@ -7,6 +7,7 @@ export const environment = {
 };
 
 export const hostConfiguration = {
+  rootHost: 'http://localhost:3000',
   host: 'http://localhost:3000/admin',
 }
 

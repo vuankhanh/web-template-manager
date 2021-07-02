@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 //Service
-import { LoginService, AuthenticationInformation } from 'src/app/services/api/login.service';
+import { LoginService, ResponseLogin } from 'src/app/services/api/login.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 
 import { Subscription } from 'rxjs';
@@ -16,6 +16,7 @@ const tokenKey = "authentication-information";
 })
 export class LoginPage implements OnInit, OnDestroy {
   loginGroup: FormGroup;
+  fieldTextType: boolean = false;
   private subscription: Subscription = new Subscription();
   constructor(
     private router: Router,
@@ -41,8 +42,8 @@ export class LoginPage implements OnInit, OnDestroy {
   submitForm(){
     if(this.loginGroup.valid){
       this.subscription.add(
-        this.loginService.login(this.loginGroup.value).subscribe(async res=>{
-          await this.localStorageService.set(tokenKey, res);
+        this.loginService.login(this.loginGroup.value).subscribe(res=>{
+          this.localStorageService.set(tokenKey, res);
           this.router.navigateByUrl('/main');
         })
       )

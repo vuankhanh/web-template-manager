@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>product-category</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="vertical-container container">
+    <ion-list>
+      <ion-item *ngFor="let productCategory of productCategorys">
+        
+        <div class="item-container horizontal-container">
+          <ion-label>
+            <h3>
+              <span>Tên danh mục: </span>
+              <span>{{productCategory.name}}</span>
+            </h3>
+            <h3>
+              <span>Mã: </span>
+              <span>{{productCategory.route}}</span>
+            </h3>
+          </ion-label>
+          <div class="action-container horizontal-container">
+            <ion-button
+              (click)="navigatorToModify('update', productCategory)"
+            >
+              <ion-icon slot="icon-only" name="pencil-outline"></ion-icon>
+            </ion-button>
+            <ion-button>
+              <ion-icon slot="icon-only" name="remove-circle-outline"></ion-icon>
+            </ion-button>
+          </div>
+        </div>
+      </ion-item>
+      
+    </ion-list>
+    <ion-button
+      class="create-new"
+      (click)="navigatorToModify('insert', null)"
+    >Tạo mới</ion-button>
+  </div>
+</ion-content>

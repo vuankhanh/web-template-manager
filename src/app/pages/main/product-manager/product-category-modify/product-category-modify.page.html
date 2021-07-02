@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="end" (click)="modalController.dismiss()">
+      <ion-button>
+        <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>product-category-modify</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form *ngIf="productCategoryForm" [formGroup]="productCategoryForm" (ngSubmit)="modify()">
+    <ion-item>
+      <ion-label>Tên Danh mục: </ion-label>
+      <ion-input formControlName="name" (ionChange)="nameControlChange($event)" ></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Mã: </ion-label>
+      <ion-input formControlName="route" readonly="true"></ion-input>
+    </ion-item>
+    <ion-button type="submit" [disabled]="productCategoryForm.invalid">
+      {{ params && (params.type === 'update') ? 'Cập nhật' : 'Tạo mới' }}
+    </ion-button>
+  </form>
+</ion-content>

@@ -27,7 +27,9 @@
 
 
 .container{
-    padding: 15px;
+    position: absolute;
+    height: 100%;
+    width: 100%;
 }
 
 .vertical-container{
@@ -67,4 +69,28 @@
 .secondary-key{
     color: #333333;
     --corlor: #333333;
+}
+
+.toast-success{
+    --background: #51A351;
+    --color: white;
+}
+
+.toast-error{
+    --background: #BD362F;
+    --color: white;
+}
+
+.toast-warning{
+    --background: #F89406;
+    --color: white;
+}
+
+ion-list{
+    ion-item{
+        cursor: pointer;
+    }
+    ion-item:hover{
+        --background: #ededed;
+    }
 }

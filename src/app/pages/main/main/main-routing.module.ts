@@ -17,6 +17,9 @@ const routes: Routes = [
       {
         path: 'dashboard',
         loadChildren: () => import('../dasboard/dasboard.module').then( m => m.DasboardPageModule)
+      },{
+        path: 'gallery',
+        loadChildren: () => import('../gallery/gallery.module').then( m => m.GalleryPageModule)
       },
       {
         path: 'order-manager',
@@ -24,7 +27,7 @@ const routes: Routes = [
       },
       {
         path: 'product-manager',
-        loadChildren: () => import('../product-manager/product-manager.module').then( m => m.ProductManagerPageModule)
+        loadChildren: () => import('../product-manager/main/product-manager.module').then( m => m.ProductManagerPageModule)
       },
       {
         path: 'post-manager',
