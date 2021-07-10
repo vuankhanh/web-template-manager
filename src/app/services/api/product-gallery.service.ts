@@ -7,8 +7,7 @@ import { PaginationParams } from '../../Interfaces/PaginationParams';
 
 import { Media, ProductGallery } from '../../Interfaces/ProductGallery';
 
-import { map } from 'rxjs/operators'
-import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
@@ -42,28 +41,41 @@ export class ProductGalleryService {
     }));
   }
 
-  insert(token: string, Gallery: ProductGallery){
+  insert(token: string, productGallery: any){
+    console.log(productGallery);
+    
     let headers: HttpHeaders = new HttpHeaders({
-      'Content-Type': 'application/json',
       'x-access-token': token
     });
-    return this.httpClient.post<ProductGallery>(this.urlInsert, Gallery, { headers });
+
+    let params: HttpParams = new HttpParams();
+    params = params.append('name', productGallery.name);
+
+    let formData = new FormData();
+    for(let media of productGallery.media){
+      delete media.base64;
+      formData.append('many-files', media)
+    }
+
+    formData.append('isMain', productGallery.isMain)
+
+    return this.httpClient.post<ProductGallery>(this.urlInsert, formData, { headers, params });
   }
 
-  update(token: string, Gallery: ProductGallery){
+  update(token: string, productGallery: ProductGallery){
     let headers: HttpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
       'x-access-token': token
     });
-    return this.httpClient.put<ProductGallery>(this.urlUpdate, Gallery, { headers });
+    return this.httpClient.put<ProductGallery>(this.urlUpdate, productGallery, { headers });
   }
 
-  remove(token: string, Gallery: ProductGallery){
+  remove(token: string, productGallery: ProductGallery){
     let headers: HttpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
       'x-access-token': token
     });
-    return this.httpClient.put<ProductGallery | null>(this.urlRemove, Gallery, { headers });
+    return this.httpClient.post<ProductGallery | null>(this.urlRemove, productGallery, { headers });
   }
 
   getMainSrc(medias: Array<Media>): Src{

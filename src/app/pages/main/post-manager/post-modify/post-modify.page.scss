@@ -1,0 +1,31 @@
+.post-modify-container {
+  height: 100%;
+  form{
+    height: 100%;
+    ion-list{
+      padding: 0;
+      ion-item{
+        ion-input{
+          text-align: right;
+        }
+      }
+    }
+    .editor-container{
+      height: calc(100% - 150px);
+      ngx-editor{
+        height: 100%;
+        overflow-y: scroll;
+      }
+    }
+
+    ion-button[type="submit"]{
+      min-height: 30px;
+      width: 150px;
+    }
+  }
+}
+
+
+::ng-deep .NgxEditor__MenuBar{
+    flex-wrap: wrap;
+}

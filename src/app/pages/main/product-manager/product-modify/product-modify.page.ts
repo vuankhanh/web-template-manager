@@ -11,6 +11,8 @@ import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { Product } from '../../../../Interfaces/Product';
 import { ResponseLogin } from 'src/app/services/api/login.service';
 import { Subscription } from 'rxjs';
+import { ProductService } from 'src/app/services/api/product.service';
+import { ToastService } from 'src/app/services/toast.service';
 
 const tokenKey = "authentication-information";
 const draftProductNew = "draft-product-new";
@@ -35,7 +37,9 @@ export class ProductModifyPage implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     public modalController: ModalController,
     private localStorageService: LocalStorageService,
-    private productCategoryService: ProductCategoryService
+    private productService: ProductService,
+    private productCategoryService: ProductCategoryService,
+    private toastService: ToastService
   ) { }
 
   ngOnInit() {
@@ -45,13 +49,17 @@ export class ProductModifyPage implements OnInit, OnDestroy {
         type: <'update' | 'insert'>this.type,
         data: <Product>this.data
       }
-      let draftProductNewStoraged = this.localStorageService.get(draftProductNew);
-      if(draftProductNewStoraged){
-        this.initForm(draftProductNewStoraged);
-      }else{
+      
+      if(this.type === 'update'){
         this.initForm(this.params.data);
+      }else{
+        let draftProductNewStoraged = this.localStorageService.get(draftProductNew);
+        if(draftProductNewStoraged){
+          this.initForm(draftProductNewStoraged);
+        }else{
+          this.initForm(this.params.data);
+        }
       }
-
     }
   }
 
@@ -63,7 +71,23 @@ export class ProductModifyPage implements OnInit, OnDestroy {
       this.subscription.add(
         this.productCategoryService.get(accessToken).subscribe(res=>{
           this.productCategorys = res;
-          console.log(this.productCategorys);
+          console.log()
+          if(this.type === 'update'){
+            let index = this.productCategorys.findIndex(productCategory=>this.params.data.category._id && (productCategory._id === this.params.data.category._id));
+            console.log(index);
+            if(!isNaN(index)){
+              this.productForm.controls['category'].setValue(this.productCategorys[index]);
+            }
+          }else{
+            let draftProductNewStoraged = this.localStorageService.get(draftProductNew);
+            if(draftProductNewStoraged && draftProductNewStoraged.category){
+              let categoryDefault: ProductCategory = draftProductNewStoraged.category;
+              let index = this.productCategorys.findIndex(productCategory=>categoryDefault._id && (productCategory._id === categoryDefault._id));
+              if(!isNaN(index)){
+                this.productForm.controls['category'].setValue(this.productCategorys[index]);
+              }
+            }
+          }
         })
       )
     }
@@ -117,8 +141,86 @@ export class ProductModifyPage implements OnInit, OnDestroy {
   }
 
   modify(){
-    console.log(this.productForm.value);
-    
+    if(this.params.type === 'insert'){
+      this.insert();
+    }else if(this.params.type === 'update'){
+      this.update();
+    }
+  }
+
+  update(){
+    if(this.productForm.valid){
+      let product: Product = {
+        _id: this.params.data._id,
+        name: this.productForm.value.name,
+        category: this.productForm.value.category,
+        price: this.productForm.value.price,
+        currencyUnit: this.productForm.value.currencyUnit,
+        unit: this.productForm.value.unit,
+        sortDescription: this.productForm.value.sortDescription,
+        highlight: this.productForm.value.highlight,
+        imgBannerUrl: this.productForm.value.imgBannerUrl,
+        theRemainingAmount: this.productForm.value.theRemainingAmount,
+        longDescription: this.productForm.value.longDescription,
+        albumImg: this.productForm.value.albumImg,
+        albumVideo: this.productForm.value.albumVideo
+      }
+      let tokenStoraged: ResponseLogin = this.localStorageService.get(tokenKey);
+      if(tokenStoraged && tokenStoraged.accessToken){
+        let accessToken = tokenStoraged.accessToken;
+        this.productService.update(accessToken, product).subscribe(res=>{
+          console.log(res);
+          if(res){
+            this.toastService.shortToastSuccess('Đã cập nhật Sản phẩm sản phẩm', 'Thành công').then(_=>{
+              this.params = {
+                type: <'update' | 'insert'>this.type,
+                data: res
+              }
+              this.modalController.dismiss(this.params);
+            });
+          }else{
+            this.toastService.shortToastWarning('Sản phẩm đã bị xóa', '');
+          }
+        },error=>{
+          console.log(error);
+          if(error.status === 409){
+            this.toastService.shortToastError('Sản phẩm này đã tồn tại', 'Thất bại');
+          }else{
+            this.toastService.shortToastError('Đã có lỗi xảy ra', 'Thất bại');
+          }
+        })
+      }else{
+        this.toastService.shortToastWarning('Phiên đăng nhập của bạn đã hết hạn', 'Đăng nhập lại');
+      }
+    }
+  }
+
+  insert(){
+    if(this.productForm.valid){
+      let tokenStoraged: ResponseLogin = this.localStorageService.get(tokenKey);
+      if(tokenStoraged && tokenStoraged.accessToken){
+        let accessToken = tokenStoraged.accessToken;
+        this.productService.insert(accessToken, this.productForm.value).subscribe(res=>{
+          console.log(res);
+          this.toastService.shortToastSuccess('Đã thêm một sản phẩm', 'Thành công').then(_=>{
+            this.params = {
+              type: <'update' | 'insert'>this.type,
+              data: res
+            }
+            this.modalController.dismiss(this.params);
+          });
+        },error=>{
+          console.log(error);
+          if(error.status === 409){
+            this.toastService.shortToastError('Sản phẩm này đã tồn tại', 'Thất bại');
+          }else{
+            this.toastService.shortToastError('Đã có lỗi xảy ra', 'Thất bại');
+          }
+        })
+      }else{
+        this.toastService.shortToastWarning('Phiên đăng nhập của bạn đã hết hạn', 'Đăng nhập lại');
+      }
+    }
   }
 
   ngOnDestroy(){

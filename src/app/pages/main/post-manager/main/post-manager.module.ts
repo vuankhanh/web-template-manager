@@ -8,6 +8,7 @@ import { PostManagerPageRoutingModule } from './post-manager-routing.module';
 
 import { PostManagerPage } from './post-manager.page';
 
+
 @NgModule({
   imports: [
     CommonModule,
@@ -15,6 +16,8 @@ import { PostManagerPage } from './post-manager.page';
     IonicModule,
     PostManagerPageRoutingModule
   ],
-  declarations: [PostManagerPage]
+  declarations: [
+    PostManagerPage
+  ]
 })
 export class PostManagerPageModule {}

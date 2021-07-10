@@ -45,7 +45,7 @@ export class ProductCategoryService {
       'Content-Type': 'application/json',
       'x-access-token': token
     });
-    return this.httpClient.put<ProductCategory | null>(this.urlRemove, productCategory, { headers });
+    return this.httpClient.post<ProductCategory | null>(this.urlRemove, productCategory, { headers });
   }
 
 }

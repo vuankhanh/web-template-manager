@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { PostManagerPage } from './post-manager.page';
+import { PostModifyPage } from '../post-modify/post-modify.page';
 
 const routes: Routes = [
   {
@@ -9,13 +10,17 @@ const routes: Routes = [
     component: PostManagerPage
   },
   {
-    path: 'about-us',
-    loadChildren: () => import('../post-manager-about-us/post-manager-about-us.module').then( m => m.PostManagerAboutUsPageModule)
+    path: 'posts-modify',
+    loadChildren: () => import('../post-modify/post-modify.module').then( m => m.PostModifyPageModule)
   }
+
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
+  declarations: [
+    PostModifyPage
+  ]
 })
 export class PostManagerPageRoutingModule {}

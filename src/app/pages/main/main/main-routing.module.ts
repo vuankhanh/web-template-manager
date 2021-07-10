@@ -19,7 +19,7 @@ const routes: Routes = [
         loadChildren: () => import('../dasboard/dasboard.module').then( m => m.DasboardPageModule)
       },{
         path: 'gallery',
-        loadChildren: () => import('../gallery/gallery.module').then( m => m.GalleryPageModule)
+        loadChildren: () => import('../gallery/main/gallery.module').then( m => m.GalleryPageModule)
       },
       {
         path: 'order-manager',
@@ -31,7 +31,7 @@ const routes: Routes = [
       },
       {
         path: 'post-manager',
-        loadChildren: () => import('../post-manager/post-manager.module').then( m => m.PostManagerPageModule)
+        loadChildren: () => import('../post-manager/main/post-manager.module').then( m => m.PostManagerPageModule)
       },
       {
         path: 'identification-information',

@@ -1,8 +1,9 @@
 export interface ProductGallery{
     _id?: string,
     name: string,
-    src: string,
-    thumbnail: string,
+    productName?: string,
+    src?: string,
+    thumbnail?: string,
     media: Array<Media>,
     createdAt?: string,
     updatedAt?: string,

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 
 import { ProductCategoryModifyPage } from '../product-category-modify/product-category-modify.page'
@@ -8,6 +8,7 @@ import { ProductCategory } from '../../../../Interfaces/ProductCategory';
 import { ProductCategoryService } from 'src/app/services/api/product-category.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { ResponseLogin } from 'src/app/services/api/login.service';
+import { Subscription } from 'rxjs';
 
 const tokenKey = "authentication-information";
 @Component({
@@ -15,8 +16,10 @@ const tokenKey = "authentication-information";
   templateUrl: './product-category.page.html',
   styleUrls: ['./product-category.page.scss'],
 })
-export class ProductCategoryPage implements OnInit {
+export class ProductCategoryPage implements OnInit, OnDestroy {
   productCategorys: Array<ProductCategory>;
+
+  subscription: Subscription = new Subscription();
   constructor(
     private productCategoryService: ProductCategoryService,
     private localStorageService: LocalStorageService,
@@ -30,10 +33,11 @@ export class ProductCategoryPage implements OnInit {
   getProductCategory(){
     let tokenStoraged: ResponseLogin = this.localStorageService.get(tokenKey);
     if(tokenStoraged && tokenStoraged.accessToken){
-      let accessToken = tokenStoraged.accessToken;
-      this.productCategoryService.get(accessToken).subscribe(res=>{
-        this.productCategorys = res;
-      })
+      this.subscription.add(
+        this.productCategoryService.get(tokenStoraged.accessToken).subscribe(res=>{
+          this.productCategorys = res;
+        })
+      )
     }
   }
 
@@ -68,6 +72,25 @@ export class ProductCategoryPage implements OnInit {
         }
       }
     }
+  }
+
+  removeProductCategory(productCategory: ProductCategory){
+    let tokenStoraged: ResponseLogin = this.localStorageService.get(tokenKey);
+    if(tokenStoraged && tokenStoraged.accessToken){
+      let accessToken = tokenStoraged.accessToken;
+      this.subscription.add(
+        this.productCategoryService.remove(accessToken, productCategory).subscribe(res=>{
+          let index = this.productCategorys.findIndex(productCategory=>productCategory._id === res._id);
+          if(!isNaN(index)){
+            this.productCategorys.splice(index, 1);
+          }
+        })
+      );
+    }
+  }
+
+  ngOnDestroy(){
+    this.subscription.unsubscribe();
   }
 }
 

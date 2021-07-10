@@ -1,0 +1,40 @@
+<div class="show-image-container">
+  <div class="horizontal-container iamges-container">
+    <ng-container *ngFor="let image of images; let i = index">
+      <div
+        class="image-information vertical-container"
+        [ngClass]="isMain === i ? 'image-is-main' : ''"
+        (click)="setMain(i)"
+      >
+        <img src="{{image.src | galleryRoute }}">
+        <div class="images-action horizontal-container">
+          <ion-icon
+            name="clipboard-outline"
+            (click)="clipboard(image.src); $event.stopPropagation();"
+          ></ion-icon>
+          <div class="mini-width-space"></div>
+          <ion-icon
+            name="trash-outline"
+            (click)="removeImage(image); $event.stopPropagation();"
+          ></ion-icon>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-container *ngFor="let image of willUpload;let i = index">
+      <div
+        class="image-information vertical-container"
+        [ngClass]="isMain === (i + imagesLength) ? 'image-is-main' : ''"
+        (click)="setMainWillUpload(i)"
+      >
+        <img [src]="image.base64">
+        <div class="images-action">
+          <ion-icon
+            name="trash-outline"
+            (click)="removeWillUpload(image, i); $event.stopPropagation();"
+          ></ion-icon>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

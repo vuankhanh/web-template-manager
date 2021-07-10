@@ -23,6 +23,7 @@
     "@ionic/angular": "^5.5.2",
     "@ionic/storage-angular": "^3.0.6",
     "jwt-decode": "^3.1.2",
+    "ngx-clipboard": "^14.0.1",
     "ngx-editor": "^10.0.1",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",

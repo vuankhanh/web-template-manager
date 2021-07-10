@@ -5,7 +5,7 @@ import { hostConfiguration } from '../../../environments/environment';
 })
 export class GalleryRoutePipe implements PipeTransform {
   private urlHost: string = hostConfiguration.rootHost;
-  transform(value: unknown, ...args: unknown[]): unknown {
+  transform(value: unknown, ...args: unknown[]): string {
     return this.urlHost+'/gallery/'+value;
   }
 

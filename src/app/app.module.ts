@@ -6,11 +6,12 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { IonicStorageModule } from '@ionic/storage-angular';
 import { GalleryRouteModule } from './pipes/gallery-route/gallery-route.module';
+import { AppRoutingModule } from './app-routing.module';
+
+import { GalleryRoutePipe } from './pipes/gallery-route/gallery-route.pipe';
 
 import { AppComponent } from './app.component';
 
-import { AppRoutingModule } from './app-routing.module';
-import { NgxEditorModule } from 'ngx-editor';
 import { RefreshTokenInterceptorService } from './services/api/refresh-token-interceptor.service';
 
 
@@ -26,10 +27,10 @@ import { RefreshTokenInterceptorService } from './services/api/refresh-token-int
     IonicModule.forRoot(),
     IonicStorageModule.forRoot(),
     GalleryRouteModule,
-    AppRoutingModule,
-    NgxEditorModule
+    AppRoutingModule
   ],
   providers: [
+    GalleryRoutePipe,
     {
       provide: RouteReuseStrategy,
       useClass: IonicRouteStrategy

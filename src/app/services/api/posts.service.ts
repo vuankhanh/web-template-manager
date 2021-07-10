@@ -1,26 +1,26 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 import { hostConfiguration } from '../../../environments/environment';
 
+import { Posts } from 'src/app/Interfaces/Posts';
 import { PaginationParams } from 'src/app/Interfaces/PaginationParams';
-import { Product } from 'src/app/Interfaces/Product';
 
-import { map } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
-export class ProductService {
-  private urlGetAll: string = hostConfiguration.host+'/product';
-  private urlInsert: string = hostConfiguration.host+'/product/insert';
-  private urlUpdate: string = hostConfiguration.host+'/product/update';
-  private urlRemove: string = hostConfiguration.host+'/product/remove';
+export class PostsService {
+  private urlGetAll: string = hostConfiguration.host+'/posts';
+  private urlInsert: string = hostConfiguration.host+'/posts/insert';
+  private urlUpdate: string = hostConfiguration.host+'/posts/update';
+  private urlRemove: string = hostConfiguration.host+'/posts/remove';
   constructor(
     private httpClient: HttpClient
   ) { }
 
-  get(token: string, paginationParams?: PaginationParams){
+  get(token: string, type: 'product'| 'other', paginationParams?: PaginationParams){
     let params: HttpParams = new HttpParams();
+    params = params.append('type', type);
     if(paginationParams){
       params = params.append('size', paginationParams?.size ? paginationParams?.size : 10);
       params = params.append('page', paginationParams?.page ? paginationParams?.page : 1);
@@ -30,43 +30,38 @@ export class ProductService {
       'Content-Type': 'application/json',
       'x-access-token': token
     });
-    return this.httpClient.get<ProductResponse>(this.urlGetAll, { headers, params });
+    return this.httpClient.get<PostsResponse>(this.urlGetAll, { headers, params });
   }
 
-  insert(token: string, product: Product){
+  insert(token: string, posts: Posts){
     let headers: HttpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
       'x-access-token': token
     });
-    return this.httpClient.post<Product>(this.urlInsert, product, { headers });
+    return this.httpClient.post<PostsResponse>(this.urlInsert, posts, { headers });
   }
 
-  update(token: string, product: Product){
+  update(token: string, posts: Posts){
     let headers: HttpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
       'x-access-token': token
     });
-    return this.httpClient.put<Product>(this.urlUpdate, product, { headers });
+    return this.httpClient.put<PostsResponse>(this.urlUpdate, posts, { headers });
   }
 
-  remove(token: string, product: Product){
+  remove(token: string, posts: Posts){
     let headers: HttpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
       'x-access-token': token
     });
-    return this.httpClient.put<Product | null>(this.urlRemove, product, { headers });
+    return this.httpClient.post<PostsResponse | null>(this.urlRemove, posts, { headers });
   }
 }
 
-export interface ProductResponse{
+export interface PostsResponse{
   totalItems: number,
   size: number,
   page: number,
   totalPages: number,
-  data: Array<Product>
-}
-
-interface Src{
-  src: string,
-  srcThumbnail: string
+  data: Array<Posts>
 }

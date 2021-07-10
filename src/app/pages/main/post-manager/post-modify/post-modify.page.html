@@ -1,0 +1,54 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="end" (click)="modalController.dismiss()">
+      <ion-button>
+        <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>{{ type === 'update' ? 'Chỉnh sửa bài viết' : 'Tạo bài viết mới' }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="post-modify-container">
+    <form
+      *ngIf="postsForm"
+      [formGroup]="postsForm"
+      (ngSubmit)="submitPost()"
+      class="vertical-container"
+    >
+      <ion-list>
+        <ion-item>
+          <ion-label>Loại bài viết</ion-label>
+          <ion-select placeholder="Chọn loại bài viết" formControlName="type">
+            <ion-select-option value="product">Sản phẩm</ion-select-option>
+            <ion-select-option value="other">Male</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            Tên bài viết
+          </ion-label>
+          <ion-input formControlName="name"></ion-input>
+        </ion-item>
+      </ion-list>
+      <div class="height-space"></div>
+      <div class="editor-container vertical-container">
+        <ngx-editor-menu
+          [editor]="editor"
+          [toolbar]="toolbar"
+          class="editor-menu"
+        ></ngx-editor-menu>
+        <ngx-editor [editor]="editor" formControlName="editorContent"></ngx-editor>
+      </div>
+      <ion-button
+        type="submit"
+        [disabled]="postsForm.invalid"
+      >
+        {{ type === 'update' ? 'Cập nhật' : 'Tạo mới' }}
+      </ion-button>
+    </form>
+  </div>
+  
+  <div [innerHTML]="preview | sanitizeHtmlBinding"></div>
+</ion-content>

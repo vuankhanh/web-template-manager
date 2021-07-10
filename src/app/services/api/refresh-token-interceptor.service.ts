@@ -27,7 +27,7 @@ export class RefreshTokenInterceptorService implements HttpInterceptor {
         if(tokenStoraged){
           return this.handle401Error(tokenStoraged, req, next);
         }else{
-          this.router.navigate(['']);
+          this.router.navigate(['/login']);
           return throwError(error);
         }
       } else {

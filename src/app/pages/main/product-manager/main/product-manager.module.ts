@@ -5,16 +5,22 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { ProductManagerPageRoutingModule } from './product-manager-routing.module';
+import { GalleryRouteModule } from '../../../../pipes/gallery-route/gallery-route.module';
 
 import { ProductManagerPage } from './product-manager.page';
+import { PaginationComponent } from '../../../../components/pagination/pagination.component';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ProductManagerPageRoutingModule
+    ProductManagerPageRoutingModule,
+    GalleryRouteModule
   ],
-  declarations: [ProductManagerPage]
+  declarations: [
+    ProductManagerPage,
+    PaginationComponent
+  ]
 })
 export class ProductManagerPageModule {}
