@@ -1,3 +1,4 @@
+import { Posts } from './Posts';
 import { ProductCategory } from './ProductCategory';
 import { ProductGallery } from './ProductGallery';
 
@@ -14,7 +15,7 @@ export interface Product{
     sortDescription: string,
     highlight: boolean,
     theRemainingAmount: number,
-    longDescription: string | null,
+    longDescription: Posts | null,
     supplier?: string | null,
     albumImg?: ProductGallery | null,
     albumVideo?: ProductGallery | null

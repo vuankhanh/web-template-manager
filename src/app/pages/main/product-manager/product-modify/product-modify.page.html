@@ -76,9 +76,21 @@
 
       <ion-item-divider></ion-item-divider>
   
-      <ion-item>
+      <ion-item (click)="choosePosts()">
         <ion-label>Mô tả chi tiết: </ion-label>
-        <ion-input formControlName="longDescription"></ion-input>
+
+        <div *ngIf="productForm.controls['longDescription'].value as longDescriptionValue; else btnChoosePosts">
+          <ion-item>
+            <ion-label>
+              <h2>{{ longDescriptionValue.name }}</h2>
+              <h3>{{ longDescriptionValue.createdAt | date: 'dd/MM/yyyy HH:mm:ss' }}</h3>
+            </ion-label>
+          </ion-item>
+        </div>
+        
+        <ng-template #btnChoosePosts>
+          <ion-button >Chọn Bài viết</ion-button>
+        </ng-template>
       </ion-item>
 
       <ion-item (click)="chooseGallery()">
@@ -98,12 +110,6 @@
         <ng-template #btnChooseGallery>
           <ion-button >Chọn trong thư viện</ion-button>
         </ng-template>
-        <!-- <ion-input
-          type="file"
-          accept="image/*"
-          (change)="addImage($event)"
-          multiple
-        ></ion-input> -->
       </ion-item>
 
       <ion-item>

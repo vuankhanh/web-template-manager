@@ -2,6 +2,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 
+import { ChoosePostsPage } from '../choose-posts/choose-posts.page';
 import { ChooseGalleryPage } from '../choose-gallery/choose-gallery.page';
 
 import { ProductCategory } from '../../../../Interfaces/ProductCategory';
@@ -13,6 +14,7 @@ import { ResponseLogin } from 'src/app/services/api/login.service';
 import { Subscription } from 'rxjs';
 import { ProductService } from 'src/app/services/api/product.service';
 import { ToastService } from 'src/app/services/toast.service';
+import { Posts } from 'src/app/Interfaces/Posts';
 
 const tokenKey = "authentication-information";
 const draftProductNew = "draft-product-new";
@@ -67,9 +69,8 @@ export class ProductModifyPage implements OnInit, OnDestroy {
     let tokenStoraged: ResponseLogin = this.localStorageService.get(tokenKey);
 
     if(tokenStoraged && tokenStoraged.accessToken){
-      let accessToken = tokenStoraged.accessToken;
       this.subscription.add(
-        this.productCategoryService.get(accessToken).subscribe(res=>{
+        this.productCategoryService.get(tokenStoraged.accessToken).subscribe(res=>{
           this.productCategorys = res;
           console.log()
           if(this.type === 'update'){
@@ -116,6 +117,23 @@ export class ProductModifyPage implements OnInit, OnDestroy {
     })
   }
 
+  async choosePosts(){
+    const modal = await this.modalController.create({
+      component: ChoosePostsPage
+    });
+
+    modal.present();
+
+    const data = await modal.onDidDismiss();
+
+    if(data.data){
+      let posts: Posts = <Posts>data.data;
+      console.log(posts);
+      
+      this.productForm.controls['longDescription'].setValue(posts);
+    }
+  }
+
   async chooseGallery(){
     const modal = await this.modalController.create({
       component: ChooseGalleryPage,
@@ -152,18 +170,7 @@ export class ProductModifyPage implements OnInit, OnDestroy {
     if(this.productForm.valid){
       let product: Product = {
         _id: this.params.data._id,
-        name: this.productForm.value.name,
-        category: this.productForm.value.category,
-        price: this.productForm.value.price,
-        currencyUnit: this.productForm.value.currencyUnit,
-        unit: this.productForm.value.unit,
-        sortDescription: this.productForm.value.sortDescription,
-        highlight: this.productForm.value.highlight,
-        imgBannerUrl: this.productForm.value.imgBannerUrl,
-        theRemainingAmount: this.productForm.value.theRemainingAmount,
-        longDescription: this.productForm.value.longDescription,
-        albumImg: this.productForm.value.albumImg,
-        albumVideo: this.productForm.value.albumVideo
+        ...this.productForm.value
       }
       let tokenStoraged: ResponseLogin = this.localStorageService.get(tokenKey);
       if(tokenStoraged && tokenStoraged.accessToken){
@@ -226,7 +233,9 @@ export class ProductModifyPage implements OnInit, OnDestroy {
   ngOnDestroy(){
     this.subscription.unsubscribe();
     console.log(this.productForm.value);
-    this.localStorageService.set(draftProductNew, this.productForm.value);
+    if(this.type === 'insert'){
+      this.localStorageService.set(draftProductNew, this.productForm.value);
+    }
   }
 
 }

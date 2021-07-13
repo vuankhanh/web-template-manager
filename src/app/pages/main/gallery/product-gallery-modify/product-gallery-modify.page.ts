@@ -36,22 +36,27 @@ export class ProductGalleryModifyPage implements OnInit {
 
   ngOnInit() {
     if(this.type){
+      const data = JSON.parse(JSON.stringify(this.data));
       this.params = {
         type: <'update' | 'insert'>this.type,
-        data: <ProductGallery>this.data
+        data: <ProductGallery>data
       };
-      console.log(this.data);
+      
       this.initForm(this.params.data);
     }
   }
 
-  initForm(data: ProductGallery | null){
-    this.productGalleryForm = this.formBuilder.group({
-      name: [data && data!.productName ? data!.productName : '', Validators.required],
-      media: [data && data!.media ? data!.media : '', Validators.required],
-      willUpload: [this.fileList],
-      isMain: [0, Validators.required]
-    });
+  initForm(productGallery: ProductGallery | null){
+    if(productGallery){
+      let isMain: number = productGallery?.media?.findIndex(media=>media.isMain) | 0;
+      this.productGalleryForm = this.formBuilder.group({
+        name: [productGallery && productGallery!.productName ? productGallery!.productName : '', Validators.required],
+        media: [productGallery && productGallery!.media ? productGallery!.media : []],
+        willUpload: [[]],
+        isMain: [isMain, Validators.required]
+      });
+    }
+    
   }
 
   async onFileSelect(event: Event){
@@ -80,8 +85,13 @@ export class ProductGalleryModifyPage implements OnInit {
   }
 
   removeImage(image: Media){
-    console.log(image);
-    
+    let listMedia: Array<Media> = <Array<Media>>this.productGalleryForm.value.media;
+    let index = listMedia.findIndex(media=>media._id === image._id);
+    if(!isNaN(index)){
+      listMedia.splice(index, 1);
+    }
+    this.productGalleryForm.controls['media'].setValue(listMedia);
+    this.productGalleryForm.controls['isMain'].setValue(0);
   }
 
   removeWillUpload(index: number){
@@ -97,46 +107,45 @@ export class ProductGalleryModifyPage implements OnInit {
     if(this.params.type === 'insert'){
       this.insert();
     }else if(this.params.type === 'update'){
-      // this.update();
+      this.update();
     }
   }
 
-  // update(){
-  //   if(this.productGalleryForm.valid){
-  //     let productGallery: ProductGallery = {
-  //       _id: this.params.data._id,
-  //       name: this.productCategoryForm.value.name,
-  //       route: this.productCategoryForm.value.route
-  //     }
+  update(){
+    if(this.productGalleryForm.valid){
+      let productGallery: ProductGallery = {
+        _id: this.params.data._id,
+        ...this.productGalleryForm.value
+      }
 
-  //     let tokenStoraged: ResponseLogin = this.localStorageService.get(tokenKey);
-  //     if(tokenStoraged && tokenStoraged.accessToken){
-  //       let accessToken = tokenStoraged.accessToken;
-  //       this.productCategoryService.update(accessToken, productCategory).subscribe(res=>{
-  //         if(res){
-  //           this.toastService.shortToastSuccess('Đã cập nhật Danh mục sản phẩm', 'Thành công').then(_=>{
-  //             this.params = {
-  //               type: <'update' | 'insert'>this.type,
-  //               data: res
-  //             }
-  //             this.modalController.dismiss(this.params);
-  //           });
-  //         }else{
-  //           this.toastService.shortToastWarning('Danh mục đã bị xóa', '');
-  //         }
-  //       },error=>{
-  //         console.log(error);
-  //         if(error.status === 409){
-  //           this.toastService.shortToastError('Danh mục này đã tồn tại', 'Thất bại');
-  //         }else{
-  //           this.toastService.shortToastError('Đã có lỗi xảy ra', 'Thất bại');
-  //         }
-  //       })
-  //     }else{
-  //       this.toastService.shortToastWarning('Phiên đăng nhập của bạn đã hết hạn', 'Đăng nhập lại');
-  //     }
-  //   }
-  // }
+      let tokenStoraged: ResponseLogin = this.localStorageService.get(tokenKey);
+      if(tokenStoraged && tokenStoraged.accessToken){
+        let accessToken = tokenStoraged.accessToken;
+        this.productGalleryService.update(accessToken, productGallery).subscribe(res=>{
+          if(res){
+            this.toastService.shortToastSuccess('Đã cập nhật Thư viện Sản Phẩm', 'Thành công').then(_=>{
+              this.params = {
+                type: <'update' | 'insert'>this.type,
+                data: res
+              }
+              this.modalController.dismiss(this.params);
+            });
+          }else{
+            this.toastService.shortToastWarning('Danh mục đã bị xóa', '');
+          }
+        },error=>{
+          console.log(error);
+          if(error.status === 409){
+            this.toastService.shortToastError('Danh mục này đã tồn tại', 'Thất bại');
+          }else{
+            this.toastService.shortToastError('Đã có lỗi xảy ra', 'Thất bại');
+          }
+        })
+      }else{
+        this.toastService.shortToastWarning('Phiên đăng nhập của bạn đã hết hạn', 'Đăng nhập lại');
+      }
+    }
+  }
 
   insert(){
     if(this.productGalleryForm.valid){

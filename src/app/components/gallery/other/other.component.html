@@ -1,3 +1,36 @@
-<p>
-  other works!
-</p>
+<div class="vertical-container banner-gallery-container">
+  <ion-list>
+    <ion-item *ngFor="let bannerGallery of bannerGallerys">
+      <div class="item-container horizontal-container">
+        <div class="horizontal-container">
+          <ion-avatar slot="start">
+            <img src="{{ bannerGallery.src | galleryRoute }}">
+          </ion-avatar>
+          <div class="mini-width-space"></div>
+          <ion-label>
+            <h2>{{ bannerGallery.bannerName }}</h2>
+            <h3>{{ bannerGallery.createdAt | date: 'dd/MM/yyyy HH:mm:ss' }}</h3>
+          </ion-label>
+        </div>
+        <div class="action-container horizontal-container">
+          <ion-button
+              (click)="navigatorToModify('update', bannerGallery)"
+          >
+            <ion-icon slot="icon-only" name="pencil-outline"></ion-icon>
+          </ion-button>
+          <ion-button
+            (click)="removebannerGallery(bannerGallery)"
+          >
+            <ion-icon slot="icon-only" name="remove-circle-outline"></ion-icon>
+          </ion-button>
+        </div>
+      </div>
+    </ion-item>
+  </ion-list>
+  
+  <ion-fab horizontal="end" vertical="bottom" slot="fixed">
+    <ion-fab-button color="danger" (click)="navigatorToModify('insert', null)">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</div>

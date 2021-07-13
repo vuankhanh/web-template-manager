@@ -9,6 +9,10 @@ const routes: Routes = [
     component: ProductManagerPage
   },
   {
+    path: 'choose-posts',
+    loadChildren: () => import('../choose-posts/choose-posts.module').then( m => m.ChoosePostsPageModule)
+  },
+  {
     path: 'product-category',
     loadChildren: () => import('../product-category/product-category.module').then( m => m.ProductCategoryPageModule)
   },

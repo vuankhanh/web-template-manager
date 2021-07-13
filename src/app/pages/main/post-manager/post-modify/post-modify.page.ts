@@ -1,9 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { ModalController } from '@ionic/angular';
+import { IonContent, ModalController } from '@ionic/angular';
 import { Editor, Toolbar, toHTML } from "ngx-editor";
 
 import { Posts } from 'src/app/Interfaces/Posts';
+
+import { GalleryPage } from '../../gallery/main/gallery.page';
 
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 
@@ -14,6 +16,8 @@ const draftPostsNew = 'draft-posts-new';
   styleUrls: ['./post-modify.page.scss'],
 })
 export class PostModifyPage implements OnInit {
+  @ViewChild(IonContent) ionContent: IonContent;
+
   @Input() type: 'update' | 'insert';
   @Input() data: Posts;
 
@@ -32,6 +36,8 @@ export class PostModifyPage implements OnInit {
   ];
   postsForm: FormGroup;
   preview: string = '';
+
+  currentPositionScroll: number = 0;
   constructor(
     public modalController: ModalController,
     private formBuilder: FormBuilder,
@@ -41,7 +47,6 @@ export class PostModifyPage implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.data);
     if(this.type){
       this.params = {
         type: <'update' | 'insert'>this.type,
@@ -61,6 +66,22 @@ export class PostModifyPage implements OnInit {
     }
   }
 
+  async openGallery(){
+    const modal = await this.modalController.create({
+      component: GalleryPage,
+      componentProps: {
+        componentType: 'modal',
+      },
+      cssClass: 'gallery-modal'
+    });
+
+    return modal.present()
+  }
+
+  logScrolling(event: CustomEvent){
+    this.currentPositionScroll = event.detail.scrollTop
+  }
+
   initForm(posts: Posts){
     this.postsForm = this.formBuilder.group({
       type: [ posts?.type ? posts?.type : '', Validators.required],
@@ -74,6 +95,10 @@ export class PostModifyPage implements OnInit {
       
     }
     this.preview = toHTML(this.postsForm.value.editorContent);
+  }
+
+  moveToTop(){
+    this.ionContent.scrollToTop(200);
   }
 
   ngOnDestroy(){

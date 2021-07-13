@@ -4,6 +4,11 @@ ion-content{
             ion-item-divider{
                 --background: #ededed;
             }
+            ion-item{
+                ion-input{
+                    text-align: right;
+                }
+            }
         }
     }
 }

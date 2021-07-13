@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="end" (click)="modalController.dismiss()">
+      <ion-button>
+        <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Chọn bài viết</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let posts of postses" (click)="choosePosts(posts)">
+      <ion-label>
+        Tên bài viết
+      </ion-label>
+      <span>{{ posts.name }}</span>
+    </ion-item>
+  </ion-list>
+  <app-pagination *ngIf="configPagination" [config]="configPagination" (emitChangeIndex)="changeIndex($event)"></app-pagination>
+</ion-content>

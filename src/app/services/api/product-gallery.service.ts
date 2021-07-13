@@ -16,6 +16,7 @@ export class ProductGalleryService {
   private urlInsert: string = hostConfiguration.host+'/product-gallery/insert';
   private urlUpdate: string = hostConfiguration.host+'/product-gallery/update';
   private urlRemove: string = hostConfiguration.host+'/product-gallery/remove';
+  private urlRemoveMedia: string = hostConfiguration.host+'/product-gallery/media/remove';
   constructor(
     private httpClient: HttpClient
   ) { }
@@ -34,14 +35,18 @@ export class ProductGalleryService {
     return this.httpClient.get<ProductGalleryResponse>(this.urlGetAll, { headers, params }).pipe(map(productGallerysResponse=>{
       let data = productGallerysResponse.data.map(productGallery=>{
         let mainMedia = this.getMainSrc(productGallery.media);
-        return { ...productGallery, src: mainMedia.src, thumbnail: mainMedia.srcThumbnail }
+        if(mainMedia){
+          return { ...productGallery, src: mainMedia.src, thumbnail: mainMedia.srcThumbnail }
+        }else{
+          return { ...productGallery, src: '', thumbnail: '' }
+        }
       });
       productGallerysResponse.data = data;
       return productGallerysResponse;
     }));
   }
 
-  insert(token: string, productGallery: any){
+  insert(token: string, productGallery: ProductGallery){
     console.log(productGallery);
     
     let headers: HttpHeaders = new HttpHeaders({
@@ -52,22 +57,39 @@ export class ProductGalleryService {
     params = params.append('name', productGallery.name);
 
     let formData = new FormData();
-    for(let media of productGallery.media){
+    for(let media of productGallery.willUpload){
       delete media.base64;
       formData.append('many-files', media)
     }
 
-    formData.append('isMain', productGallery.isMain)
+    formData.append('isMain', productGallery.isMain.toString())
 
     return this.httpClient.post<ProductGallery>(this.urlInsert, formData, { headers, params });
   }
 
   update(token: string, productGallery: ProductGallery){
     let headers: HttpHeaders = new HttpHeaders({
-      'Content-Type': 'application/json',
       'x-access-token': token
     });
-    return this.httpClient.put<ProductGallery>(this.urlUpdate, productGallery, { headers });
+
+    let params: HttpParams = new HttpParams();
+    params = params.append('name', productGallery.name);
+    params = params.append('_id', productGallery._id);
+
+    let formData = new FormData();
+
+    if(productGallery.willUpload){
+      for(let media of productGallery.willUpload){
+        delete media.base64;
+        formData.append('many-files', media)
+      }
+    }
+
+    formData.append('isMain', productGallery.isMain.toString());
+
+    let mediaString = productGallery.media ? JSON.stringify(productGallery.media) : "[]";
+    formData.append('oldMedia', mediaString);
+    return this.httpClient.put<ProductGallery>(this.urlUpdate, formData, { headers, params });
   }
 
   remove(token: string, productGallery: ProductGallery){
@@ -76,6 +98,19 @@ export class ProductGalleryService {
       'x-access-token': token
     });
     return this.httpClient.post<ProductGallery | null>(this.urlRemove, productGallery, { headers });
+  }
+
+  removeMedia(token: string, productGallery: ProductGallery, mediaId: string){
+    let headers: HttpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'x-access-token': token
+    });
+
+    let body = {
+      _id: productGallery._id,
+      mediaId: mediaId
+    }
+    return this.httpClient.post<ProductGallery | null>(this.urlRemoveMedia, body, { headers });
   }
 
   getMainSrc(medias: Array<Media>): Src{

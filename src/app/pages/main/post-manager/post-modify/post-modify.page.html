@@ -9,8 +9,11 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <div class="post-modify-container">
+<ion-content
+  [scrollEvents]="true"
+  (ionScroll)="logScrolling($event)"
+>
+  <div class="post-modify-container" id="post-modify-container">
     <form
       *ngIf="postsForm"
       [formGroup]="postsForm"
@@ -25,14 +28,25 @@
             <ion-select-option value="other">Male</ion-select-option>
           </ion-select>
         </ion-item>
+
         <ion-item>
           <ion-label>
             Tên bài viết
           </ion-label>
           <ion-input formControlName="name"></ion-input>
         </ion-item>
+
+        <ion-item>
+          <ion-label>
+            Lấy đường dẫn của ảnh
+          </ion-label>
+          <ion-button type="button" (click)="openGallery()">
+            Mở thư viện
+          </ion-button>
+        </ion-item>
+
       </ion-list>
-      <div class="height-space"></div>
+
       <div class="editor-container vertical-container">
         <ngx-editor-menu
           [editor]="editor"
@@ -41,6 +55,7 @@
         ></ngx-editor-menu>
         <ngx-editor [editor]="editor" formControlName="editorContent"></ngx-editor>
       </div>
+
       <ion-button
         type="submit"
         [disabled]="postsForm.invalid"
@@ -49,6 +64,16 @@
       </ion-button>
     </form>
   </div>
-  
+
+  <ion-fab
+    horizontal="end"
+    vertical="bottom"
+    slot="fixed"
+    *ngIf="currentPositionScroll>200"
+  >
+    <ion-fab-button (click)="moveToTop()">
+      <ion-icon name="arrow-up-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
   <div [innerHTML]="preview | sanitizeHtmlBinding"></div>
 </ion-content>

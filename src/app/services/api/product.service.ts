@@ -65,8 +65,3 @@ export interface ProductResponse{
   totalPages: number,
   data: Array<Product>
 }
-
-interface Src{
-  src: string,
-  srcThumbnail: string
-}

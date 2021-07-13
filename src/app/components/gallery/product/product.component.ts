@@ -65,7 +65,7 @@ export class ProductComponent implements OnInit, OnDestroy {
       component: ProductGalleryModifyPage,
       componentProps: {
         type,
-        data: productGallery
+        data: Object.assign({},productGallery)
       }
     });
 
@@ -79,8 +79,13 @@ export class ProductComponent implements OnInit, OnDestroy {
         data: <ProductGallery>data.data.data
       }
 
+      let newData;
       let mainMedia = this.productGalleryService.getMainSrc(params.data.media);
-      let newData = { ...params.data, src: mainMedia.src, thumbnail: mainMedia.srcThumbnail }
+      if(mainMedia){
+        newData = { ...params.data, src: mainMedia.src, thumbnail: mainMedia.srcThumbnail }
+      }else{
+        newData = { ...params.data, src: '', thumbnail: '' }
+      }
 
       if(type === 'insert'){
         this.productGallerys.push(newData);

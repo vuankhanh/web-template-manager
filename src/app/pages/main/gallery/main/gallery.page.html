@@ -1,7 +1,16 @@
 <ion-header>
   <ion-toolbar>
-    <ion-buttons slot="start">
+    <ion-buttons slot="start" *ngIf="!componentType">
       <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons
+      slot="end"
+      *ngIf="componentType === 'modal'"
+      (click)="modalController.dismiss()"
+    >
+      <ion-button>
+        <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+      </ion-button>
     </ion-buttons>
     <ion-title>Thư viện hình ảnh</ion-title>
   </ion-toolbar>

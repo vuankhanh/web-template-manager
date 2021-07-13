@@ -29,6 +29,7 @@
   </ion-list>
 
   <app-pagination *ngIf="configPagination" [config]="configPagination" (emitChangeIndex)="changeIndex($event)"></app-pagination>
+  
   <ion-fab horizontal="end" vertical="bottom" slot="fixed">
     <ion-fab-button color="danger" (click)="navigatorToModify('insert', null)">
       <ion-icon name="add"></ion-icon>

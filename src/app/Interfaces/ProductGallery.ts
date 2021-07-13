@@ -1,3 +1,5 @@
+import { WillUpload } from "./WillUpload";
+
 export interface ProductGallery{
     _id?: string,
     name: string,
@@ -5,6 +7,8 @@ export interface ProductGallery{
     src?: string,
     thumbnail?: string,
     media: Array<Media>,
+    willUpload?: Array<WillUpload>,
+    isMain?: number,
     createdAt?: string,
     updatedAt?: string,
 }

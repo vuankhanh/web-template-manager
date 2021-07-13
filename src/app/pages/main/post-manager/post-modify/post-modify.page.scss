@@ -1,7 +1,5 @@
 .post-modify-container {
-  height: 100%;
   form{
-    height: 100%;
     ion-list{
       padding: 0;
       ion-item{
@@ -10,11 +8,18 @@
         }
       }
     }
+
     .editor-container{
-      height: calc(100% - 150px);
+      background-color: #ededed;
+      ngx-editor-menu{
+        position: sticky;
+        top: 0;
+        padding: 15px 0;
+        background-color: #ededed;
+        z-index: 1;
+      }
       ngx-editor{
-        height: 100%;
-        overflow-y: scroll;
+        padding: 0 15px;
       }
     }
 
@@ -22,6 +27,7 @@
       min-height: 30px;
       width: 150px;
     }
+
   }
 }
 
