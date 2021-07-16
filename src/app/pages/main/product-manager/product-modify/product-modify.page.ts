@@ -2,19 +2,24 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 
+
+import { ChooseBannerGalleryPage } from '../choose-banner-gallery/choose-banner-gallery.page';
 import { ChoosePostsPage } from '../choose-posts/choose-posts.page';
 import { ChooseGalleryPage } from '../choose-gallery/choose-gallery.page';
 
 import { ProductCategory } from '../../../../Interfaces/ProductCategory';
+import { Product } from '../../../../Interfaces/Product';
+import { BannerGallery } from 'src/app/Interfaces/BannerGallery';
+import { Posts } from 'src/app/Interfaces/Posts';
 
 import { ProductCategoryService } from 'src/app/services/api/product-category.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
-import { Product } from '../../../../Interfaces/Product';
 import { ResponseLogin } from 'src/app/services/api/login.service';
-import { Subscription } from 'rxjs';
 import { ProductService } from 'src/app/services/api/product.service';
 import { ToastService } from 'src/app/services/toast.service';
-import { Posts } from 'src/app/Interfaces/Posts';
+import { productHightLight } from 'src/app/services/formCustom/validators'; 
+
+import { Subscription } from 'rxjs';
 
 const tokenKey = "authentication-information";
 const draftProductNew = "draft-product-new";
@@ -76,7 +81,7 @@ export class ProductModifyPage implements OnInit, OnDestroy {
           if(this.type === 'update'){
             let index = this.productCategorys.findIndex(productCategory=>this.params.data.category._id && (productCategory._id === this.params.data.category._id));
             console.log(index);
-            if(!isNaN(index)){
+            if(index>=0){
               this.productForm.controls['category'].setValue(this.productCategorys[index]);
             }
           }else{
@@ -84,7 +89,7 @@ export class ProductModifyPage implements OnInit, OnDestroy {
             if(draftProductNewStoraged && draftProductNewStoraged.category){
               let categoryDefault: ProductCategory = draftProductNewStoraged.category;
               let index = this.productCategorys.findIndex(productCategory=>categoryDefault._id && (productCategory._id === categoryDefault._id));
-              if(!isNaN(index)){
+              if(index>=0){
                 this.productForm.controls['category'].setValue(this.productCategorys[index]);
               }
             }
@@ -113,8 +118,8 @@ export class ProductModifyPage implements OnInit, OnDestroy {
       thumbnailUrl: [data && data!.thumbnailUrl ? data!.thumbnailUrl : '', Validators.required],
 
       highlight: [data && data!.highlight ? data!.highlight : false, Validators.required],
-      imgBannerUrl: [data && data!.imgBannerUrl ? data!.imgBannerUrl : ''],
-    })
+      albumBanner: [data && data!.albumBanner ? data!.albumBanner : null],
+    }, {validator: productHightLight()});
   }
 
   async choosePosts(){
@@ -137,8 +142,6 @@ export class ProductModifyPage implements OnInit, OnDestroy {
   async chooseGallery(){
     const modal = await this.modalController.create({
       component: ChooseGalleryPage,
-      componentProps: {
-      }
     });
 
     modal.present();
@@ -150,12 +153,21 @@ export class ProductModifyPage implements OnInit, OnDestroy {
     }
   }
 
-  addBanner(event: Event){
-    let target: HTMLInputElement = <HTMLInputElement>event.target;
-    console.log(target.files);
+  async chooseBannerGallery(){
+    const modal = await this.modalController.create({
+      component: ChooseBannerGalleryPage
+    });
 
-    let albumImgValue = this.productForm.controls['imgBannerUrl'].value;
-    console.log(albumImgValue);
+    modal.present();
+    
+    const data = await modal.onDidDismiss();
+    
+    
+    if(data.data){
+      let bannerGallery: BannerGallery = <BannerGallery>data.data;
+      this.productForm.controls['albumBanner'].setValue(bannerGallery);
+      console.log(data);
+    }
   }
 
   modify(){

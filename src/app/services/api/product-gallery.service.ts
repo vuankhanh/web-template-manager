@@ -115,7 +115,7 @@ export class ProductGalleryService {
 
   getMainSrc(medias: Array<Media>): Src{
     let index: number = medias.findIndex(me=>me.isMain);
-    return index ? medias[index] : medias[0];
+    return index>=0 ? medias[index] : medias[0];
   }
 }
 

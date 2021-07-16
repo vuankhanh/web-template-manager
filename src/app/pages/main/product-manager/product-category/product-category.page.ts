@@ -81,7 +81,7 @@ export class ProductCategoryPage implements OnInit, OnDestroy {
       this.subscription.add(
         this.productCategoryService.remove(accessToken, productCategory).subscribe(res=>{
           let index = this.productCategorys.findIndex(productCategory=>productCategory._id === res._id);
-          if(!isNaN(index)){
+          if(index>=0){
             this.productCategorys.splice(index, 1);
           }
         })

@@ -20,6 +20,14 @@ const routes: Routes = [
     path: 'product-modify',
     loadChildren: () => import('../product-modify/product-modify.module').then( m => m.ProductModifyPageModule)
   },
+  {
+    path: 'choose-product-gallery',
+    loadChildren: () => import('../choose-gallery/choose-gallery.module').then( m => m.ChooseGalleryPageModule)
+  },
+  {
+    path: 'choose-banner-gallery',
+    loadChildren: () => import('../choose-banner-gallery/choose-banner-gallery.module').then( m => m.ChooseBannerGalleryPageModule)
+  }
 ];
 
 @NgModule({

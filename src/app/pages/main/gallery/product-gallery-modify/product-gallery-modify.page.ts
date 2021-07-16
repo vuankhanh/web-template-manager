@@ -87,7 +87,7 @@ export class ProductGalleryModifyPage implements OnInit {
   removeImage(image: Media){
     let listMedia: Array<Media> = <Array<Media>>this.productGalleryForm.value.media;
     let index = listMedia.findIndex(media=>media._id === image._id);
-    if(!isNaN(index)){
+    if(index>=0){
       listMedia.splice(index, 1);
     }
     this.productGalleryForm.controls['media'].setValue(listMedia);
@@ -131,12 +131,12 @@ export class ProductGalleryModifyPage implements OnInit {
               this.modalController.dismiss(this.params);
             });
           }else{
-            this.toastService.shortToastWarning('Danh mục đã bị xóa', '');
+            this.toastService.shortToastWarning('Thư viện Sản Phẩm đã bị xóa', '');
           }
         },error=>{
           console.log(error);
           if(error.status === 409){
-            this.toastService.shortToastError('Danh mục này đã tồn tại', 'Thất bại');
+            this.toastService.shortToastError('Thư viện Sản Phẩm này đã tồn tại', 'Thất bại');
           }else{
             this.toastService.shortToastError('Đã có lỗi xảy ra', 'Thất bại');
           }

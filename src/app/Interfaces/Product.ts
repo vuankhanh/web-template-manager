@@ -1,3 +1,4 @@
+import { BannerGallery } from './BannerGallery';
 import { Posts } from './Posts';
 import { ProductCategory } from './ProductCategory';
 import { ProductGallery } from './ProductGallery';
@@ -11,9 +12,9 @@ export interface Product{
     currencyUnit: string,
     unit: string,
     thumbnailUrl?: string,
-    imgBannerUrl?: string,
     sortDescription: string,
     highlight: boolean,
+    albumBanner?: BannerGallery,
     theRemainingAmount: number,
     longDescription: Posts | null,
     supplier?: string | null,

@@ -107,7 +107,7 @@ export class ProductComponent implements OnInit, OnDestroy {
         this.productGalleryService.remove(tokenStoraged.accessToken, productGallery).subscribe(res=>{
           console.log(res);
           let index = this.productGallerys.findIndex(productGallery=>productGallery._id === res._id);
-          if(!isNaN(index)){
+          if(index>=0){
             this.productGallerys.splice(index, 1);
           }
         })

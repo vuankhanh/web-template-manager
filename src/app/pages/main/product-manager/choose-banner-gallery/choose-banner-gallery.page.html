@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="end" (click)="modalController.dismiss()">
+      <ion-button>
+        <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Chọn Thư Viện Banner</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="vertical-container banner-gallery-container">
+    <ion-list>
+      <ion-item *ngFor="let bannerGallery of bannerGallerys" (click)="chooseBannerGallery(bannerGallery)">
+        <ion-avatar slot="start">
+          <img src="{{ bannerGallery.thumbnail | galleryRoute }}">
+        </ion-avatar>
+        <ion-label>
+          <h2>{{ bannerGallery.bannerName }}</h2>
+          <h3>{{ bannerGallery.createdAt | date: 'dd/MM/yyyy HH:mm:ss' }}</h3>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  
+    <ion-fab horizontal="end" vertical="bottom" slot="fixed">
+      <ion-fab-button color="danger">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+  </div>
+</ion-content>
