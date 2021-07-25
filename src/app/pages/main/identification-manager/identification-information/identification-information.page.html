@@ -8,52 +8,50 @@
 </ion-header>
 
 <ion-content>
-  <ng-container *ngIf="identificationInfor">
+  <ng-container *ngIf="identification">
     <ion-list>
 
-      <ion-item
-        (click)="changePhoneNumber('logo')"
-        [routerLink]="['/main/identification-information', 'logo']"
-      >
+      <ion-item (click)="modify('logo')">
         <ion-label>
           <span class="primary-key">Logo</span>
         </ion-label>
         <div class="width-space"></div>
         <div class="value horizontal-container">
-          <img height="40" width="40" src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y" alt="">
+          <img height="40" width="40" src="{{ identification.logo.srcThumbnail | galleryRoute }}" alt="{{ identification.logo.srcThumbnail | galleryRoute }}">
         </div>
       </ion-item>
       
-      <ion-item
-        (click)="changePhoneNumber('phoneNumber')"
-        [routerLink]="['/main/identification-information', 'phoneNumber']"
-      >
+      <ion-item (click)="modify('phoneNumber')">
         <ion-label>
           <ion-text class="primary-key">Số điện thoại</ion-text>
         </ion-label>
         <div class="width-space"></div>
         <div class="value horizontal-container secondary-key">
-          <span>{{ identificationInfor.phoneNumber }}</span>
+          <ng-container *ngFor="let phoneNumber of identification.phoneNumber; let i = index">
+            <span *ngIf="phoneNumber.isMain">{{ phoneNumber.number }}</span>
+          </ng-container>
         </div>
       </ion-item>
 
-      <ion-item
-        (click)="changePhoneNumber('socialNetworking')"
-        [routerLink]="['/main/identification-information', 'socialNetworking']"
-      >
+      <ion-item (click)="modify('socialNetworking')">
         <ion-label>
           <ion-text class="primary-key">Mạng xã hội</ion-text>
         </ion-label>
         <div class="width-space"></div>
         <div class="value horizontal-container">
-          <span>{{ identificationInfor.socialNetworking }}</span>
+          <div
+            class="social-container"
+            *ngFor="let social of identification.social; let i = index; let last = last;"
+          >
+            <div class="social-networking-item horizontal-container {{ social.name }}">
+              <ion-icon src="../../../../assets/logo/svg/{{ social.name }}.svg"></ion-icon>
+            </div>
+          </div>
         </div>
+        
       </ion-item>
 
-      <ion-item
-        (click)="changePhoneNumber('address')"
-        [routerLink]="['/main/identification-information', 'address']"
-      >
+      <ion-item (click)="modify('address')">
         <ion-label>
           <span class="primary-key">
             Địa chỉ
@@ -61,7 +59,7 @@
         </ion-label>
         <div class="width-space"></div>
         <div class="value horizontal-container">
-          <span>{{ identificationInfor.address.street +', '+ identificationInfor.address.ward +', '+ identificationInfor.address.district +', '+ identificationInfor.address.province}}</span>
+          <span>{{ identification.address.street +', '+ identification.address.ward +', '+ identification.address.district +', '+ identification.address.province}}</span>
         </div>
       </ion-item>
       

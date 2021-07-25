@@ -35,7 +35,7 @@ const routes: Routes = [
       },
       {
         path: 'identification-information',
-        loadChildren: () => import('../identification-information/identification-information.module').then( m => m.IdentificationInformationPageModule)
+        loadChildren: () => import('../identification-manager/identification-information/identification-information.module').then( m => m.IdentificationInformationPageModule)
       },
       {
         path: 'chat',

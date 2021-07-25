@@ -1,0 +1,26 @@
+<div class="logo-container">
+    <div class="horizontal-container">
+        <img width="200" src="{{ data.logo.src | galleryRoute }}" alt="">
+        <div class="willupload-container horizontal-container" *ngIf="this.willUploadLogo.value">
+            <div class="width-space"></div>
+            <ion-icon name="arrow-forward-outline"></ion-icon>
+            <div class="width-space"></div>
+            <img width="200" [src]="this.willUploadLogo.value.base64">
+        </div>
+    </div>
+    <ion-button (click)="file.click()" *ngIf="!this.willUploadLogo.value">
+        Thay Logo
+    </ion-button>
+    <ion-button (click)="updateLogo()" *ngIf="this.willUploadLogo.value">
+        Cập nhật Logo mới
+    </ion-button>
+</div>
+
+<input
+  type="file"
+  class="input-image-hidden"
+  accept="image/*"
+  #file
+  (change)="onFileSelect($event)"
+  multiple
+>

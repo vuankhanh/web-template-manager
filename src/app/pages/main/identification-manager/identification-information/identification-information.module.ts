@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { IdentificationInformationPageRoutingModule } from './identification-information-routing.module';
+import { GalleryRouteModule } from '../../../../pipes/gallery-route/gallery-route.module';
 
 import { IdentificationInformationPage } from './identification-information.page';
 
@@ -13,8 +14,11 @@ import { IdentificationInformationPage } from './identification-information.page
     CommonModule,
     FormsModule,
     IonicModule,
-    IdentificationInformationPageRoutingModule
+    IdentificationInformationPageRoutingModule,
+    GalleryRouteModule
   ],
-  declarations: [IdentificationInformationPage]
+  declarations: [
+    IdentificationInformationPage
+  ]
 })
 export class IdentificationInformationPageModule {}

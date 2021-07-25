@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="end" (click)="modalController.dismiss()">
+      <ion-button>
+        <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      <span *ngIf="type === 'logo'">Logo</span>
+      <span *ngIf="type === 'phoneNumber'">Số điện thoại</span>
+      <span *ngIf="type === 'socialNetworking'">Mạng xã hội</span>
+      <span *ngIf="type === 'address'">Địa chỉ</span>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ng-container *ngIf="type" [ngSwitch]="type">
+
+    <app-logo
+      *ngSwitchCase="'logo'"
+      [data]="identification"
+      (emitChange)="identificationChange($event)"
+    ></app-logo>
+
+    <app-phone-number
+      *ngSwitchCase="'phoneNumber'"
+      [data]="identification"
+      (emitChange)="identificationChange($event)"
+    ></app-phone-number>
+
+    <app-social-networking
+      *ngSwitchCase="'socialNetworking'"
+      [data]="identification"
+      (emitChange)="identificationChange($event)"
+    ></app-social-networking>
+
+    <app-address
+      *ngSwitchCase="'address'"
+      [data]="identification"
+      (emitChange)="identificationChange($event)"
+    ></app-address>
+  </ng-container>
+</ion-content>

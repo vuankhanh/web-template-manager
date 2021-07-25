@@ -1,0 +1,48 @@
+.social-container{
+    form{
+        ion-item{
+            .social-networking-item{
+                cursor: pointer;
+                height: 40px;
+                width: 40px;
+                min-height: 40px;
+                min-width: 40px;
+                border-radius: 100%;
+                align-items: center;
+                justify-content: center;
+            }
+            .text-container{
+                width: 100%;
+                ion-select{
+                    padding: 0;
+                    min-height: 40px;
+                    z-index: 0;
+                    min-width: 100%;
+                }
+                ion-input{
+                    min-height: 40px;
+                }
+            }
+            .facebook{
+                background: #3b5998;
+                color: white;
+            }
+            .google{
+                background: #db4a39;
+                color: white;
+            }
+            .zalo{
+                background: #0573ff;
+                color: white;
+            }
+        }
+        .add-rows-button{
+            padding: 10px 15px;
+            justify-content: flex-end;
+            button{
+                padding: 10px;
+                border-radius: 5px;
+            }
+        }
+    }
+}

@@ -9,9 +9,9 @@ const routes: Routes = [
     component: IdentificationInformationPage
   },
   {
-    path: ':param',
-    loadChildren: () => import('../identification-information-detail/identification-information-detail.module').then( m => m.IdentificationInformationDetailPageModule)
-  }
+    path: 'identification-modify',
+    loadChildren: () => import('../identification-information-modify/identification-information-modify.module').then( m => m.IdentificationInformationModifyPageModule)
+  },
 ];
 
 @NgModule({

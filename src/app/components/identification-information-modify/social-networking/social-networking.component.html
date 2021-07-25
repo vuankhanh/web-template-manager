@@ -1,0 +1,40 @@
+<div class="social-container">
+    <form *ngIf="myForm" [formGroup]="myForm" (ngSubmit)="updateSocialNetwork()">
+        <ng-container formArrayName="socialNetwork">
+            <ng-container *ngIf="myForm.controls['socialNetwork'].controls as socialNetworkControl">
+                <ng-container *ngFor="let number of socialNetworkControl; let socialIndex = index;">
+                    <ion-item [formGroupName]="socialIndex">
+                        <div
+                            *ngIf="socialNetworkControl[socialIndex].controls['name'] as nameControl"
+                            class="social-networking-item horizontal-container {{ nameControl.value }}"
+                        >
+                            <ion-icon
+                                *ngIf="nameControl.value"
+                                src="../../../../assets/logo/svg/{{ nameControl.value }}.svg"
+                            ></ion-icon>
+                        </div>
+                        <div class="width-space"></div>
+                        <div class="text-container vertical-container">
+                            <ion-select formControlName="name">
+                                <ion-select-option *ngFor="let socialNetwork of socialNetworks" [value]="socialNetwork">
+                                    {{ socialNetwork }}
+                                </ion-select-option>
+                            </ion-select>
+                            <ion-input type="text" formControlName="url" #inputSocialUrl></ion-input>
+                        </div>
+
+                        <ion-button type="button" slot="end" (click)="removeSocialNetwork(socialIndex)">
+                            <ion-icon slot="icon-only" name="remove-circle-outline"></ion-icon>
+                        </ion-button>
+                    </ion-item>
+                </ng-container>
+            </ng-container>
+        </ng-container>
+        <div class="add-rows-button horizontal-container">
+            <button type="button" class="horizontal-container" (click)="addSocialNetwork()">
+                <ion-icon name="add-circle-outline"></ion-icon> Thêm Mạng Xã Hội
+            </button>
+        </div>
+        <ion-button type="submit" [disabled]="myForm.invalid">Cập nhật Mạng Xã Hội</ion-button>
+    </form>
+</div>

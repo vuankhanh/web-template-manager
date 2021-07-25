@@ -1,0 +1,50 @@
+ion-content {
+    ion-list{
+        ion-item{
+            cursor: pointer;
+            label{
+                width: 50%;
+                span{
+                    white-space: break-spaces;
+                }
+            }
+            .value{
+                width: 50%;
+                justify-content: flex-end;
+                text-align: right;
+                img{
+                    display: block;
+                }
+                .social-container{
+                    margin-right: 15px;
+                    .social-networking-item{
+                        cursor: pointer;
+                        height: 40px;
+                        width: 40px;
+                        border-radius: 100%;
+                        align-items: center;
+                        justify-content: center;
+                    }
+                    .facebook{
+                        background: #3b5998;
+                        color: white;
+                    }
+                    .google{
+                        background: #db4a39;
+                        color: white;
+                    }
+                    .zalo{
+                        background: #0573ff;
+                        color: white;
+                    }
+                }
+                .social-container:last-child{
+                    margin-right: 0;
+                }
+            }
+        }
+        ion-item:hover{
+            --background: #ededed;
+        }
+    }
+}
