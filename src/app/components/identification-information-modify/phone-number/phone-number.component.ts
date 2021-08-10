@@ -60,7 +60,7 @@ export class PhoneNumberComponent implements OnInit, OnDestroy {
     
   }
 
-  radioGroupChange(event: CustomEvent){
+  radioGroupChange(){
     for(let i = 0; i<this.phoneNuber.controls.length; i++){
       let number: FormGroup = <FormGroup>this.phoneNuber.controls[i];
       number.controls['isMain'].setValue(this.isMain === i ? true : false);

@@ -8,7 +8,7 @@
 </ion-header>
 
 <ion-content>
-  <ion-segment [(ngModel)]="selection" (ionChange)="segmentChanged($event)">
+  <ion-segment [(ngModel)]="selection" (ionChange)="segmentChanged()">
     <ion-segment-button value="product">
       <ion-label>Sản phẩm</ion-label>
     </ion-segment-button>
@@ -27,4 +27,10 @@
       </ion-item>
     </ion-list>
   </div>
+
+  <ion-fab horizontal="end" vertical="bottom" slot="fixed">
+    <ion-fab-button color="danger" (click)="navigatorToModify('insert', null)">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

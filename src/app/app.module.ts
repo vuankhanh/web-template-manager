@@ -17,7 +17,7 @@ import { RefreshTokenInterceptorService } from './services/api/refresh-token-int
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
     // GalleryRoutePipe
   ],
   entryComponents: [],

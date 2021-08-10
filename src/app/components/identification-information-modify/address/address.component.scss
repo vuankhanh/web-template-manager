@@ -1,0 +1,12 @@
+.addresses-container{
+    ion-list{
+        .add-rows-button{
+            padding: 10px 15px;
+            justify-content: flex-end;
+            button{
+                padding: 10px;
+                border-radius: 5px;
+            }
+        }
+    }
+}

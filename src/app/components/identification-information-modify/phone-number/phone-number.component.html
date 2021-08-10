@@ -1,8 +1,8 @@
 <div class="phone-number-container">
   <form *ngIf="myForm" [formGroup]="myForm" (ngSubmit)="updatePhoneNumber()">
-    <ion-radio-group (ionChange)="radioGroupChange($event)" [(ngModel)]="isMain" [ngModelOptions]="{standalone: true}">
+    <ion-radio-group (ionChange)="radioGroupChange()" [(ngModel)]="isMain">
       <ng-container formArrayName="phoneNumber">
-        <ng-container *ngFor="let number of myForm.controls['phoneNumber'].controls; let numberIndex = index;">
+        <ng-container *ngFor="let number of phoneNuber.controls; let numberIndex = index;">
           <ion-item [formGroupName]="numberIndex">
             <ion-input type="text" formControlName="number" #inputPhoneNumber></ion-input>
             <ion-radio [value]="numberIndex"></ion-radio>

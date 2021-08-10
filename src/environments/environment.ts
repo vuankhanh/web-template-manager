@@ -7,8 +7,8 @@ export const environment = {
 };
 
 export const hostConfiguration = {
-  rootHost: 'http://192.168.1.244:3000',
-  host: 'http://192.168.1.244:3000/admin',
+  rootHost: 'http://localhost:3000',
+  host: 'http://localhost:3000/admin',
 }
 
 /*

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, QueryList, ViewChildren } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { Identification } from 'src/app/Interfaces/Identification';
 
@@ -67,6 +67,8 @@ export class SocialNetworkingComponent implements OnInit, OnDestroy {
 
   updateSocialNetwork(){
     if(this.myForm.valid){
+      console.log(this.myForm.value);
+      
       let tokenStoraged: ResponseLogin = this.localStorageService.get(tokenKey);
       if(tokenStoraged && tokenStoraged.accessToken){
         this.subscription.add(

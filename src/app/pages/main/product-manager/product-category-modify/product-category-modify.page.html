@@ -13,7 +13,7 @@
   <form *ngIf="productCategoryForm" [formGroup]="productCategoryForm" (ngSubmit)="modify()">
     <ion-item>
       <ion-label>Tên Danh mục: </ion-label>
-      <ion-input formControlName="name" (ionChange)="nameControlChange($event)" ></ion-input>
+      <ion-input formControlName="name" (ionChange)="nameControlChange()"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label>Mã: </ion-label>

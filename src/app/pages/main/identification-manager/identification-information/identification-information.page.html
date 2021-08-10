@@ -59,7 +59,12 @@
         </ion-label>
         <div class="width-space"></div>
         <div class="value horizontal-container">
-          <span>{{ identification.address.street +', '+ identification.address.ward +', '+ identification.address.district +', '+ identification.address.province}}</span>
+          <div
+            class="social-container"
+            *ngFor="let address of identification.address; let i = index;"
+          >
+            <span *ngIf="address.isHeadquarters">{{ address.street +', '+ address.ward.name +', '+ address.district.name +', '+ address.province.name}}</span>
+          </div>
         </div>
       </ion-item>
       

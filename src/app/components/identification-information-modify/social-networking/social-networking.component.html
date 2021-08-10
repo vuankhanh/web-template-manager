@@ -1,11 +1,11 @@
 <div class="social-container">
     <form *ngIf="myForm" [formGroup]="myForm" (ngSubmit)="updateSocialNetwork()">
         <ng-container formArrayName="socialNetwork">
-            <ng-container *ngIf="myForm.controls['socialNetwork'].controls as socialNetworkControl">
+            <ng-container *ngIf="socialNetwork.controls as socialNetworkControl">
                 <ng-container *ngFor="let number of socialNetworkControl; let socialIndex = index;">
                     <ion-item [formGroupName]="socialIndex">
                         <div
-                            *ngIf="socialNetworkControl[socialIndex].controls['name'] as nameControl"
+                            *ngIf="socialNetworkControl[socialIndex].get('name') as nameControl"
                             class="social-networking-item horizontal-container {{ nameControl.value }}"
                         >
                             <ion-icon

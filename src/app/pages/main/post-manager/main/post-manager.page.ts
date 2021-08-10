@@ -53,7 +53,8 @@ export class PostManagerPage implements OnInit, OnDestroy {
     }
   }
 
-  segmentChanged(event: CustomEvent){
+  segmentChanged(){
+    console.log(this.selection);
     this.listenPosts(this.selection);
   }
 

@@ -5,6 +5,8 @@ export interface BannerGallery{
     _id?: string,
     name: string,
     bannerName: string,
+    thumbnail?: string,
+    src: string,
     media: Array<Media>,
     willUpload?: Array<WillUpload>,
     createdAt?: string,

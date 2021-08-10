@@ -46,7 +46,6 @@
           [images]="bannerGalleryForm.value.media"
           [willUpload]= "bannerGalleryForm.value.willUpload"
           [isMain]="bannerGalleryForm.value.isMain"
-          (emitChangeMain)="changeMain($event)"
           (emitRemoveImage)="removeImage($event)"
           (emitRemoveWillUpload)="removeWillUpload($event)"
         ></app-show-image>

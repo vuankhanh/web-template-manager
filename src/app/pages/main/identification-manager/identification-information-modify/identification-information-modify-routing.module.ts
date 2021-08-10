@@ -7,7 +7,11 @@ const routes: Routes = [
   {
     path: '',
     component: IdentificationInformationModifyPage
-  }
+  },
+  {
+    path: 'address-modify',
+    loadChildren: () => import('../address-modify/address-modify.module').then( m => m.AddressModifyPageModule)
+  },
 ];
 
 @NgModule({

@@ -11,7 +11,7 @@ const routes: Routes = [
   {
     path: 'identification-modify',
     loadChildren: () => import('../identification-information-modify/identification-information-modify.module').then( m => m.IdentificationInformationModifyPageModule)
-  },
+  }
 ];
 
 @NgModule({

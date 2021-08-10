@@ -9,7 +9,8 @@ import { GalleryRouteModule } from '../../../../pipes/gallery-route/gallery-rout
 import { ClipboardModule } from 'ngx-clipboard';
 
 import { ProductGalleryModifyPage } from './product-gallery-modify.page';
-import { ShowImageComponent } from '../../../../components/gallery/show-image/show-image.component';
+import { ShowImageModule } from '../../../../components/gallery/show-image/show-image.module';
+import { PaginationModule } from 'src/app/components/pagination/pagination.module';
 
 @NgModule({
   imports: [
@@ -19,11 +20,12 @@ import { ShowImageComponent } from '../../../../components/gallery/show-image/sh
     IonicModule,
     ProductGalleryModifyPageRoutingModule,
     GalleryRouteModule,
-    ClipboardModule
+    ClipboardModule,
+    ShowImageModule,
+    PaginationModule
   ],
   declarations: [
     ProductGalleryModifyPage,
-    ShowImageComponent,
   ]
 })
 export class ProductGalleryModifyPageModule {}

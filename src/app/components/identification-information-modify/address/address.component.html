@@ -1,22 +1,23 @@
 <div class="addresses-container">
-  <form *ngIf="myForm" [formGroup]="myForm" (ngSubmit)="updateAdress()">
-    <ion-radio-group (ionChange)="radioGroupChange($event)" [(ngModel)]="isMain" [ngModelOptions]="{standalone: true}">
-      <ng-container formArrayName="addresses">
-        <ng-container *ngFor="let number of myForm.controls['addresses'].controls; let addressIndex = index;">
-          <ion-item [formGroupName]="addressIndex">
-            <ion-input type="text" formControlName="responsiblePerson"></ion-input>
-            <ion-radio [value]="addressIndex"></ion-radio>
-            <ion-button type="button" slot="end" (click)="removeAddress(addressIndex)">
-              <ion-icon slot="icon-only" name="remove-circle-outline"></ion-icon>
-            </ion-button>
-          </ion-item>
-        </ng-container>
-      </ng-container>
+  <ion-list>
+    <ion-radio-group [(ngModel)]="isMain" (ionChange)="selectChange()">
+      <ion-item *ngFor="let address of data.address; let i = index">
+        <ion-label>{{ address.responsiblePerson }}</ion-label>
+        <ion-radio slot="end" [value]="i"></ion-radio>
+        <ion-button type="button" slot="end" (click)="remove(i)">
+          <ion-icon slot="icon-only" name="remove-circle-outline"></ion-icon>
+        </ion-button>
+        <ion-button type="button" slot="end" (click)="modify('update', i)">
+          <ion-icon slot="icon-only" name="pencil-outline"></ion-icon>
+        </ion-button>
+      </ion-item>
     </ion-radio-group>
     <div class="add-rows-button horizontal-container">
-      <button type="button" class="horizontal-container" (click)="addAddress()">
-        <ion-icon name="add-circle-outline"></ion-icon> Thêm số điện thoại
+      <button type="button" class="horizontal-container" (click)="modify('insert', null)">
+        <ion-icon name="add-circle-outline"></ion-icon> Thêm địa chỉ
       </button>
     </div>
-  </form>
+  </ion-list>
+  
+  <ion-button (click)="updateAddress()">Cập nhật địa chỉ</ion-button>
 </div>

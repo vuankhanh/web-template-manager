@@ -1,15 +1,17 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { IonContent, ModalController } from '@ionic/angular';
-import { Editor, Toolbar, toHTML } from "ngx-editor";
+import { Editor, Toolbar, toHTML, toDoc } from "ngx-editor";
 
 import { Posts } from 'src/app/Interfaces/Posts';
 
 import { GalleryPage } from '../../gallery/main/gallery.page';
 
 import { LocalStorageService } from 'src/app/services/local-storage.service';
+import { PostsService } from 'src/app/services/api/posts.service';
+import { ResponseLogin } from 'src/app/services/api/login.service';
 
-const draftPostsNew = 'draft-posts-new';
+const tokenKey = "authentication-information";
 @Component({
   selector: 'app-post-modify',
   templateUrl: './post-modify.page.html',
@@ -41,7 +43,8 @@ export class PostModifyPage implements OnInit {
   constructor(
     public modalController: ModalController,
     private formBuilder: FormBuilder,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    private postsService: PostsService,
   ) {
     this.editor = new Editor();
   }
@@ -54,14 +57,11 @@ export class PostModifyPage implements OnInit {
       }
       
       if(this.type === 'update'){
-        this.initForm(this.params.data);
+        let posts: Posts = JSON.parse(JSON.stringify(this.params.data));
+        posts.data = JSON.parse(posts.data);
+        this.initForm(posts);
       }else{
-        let draftProductNewStoraged = this.localStorageService.get(draftPostsNew);
-        if(draftProductNewStoraged){
-          this.initForm(draftProductNewStoraged);
-        }else{
-          this.initForm(this.params.data);
-        }
+        this.initForm();
       }
     }
   }
@@ -78,30 +78,65 @@ export class PostModifyPage implements OnInit {
     return modal.present()
   }
 
-  logScrolling(event: CustomEvent){
-    this.currentPositionScroll = event.detail.scrollTop
+  logScrolling(event){
+    this.currentPositionScroll = event.detail.scrollTop;
   }
 
-  initForm(posts: Posts){
+  initForm(posts?: Posts){
     this.postsForm = this.formBuilder.group({
       type: [ posts?.type ? posts?.type : '', Validators.required],
       name: [ posts?.name ? posts?.name : '', Validators.required],
-      editorContent: [posts?.data ? JSON.parse(posts?.data) : '', Validators.required],
-    })
-  }
-
-  submitPost(){
-    if(this.postsForm.valid){
-      
-    }
-    this.preview = toHTML(this.postsForm.value.editorContent);
+      data: [ posts?.data ? posts?.data : '', Validators.required],
+    });
+    this.postsForm.valueChanges.subscribe(change=>console.log(change)
+    )
   }
 
   moveToTop(){
     this.ionContent.scrollToTop(200);
   }
 
+  submitPost(){
+    
+    if(this.params.type === 'insert'){
+      this.insert();
+    }else if(this.params.type === 'update'){
+      this.update();
+    }
+  }
+
+  insert(){
+    if(this.postsForm.valid){
+      let tokenStoraged: ResponseLogin = this.localStorageService.get(tokenKey);
+      if(tokenStoraged && tokenStoraged.accessToken){
+        let posts: Posts = this.postsForm.value;
+        posts.data = toDoc(posts.data);
+        this.postsService.insert(tokenStoraged.accessToken, this.postsForm.value).subscribe(res=>{
+          console.log(res);
+        },err=>console.log(err));
+      }
+    }
+  }
+
+  update(){
+    if(this.postsForm.valid){
+      let tokenStoraged: ResponseLogin = this.localStorageService.get(tokenKey);
+      if(tokenStoraged && tokenStoraged.accessToken){
+        let posts: Posts = {
+          _id: this.params.data._id,
+          ...this.postsForm.value
+        };
+
+        this.postsService.update(tokenStoraged.accessToken, posts).subscribe(res=>{
+          console.log(res);
+          
+        },err=>console.log(err));
+      }
+    }
+  }
+
   ngOnDestroy(){
+    console.log(toDoc(this.postsForm.value.data));
     this.editor.destroy();
   }
 

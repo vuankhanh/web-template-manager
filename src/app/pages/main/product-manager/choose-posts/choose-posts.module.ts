@@ -5,20 +5,20 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { ChoosePostsPageRoutingModule } from './choose-posts-routing.module';
+import { PaginationModule } from '../../../../components/pagination/pagination.module';
 
 import { ChoosePostsPage } from './choose-posts.page';
-import { PaginationComponent } from '../../../../components/pagination/pagination.component';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ChoosePostsPageRoutingModule
+    ChoosePostsPageRoutingModule,
+    PaginationModule
   ],
   declarations: [
-    ChoosePostsPage,
-    PaginationComponent
+    ChoosePostsPage
   ]
 })
 export class ChoosePostsPageModule {}

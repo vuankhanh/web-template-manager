@@ -1,14 +1,15 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ProductGallery } from 'src/app/Interfaces/ProductGallery';
+import { ModalController } from '@ionic/angular';
 
 import { ProductGalleryModifyPage } from '../../../pages/main/gallery/product-gallery-modify/product-gallery-modify.page';
 
+import { ProductGallery } from 'src/app/Interfaces/ProductGallery';
 import { PaginationParams } from '../../../Interfaces/PaginationParams';
 
 import { ProductGalleryService, ProductGalleryResponse } from 'src/app/services/api/product-gallery.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { ResponseLogin } from 'src/app/services/api/login.service';
-import { ModalController } from '@ionic/angular';
+
 import { Subscription } from 'rxjs';
 
 const tokenKey = "authentication-information";

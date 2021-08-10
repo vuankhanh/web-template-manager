@@ -6,9 +6,9 @@ import { IonicModule } from '@ionic/angular';
 
 import { ProductManagerPageRoutingModule } from './product-manager-routing.module';
 import { GalleryRouteModule } from '../../../../pipes/gallery-route/gallery-route.module';
+import { PaginationModule } from '../../../../components/pagination/pagination.module';
 
 import { ProductManagerPage } from './product-manager.page';
-import { PaginationComponent } from '../../../../components/pagination/pagination.component';
 
 @NgModule({
   imports: [
@@ -16,11 +16,11 @@ import { PaginationComponent } from '../../../../components/pagination/paginatio
     FormsModule,
     IonicModule,
     ProductManagerPageRoutingModule,
-    GalleryRouteModule
+    GalleryRouteModule,
+    PaginationModule
   ],
   declarations: [
     ProductManagerPage,
-    PaginationComponent
   ]
 })
 export class ProductManagerPageModule {}

@@ -87,7 +87,7 @@ export class OtherComponent implements OnInit, OnDestroy {
     }
   }
 
-  removeProductGallery(bannerGallery: BannerGallery){
+  removeBannerGallery(bannerGallery: BannerGallery){
     let tokenStoraged: ResponseLogin = this.localStorageService.get(tokenKey);
     
     if(tokenStoraged && tokenStoraged.accessToken){

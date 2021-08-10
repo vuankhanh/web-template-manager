@@ -8,7 +8,7 @@ import { BannerGalleryModifyPageRoutingModule } from './banner-gallery-modify-ro
 import { GalleryRouteModule } from '../../../../pipes/gallery-route/gallery-route.module';
 
 import { BannerGalleryModifyPage } from './banner-gallery-modify.page';
-import { ShowImageComponent } from '../../../../components/gallery/show-image/show-image.component';
+import { ShowImageModule } from '../../../../components/gallery/show-image/show-image.module';
 
 @NgModule({
   imports: [
@@ -17,11 +17,11 @@ import { ShowImageComponent } from '../../../../components/gallery/show-image/sh
     ReactiveFormsModule,
     IonicModule,
     BannerGalleryModifyPageRoutingModule,
-    GalleryRouteModule
+    GalleryRouteModule,
+    ShowImageModule
   ],
   declarations: [
-    BannerGalleryModifyPage,
-    ShowImageComponent
+    BannerGalleryModifyPage
   ]
 })
 export class BannerGalleryModifyPageModule {}

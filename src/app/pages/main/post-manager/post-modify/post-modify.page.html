@@ -25,7 +25,7 @@
           <ion-label>Loại bài viết</ion-label>
           <ion-select placeholder="Chọn loại bài viết" formControlName="type">
             <ion-select-option value="product">Sản phẩm</ion-select-option>
-            <ion-select-option value="other">Male</ion-select-option>
+            <ion-select-option value="other">Khác</ion-select-option>
           </ion-select>
         </ion-item>
 
@@ -53,7 +53,7 @@
           [toolbar]="toolbar"
           class="editor-menu"
         ></ngx-editor-menu>
-        <ngx-editor [editor]="editor" formControlName="editorContent"></ngx-editor>
+        <ngx-editor [editor]="editor" formControlName="data"></ngx-editor>
       </div>
 
       <ion-button

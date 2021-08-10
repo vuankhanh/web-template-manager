@@ -19,9 +19,9 @@ export class GalleryPage implements OnInit {
     }
   }
 
-  segmentChanged(event: CustomEvent){
-    let target: HTMLIonSegmentElement = <HTMLIonSegmentElement>event.target;
-    console.log(target.value);
+  segmentChanged(){
+    console.log(this.selection);
+    
 
   }
 

@@ -1,8 +1,18 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { ModalController } from '@ionic/angular';
+
+import { AddressModifyPage } from '../../../pages/main/identification-manager/address-modify/address-modify.page';
+
+import { Address } from 'src/app/Interfaces/Address';
 import { Identification } from 'src/app/Interfaces/Identification';
 
+import { ResponseLogin } from 'src/app/services/api/login.service';
+import { LocalStorageService } from 'src/app/services/local-storage.service';
+import { IdentificationService } from 'src/app/services/api/identification.service';
+
+import { Subscription } from 'rxjs';
+
+const tokenKey = "authentication-information";
 @Component({
   selector: 'app-address',
   templateUrl: './address.component.html',
@@ -11,63 +21,82 @@ import { Identification } from 'src/app/Interfaces/Identification';
 export class AddressComponent implements OnInit, OnDestroy {
   @Input() data: Identification;
   @Output() emitChange: EventEmitter<Identification> = new EventEmitter<Identification>();
-  myForm: FormGroup;
+
+  addresses: Array<Address>;
+  isMain: number;
 
   subscription: Subscription = new Subscription();
   constructor(
-    private formBuilder: FormBuilder
+    private modalController: ModalController,
+    private localStorageService: LocalStorageService,
+    private identificationService: IdentificationService
   ) { }
 
   ngOnInit() {
-    console.log(this.data);
-    this.initForm();
-  }
-
-  get addresses() {
-    return <FormArray>this.myForm.controls["addresses"];
-  }
-
-  initForm(){
-    let formArray: FormArray = new FormArray([]);
-
-    for(let i = 0; i< this.data.address.length; i++){
-      let phoneNumber = this.data.address[i];
-      formArray.push(this.formBuilder.group({
-        responsiblePerson: [phoneNumber.responsiblePerson, { validators: [Validators.required] }],
-        phoneNumber: [phoneNumber.phoneNumber, { validators: [Validators.required] }],
-        street: [phoneNumber.street, { validators: [Validators.required] }],
-        ward: [phoneNumber.ward, { validators: [Validators.required] }],
-        district: [phoneNumber.district, { validators: [Validators.required] }],
-        province: [phoneNumber.province, { validators: [Validators.required] }],
-        isHeadquarters: [phoneNumber.isHeadquarters],
-        position: [this.formBuilder.group({
-          lat: phoneNumber.position.lat,
-          lng: phoneNumber.position.lng,
-        }), { validators: [Validators.required] }],
-      }));
-    }
-    
-    this.myForm = this.formBuilder.group({
-      addresses: formArray
-    });
-
+    this.addresses = this.data.address;
+    this.isMain = this.getIsMainAddress(this.addresses);
     console.log(this.addresses);
   }
 
-  addAddress(){
-    this.addresses.push(this.formBuilder.group({
-      responsiblePerson: ['', { validators: [Validators.required] }],
-      phoneNumber: ['', { validators: [Validators.required] }],
-      street: ['', { validators: [Validators.required] }],
-      ward: ['', { validators: [Validators.required] }],
-      district: ['', { validators: [Validators.required] }],
-      province: ['', { validators: [Validators.required] }],
-      isHeadquarters: [false],
-      position: [this.formBuilder.group({
-        lat: '',
-        lng: '',
-      }), { validators: [Validators.required] }],
-    }))
+  remove(index: number){
+    this.addresses.splice(index, 1);
+    if(this.isMain === index){
+      this.isMain--;
+      this.setMainAddress(this.isMain);
+    }
+  }
+
+  async modify(type: 'insert' | 'update', index: number){
+    const modal = await this.modalController.create({
+      component: AddressModifyPage,
+      componentProps: {
+        data: {
+          type: type,
+          index: index
+        },
+        identification: this.data
+      }
+    });
+    modal.present();
+
+    const data = await modal.onDidDismiss();
+    if(data.data){
+      this.addresses = data.data.address;
+      this.isMain = this.getIsMainAddress(this.addresses);
+      this.setMainAddress(this.isMain);
+      this.emitChange.emit(data.data);
+      console.log(data);
+      // this.identification = data.data;
+    }
+  }
+
+  updateAddress(){
+    let tokenStoraged: ResponseLogin = this.localStorageService.get(tokenKey);
+    if(tokenStoraged && tokenStoraged.accessToken){
+      this.subscription.add(
+        this.identificationService.updateAddress(tokenStoraged.accessToken, this.addresses).subscribe(res=>{
+          this.emitChange.emit(res);
+        })
+      )
+    }
+  }
+
+  selectChange(){
+    this.setMainAddress(this.isMain);
+  }
+  
+  setMainAddress(index: number){
+    for(let i=0; i<this.addresses.length; i++){
+      if(i === index){
+        this.addresses[i].isHeadquarters = true
+      }
+      this.addresses[i].isHeadquarters = i === index ? true: false;
+    }
+  }
+
+  getIsMainAddress(addresses: Array<Address>){
+    let index: number = addresses.findIndex(address=> address.isHeadquarters);
+    return index >=0 ? index : 0;
   }
 
   ngOnDestroy(){

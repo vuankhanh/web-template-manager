@@ -1,0 +1,75 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="end" (click)="modalController.dismiss()">
+      <ion-button>
+        <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>{{data.type === 'insert' ? 'Thêm mới địa chỉ' : 'Cập nhật địa chỉ' }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="addressForm" (ngSubmit)="modifyAddress()">
+    <ion-list>
+
+      <ion-item>
+        <ion-label>Người chịu trách nhiệm</ion-label>
+        <ion-input type="text" placeholder="Người chịu trách nhiệm" formControlName="responsiblePerson"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Số điện thoại</ion-label>
+        <ion-input type="text" placeholder="Số điện thoại" formControlName="phoneNumber"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Địa chỉ</ion-label>
+        <ion-textarea type="text" placeholder="Địa chỉ" formControlName="street"></ion-textarea>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Tỉnh/Thành Phố</ion-label>
+        <ion-select formControlName="province" (ionChange)="provinceChange()">
+          <ion-select-option *ngFor="let province of provinces; let i = index" [value]="i">
+            {{ province.name }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Quận/Huyện</ion-label>
+        <ion-select formControlName="district" (ionChange)="districtChange()">
+          <ion-select-option *ngFor="let district of districts; let i = index" [value]="i">
+            {{ district.name }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Phường/Xã</ion-label>
+        <ion-select formControlName="ward">
+          <ion-select-option *ngFor="let wards of wards; let i = index" [value]="i">
+            {{ wards.name }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Tọa độ</ion-label>
+        <div formGroupName="position" class="horizontal-container">
+          <ion-input type="text" placeholder="Vĩ Độ" formControlName="lat"></ion-input>
+          <ion-input type="text" placeholder="Kinh Độ" formControlName="lng"></ion-input>
+        </div>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Đặt làm địa chỉ mặc định</ion-label>
+        <ion-checkbox formControlName="isHeadquarters"></ion-checkbox>
+      </ion-item>
+
+    </ion-list>
+    <ion-button type="submit">{{data.type === 'insert' ? 'Thêm mới' : 'Cập nhật' }}</ion-button>
+    
+  </form>
+</ion-content>

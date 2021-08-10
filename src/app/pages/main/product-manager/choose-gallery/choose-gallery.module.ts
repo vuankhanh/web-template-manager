@@ -6,9 +6,9 @@ import { IonicModule } from '@ionic/angular';
 
 import { ChooseGalleryPageRoutingModule } from './choose-gallery-routing.module';
 import { GalleryRouteModule } from '../../../../pipes/gallery-route/gallery-route.module';
+import { PaginationModule } from '../../../../components/pagination/pagination.module';
 
 import { ChooseGalleryPage } from './choose-gallery.page';
-import { PaginationComponent } from '../../../../components/pagination/pagination.component';
 
 @NgModule({
   imports: [
@@ -16,11 +16,11 @@ import { PaginationComponent } from '../../../../components/pagination/paginatio
     FormsModule,
     IonicModule,
     ChooseGalleryPageRoutingModule,
-    GalleryRouteModule
+    GalleryRouteModule,
+    PaginationModule
   ],
   declarations: [
     ChooseGalleryPage,
-    PaginationComponent
   ]
 })
 export class ChooseGalleryPageModule {}

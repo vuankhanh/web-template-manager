@@ -37,7 +37,6 @@ export class IdentificationInformationPage implements OnInit, OnDestroy {
         this.identificationService.getAll(tokenStoraged.accessToken).subscribe(res=>{
           this.identification = res;
           console.log(this.identification);
-          
         })
       )
     }

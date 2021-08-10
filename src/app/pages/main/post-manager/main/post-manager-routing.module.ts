@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { PostManagerPage } from './post-manager.page';
-import { PostModifyPage } from '../post-modify/post-modify.page';
 
 const routes: Routes = [
   {
@@ -18,9 +17,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
-  declarations: [
-    PostModifyPage
-  ]
+  exports: [RouterModule]
 })
 export class PostManagerPageRoutingModule {}

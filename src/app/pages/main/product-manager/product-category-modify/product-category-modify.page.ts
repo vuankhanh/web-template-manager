@@ -21,6 +21,7 @@ export class ProductCategoryModifyPage implements OnInit {
   @Input() data: ProductCategory;
   productCategoryForm: FormGroup;
   params: Params;
+
   constructor(
     public modalController: ModalController,
     private formBuilder: FormBuilder,
@@ -51,8 +52,9 @@ export class ProductCategoryModifyPage implements OnInit {
     })
   }
 
-  nameControlChange(event: CustomEvent){
-    let newNameControlValue: string = this.convertVieService.removeVietnameseTones(event.detail.value);
+  nameControlChange(){
+    let valueName = this.productCategoryForm.value.name;
+    let newNameControlValue: string = this.convertVieService.removeVietnameseTones(valueName);
     let route = newNameControlValue.split(' ').join('-');
     this.productCategoryForm.controls['route'].setValue(route.toLocaleLowerCase());
   }
