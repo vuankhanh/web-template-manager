@@ -18,12 +18,15 @@ const routes: Routes = [
         path: 'dashboard',
         loadChildren: () => import('../dasboard/dasboard.module').then( m => m.DasboardPageModule)
       },{
+        path: 'user-management',
+        loadChildren: () => import('../user-management/user-management.module').then( m => m.UserManagementPageModule)
+      },{
         path: 'gallery',
         loadChildren: () => import('../gallery/main/gallery.module').then( m => m.GalleryPageModule)
       },
       {
         path: 'order-manager',
-        loadChildren: () => import('../order-manager/order-manager.module').then( m => m.OrderManagerPageModule)
+        loadChildren: () => import('../order-manager/main/order-manager.module').then( m => m.OrderManagerPageModule)
       },
       {
         path: 'product-manager',
@@ -40,6 +43,10 @@ const routes: Routes = [
       {
         path: 'chat',
         loadChildren: () => import('../chat/chat.module').then( m => m.ChatPageModule)
+      },
+      {
+        path: 'partner/shipping',
+        loadChildren: () => import('../partner/shipping/ahamove/main/ahamove.module').then( m => m.AhamovePageModule)
       }
     ]
   },

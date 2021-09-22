@@ -1,0 +1,17 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>AhaMove</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="vertical-container">
+    <ion-segment [(ngModel)]="childUrl" (ionChange)="segmentChanged()">
+      <ion-segment-button *ngFor="let p of pages" [value]="p.url">
+        <ion-label>{{p.title}}</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+    <div class="height-space"></div>
+    <router-outlet></router-outlet>
+  </div>
+</ion-content>

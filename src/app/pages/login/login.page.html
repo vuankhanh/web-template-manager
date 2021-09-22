@@ -14,13 +14,17 @@
   
       <ion-item>
         <ion-label>Mật khẩu</ion-label>
-        <ion-input type="password" formControlName="password"></ion-input>
-        <ion-button>
+        <ion-input
+          [type]="!showPasswordField ? 'password' : 'text'"
+          formControlName="password"
+        ></ion-input>
+        <ion-button slot="end" (click)="showPassword()">
           <ion-icon
             slot="icon-only"
-            [name]="!fieldTextType ? 'eye-outline' : 'eye-off-outline'"
-            (click)="fieldTextType = !fieldTextType">
-        </ion-icon>
+            [name]="!showPasswordField ? 'eye-outline' : 'eye-off-outline'"
+            
+          >
+          </ion-icon>
         </ion-button>
       </ion-item>
 

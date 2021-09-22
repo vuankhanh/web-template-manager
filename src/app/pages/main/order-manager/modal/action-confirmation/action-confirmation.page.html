@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="end" (click)="modalController.dismiss()">
+      <ion-button>
+        <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>action-confirmation</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button
+        (click)="modalController.dismiss()"
+        size="small"
+        mode="ios"
+        color="medium"
+      >
+        {{ 'Bỏ qua' }}
+      </ion-button>
+      <ion-button
+        (click)="confirmAction()"
+        size="small"
+        mode="ios"
+        color="primary"
+      >
+        {{ 'Chắc chắn' }}
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ng-container *ngIf="displayTime">
+    <span>{{displayTime}}</span>
+    <ion-progress-bar color="primary" [value]="value"></ion-progress-bar>
+  </ng-container>
+</ion-footer>

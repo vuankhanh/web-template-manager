@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 
-import { PaginationConfiguration } from '../../Interfaces/PaginationConfiguration';
+import { PaginationParams } from '../../Interfaces/PaginationParams';
 
 @Component({
   selector: 'app-pagination',
@@ -8,7 +8,7 @@ import { PaginationConfiguration } from '../../Interfaces/PaginationConfiguratio
   styleUrls: ['./pagination.component.scss'],
 })
 export class PaginationComponent implements OnInit {
-  @Input() config: PaginationConfiguration;
+  @Input() config: PaginationParams;
   @Output() emitChangeIndex = new EventEmitter<number>();
   listButton: Array<number> = [];
   constructor() { }

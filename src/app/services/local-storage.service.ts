@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class LocalStorageService {
-
+  tokenKey: string = 'authentication-information';
   constructor() {}
 
   get(key: string){

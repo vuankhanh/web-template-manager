@@ -20,14 +20,12 @@ export class AuthService {
     private jwtDecodedService: JwtDecodedService,
     private localStorageService: LocalStorageService
   ) {
-    this.getUserInfoFromTokenStoraged();
+    
   }
 
-
-  getUserInfoFromTokenStoraged(){
-    let tokenStoraged: ResponseLogin = <ResponseLogin>this.localStorageService.get(tokenStoragedKey);
-    if(tokenStoraged){
-      let tokenInformation: JwtDecoded = <JwtDecoded>this.jwtDecodedService.jwtDecoded(tokenStoraged.accessToken);
+  setUserInfoFromTokenStoraged(tokenAccess: string){
+    if(tokenAccess){
+      let tokenInformation: JwtDecoded = <JwtDecoded>this.jwtDecodedService.jwtDecoded(tokenAccess);
         if(tokenInformation){
           this.setUserInformation(tokenInformation.data);
         }

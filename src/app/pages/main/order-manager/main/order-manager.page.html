@@ -1,0 +1,141 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Quản lý đơn hàng</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="order-container">
+
+    <div class="filter-container vertical-container">
+      <div class="horizontal-container">
+        <ion-item>
+          <ion-label>Trạng thái</ion-label>
+          <ion-select
+            (ionChange)="orderStatusParamChange()"
+            [(ngModel)]="orderStatusParam"
+            interface="popover"
+            mode="ios"
+          >
+            <ion-select-option value="">Tất cả</ion-select-option>
+            <ion-select-option
+              *ngFor="let orderStatus of orderStatusesConfig"
+              [value]="orderStatus.code"
+            >
+              {{orderStatus.name}}
+            </ion-select-option>
+  
+          </ion-select>
+        </ion-item>
+  
+        <ion-item>
+          <ion-label>Được tạo bởi</ion-label>
+          <ion-select
+            (ionChange)="orderCreatedByParamChange()"
+            [(ngModel)]="orderCreatedByParam"
+            interface="popover"
+            mode="ios"
+          >
+            <ion-select-option value="">Tất cả</ion-select-option>
+            <ion-select-option
+              *ngFor="let createdBy of createdBysConfig"
+              [value]="createdBy.code"
+            >
+              {{createdBy.name}}
+            </ion-select-option>
+  
+          </ion-select>
+        </ion-item>
+      </div>
+
+      <div class="horizontal-container">
+        <ion-item>
+          <ion-label>Mã Đơn hàng</ion-label>
+          <ion-input
+            clearInput="true"
+            placeholder="Mã Đơn hàng"
+            showCancelButton="always"
+            [(ngModel)]="orderCode"
+            (ionBlur)="blurFilter()"
+            (keydown.enter)="$event.target.blur()"
+          ></ion-input>
+          <ion-button slot="end">
+            <ion-icon slot="icon-only" name="search-circle-outline"></ion-icon>
+          </ion-button>
+        </ion-item>
+      </div>
+    </div>
+  
+    <div class="height-space"></div>
+  
+    <div class="order-list-table">
+      <table mat-table [dataSource]="orderList">
+      
+        <!-- Position Column -->
+        <ng-container matColumnDef="position">
+          <th mat-header-cell *matHeaderCellDef> Số thứ tự </th>
+          <td mat-cell *matCellDef="let element; let i = index"> {{i+1}} </td>
+        </ng-container>
+      
+        <!-- Name Column -->
+        <ng-container matColumnDef="code">
+          <th mat-header-cell *matHeaderCellDef> Mã </th>
+          <td mat-cell *matCellDef="let element"> {{element.code}} </td>
+        </ng-container>
+      
+        <!-- Weight Column -->
+        <ng-container matColumnDef="totalValue">
+          <th mat-header-cell *matHeaderCellDef> Tổng hóa đơn </th>
+          <td mat-cell *matCellDef="let element"> {{element.totalValue | currency:'VND':'symbol' | replaceSpace}} </td>
+        </ng-container>
+  
+        <!-- Weight Column -->
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef> Trạng thái </th>
+          <td
+            mat-cell
+            *matCellDef="let element"
+          >
+            <span [ngClass]="element.status+'-status'">
+              {{filterNameOrderStatus(element.status)}}
+            </span>
+          </td>
+        </ng-container>
+  
+        <!-- Weight Column -->
+        <ng-container matColumnDef="createdBy">
+          <th mat-header-cell *matHeaderCellDef> Người tạo </th>
+          <td mat-cell *matCellDef="let element"> {{filterNameOrderCreatedBy(element.createdBy)}} </td>
+        </ng-container>
+  
+        <!-- Weight Column -->
+        <ng-container matColumnDef="createdAt">
+          <th mat-header-cell *matHeaderCellDef> Thời gian tạo </th>
+          <td mat-cell *matCellDef="let element"> {{element.createdAt | date: 'dd/MM/yyyy hh:mm:ss'}} </td>
+        </ng-container>
+  
+        <!-- Weight Column -->
+        <ng-container matColumnDef="updatedAt">
+          <th mat-header-cell *matHeaderCellDef> Thời gian cập nhật </th>
+          <td mat-cell *matCellDef="let element"> {{element.updatedAt | date: 'dd/MM/yyyy hh:mm:ss'}} </td>
+        </ng-container>
+      
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="orderProcessing(row)"></tr>
+      </table>
+      <mat-paginator
+        *ngIf="paginationParams"
+        (page)="handlePageEvent($event)"
+        [length]="paginationParams.totalItems"
+        [pageSize]="paginationParams.size"
+        [pageIndex]="paginationParams.page"
+        [pageSizeOptions]="pageSizeOptions"
+        [showFirstLastButtons]="showFirstLastButtons"
+        aria-label="Select page">
+      </mat-paginator>
+    </div>
+  </div>
+</ion-content>

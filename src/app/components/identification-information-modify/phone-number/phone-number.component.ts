@@ -61,6 +61,8 @@ export class PhoneNumberComponent implements OnInit, OnDestroy {
   }
 
   radioGroupChange(){
+    console.log(this.isMain);
+    
     for(let i = 0; i<this.phoneNuber.controls.length; i++){
       let number: FormGroup = <FormGroup>this.phoneNuber.controls[i];
       number.controls['isMain'].setValue(this.isMain === i ? true : false);
@@ -87,11 +89,15 @@ export class PhoneNumberComponent implements OnInit, OnDestroy {
   }
 
   updatePhoneNumber(){
+    console.log(this.myForm.value);
+    
     if(this.myForm.valid){
       let tokenStoraged: ResponseLogin = this.localStorageService.get(tokenKey);
       if(tokenStoraged && tokenStoraged.accessToken){
         this.subscription.add(
           this.identificationService.updatePhoneNumber(tokenStoraged.accessToken, this.myForm.value.phoneNumber).subscribe(res=>{
+            console.log(res);
+            
             this.emitChange.emit(res);
           })
         )

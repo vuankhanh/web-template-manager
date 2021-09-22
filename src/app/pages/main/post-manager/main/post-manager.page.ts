@@ -12,7 +12,6 @@ import { PostsResponse, PostsService } from 'src/app/services/api/posts.service'
 
 import { Subscription } from 'rxjs';
 
-const tokenKey = "authentication-information";
 @Component({
   selector: 'app-post-manager',
   templateUrl: './post-manager.page.html',
@@ -35,7 +34,7 @@ export class PostManagerPage implements OnInit, OnDestroy {
   }
 
   listenPosts(type?: 'product' | 'other', paginationParams?: PaginationParams){
-    let tokenStoraged: ResponseLogin = this.localStorageService.get(tokenKey);
+    let tokenStoraged: ResponseLogin = this.localStorageService.get(this.localStorageService.tokenKey);
     if(tokenStoraged && tokenStoraged.accessToken){
       this.subscription.add(
         this.postsService.get(tokenStoraged.accessToken, type, paginationParams).subscribe(res=>{

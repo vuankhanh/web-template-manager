@@ -8,9 +8,9 @@
               <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
             </ion-avatar>
             <ion-label>
-              <h3>Họ và Tên</h3>
-              <p>Tài khoản</p>
-              <p>Loại tài khoản</p>
+              <h3>{{ admin && admin.name ? admin.name : 'Họ và Tên'}}</h3>
+              <p>{{ admin && admin.userName ? admin.userName : 'Tài khoản'}}</p>
+              <p>{{ admin && admin.permission ? admin.permission === 1 ? 'admin' : 'Tài khoản thường' : 'Loại tài khoản'}}</p>
             </ion-label>
           </ion-item>
         </ion-list-header>
@@ -21,8 +21,26 @@
             <ion-icon slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
             <ion-label>{{ p.title }}</ion-label>
           </ion-item>
-
+          
         </ion-menu-toggle>
+
+        <ion-item-divider>
+          <ion-label>
+            Đối Tác
+          </ion-label>
+        </ion-item-divider>
+
+        <ion-menu-toggle auto-hide="false" *ngFor="let p of partner; let i = index">
+          
+          <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
+            <ion-avatar slot="start">
+              <img [src]="p.logo">
+            </ion-avatar>
+            <ion-label>{{ p.title }}</ion-label>
+          </ion-item>
+          
+        </ion-menu-toggle>
+
       </ion-list>
     </ion-content>
   </ion-menu>
