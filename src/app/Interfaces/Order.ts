@@ -6,13 +6,11 @@ interface ProductSchema{
     quantity: number
 }
 
-export interface Status{
-    
-}
+export type OrderStatus = 'revoke' | 'pending' | 'confirmed' | 'isComing' | 'done';
 export interface Order{
     _id?: string,
     code: string,
-    status: 'revoke' | 'pending' | 'confirmed' | 'isComing' | 'done',
+    status: OrderStatus,
     totalValue: number,
     createdBy: string,
     createdAt: string,

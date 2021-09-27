@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { Order, OrderStatus } from '../Interfaces/Order';
 
 import { ActionConfirmationPage } from '../pages/main/order-manager/modal/action-confirmation/action-confirmation.page';
 
@@ -12,9 +13,13 @@ export class OrderManagementModalService {
     private modalController: ModalController
   ) { }
 
-  async open(){
+  async open(newStatus: OrderStatus, order: Order){
     const modal = await this.modalController.create({
-      component: ActionConfirmationPage
+      component: ActionConfirmationPage,
+      componentProps: {
+        newStatus,
+        order
+      }
     });
     modal.present();
     return await modal.onDidDismiss();

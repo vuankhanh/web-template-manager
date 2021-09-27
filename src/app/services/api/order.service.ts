@@ -18,7 +18,9 @@ export class OrderService {
     paginationParams?: PaginationParams,
     status?: string,
     createdBy?: string,
-    orderCode?: string
+    orderCode?: string,
+    fromDate?: Date,
+    toDate?: Date
   ){
     let headers: HttpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -41,6 +43,14 @@ export class OrderService {
 
     if(orderCode){
       params = params.append('orderCode', orderCode.trim());
+    }
+
+    if(fromDate){
+      params = params.append('fromDate', fromDate.getTime());
+    }
+
+    if(toDate){
+      params = params.append('toDate', toDate.getTime());
     }
 
     return this.httpClient.get<OrderRespone>(this.urlOrder, { headers, params })
@@ -85,14 +95,15 @@ export class OrderService {
 
   isComingOrder(
     token: string,
-    orderId: string
+    orderId: string,
+    shippingPartner: ShippingPartner
   ){
     let headers: HttpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
       'x-access-token': token
     });
 
-    return this.httpClient.put<OrderDetail>(this.urlOrder+'/'+orderId+'/isComing', {}, { headers })
+    return this.httpClient.put<OrderDetail>(this.urlOrder+'/'+orderId+'/isComing', { shippingPartner }, { headers })
   }
 
   finish(
@@ -107,6 +118,11 @@ export class OrderService {
     return this.httpClient.put<OrderDetail>(this.urlOrder+'/'+orderId+'/done', {}, { headers })
   }
 
+}
+
+export interface ShippingPartner{
+  id: string,
+  shippingFee: number
 }
 
 export interface OrderRespone{

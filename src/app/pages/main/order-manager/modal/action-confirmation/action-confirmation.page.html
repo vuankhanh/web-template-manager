@@ -5,12 +5,69 @@
         <ion-icon slot="icon-only" name="close-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title>action-confirmation</ion-title>
+    <ion-title>Chuyển trạng thái Đơn Hàng</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  
+  <div class="action-confirmation-container">
+
+    <ion-item>
+      <ion-label>Mã đơn hàng</ion-label>
+      <span>{{ order.code }}</span>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Trạng thái</ion-label>
+      <span>{{ filterNameOrderStatus(order.status) }}</span>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Trạng thái tiếp theo</ion-label>
+      <span>{{ filterNameOrderStatus(newStatus) }}</span>
+    </ion-item>
+
+    <form *ngIf="newStatus && formGroup" [formGroup]="formGroup">
+      <ng-container [ngSwitch]="newStatus">
+        <ng-container *ngSwitchCase="'revoke'">
+
+          <ion-item>
+            <ion-label position="stacked">
+              <ion-icon name="chatbox-ellipses-outline"></ion-icon>
+              Nguyên nhân hủy
+            </ion-label>
+            <ion-textarea formControlName="comments"></ion-textarea>
+          </ion-item>
+
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'isComing'">
+          <ion-item-divider>
+            <ion-label>
+              Thông tin đối tác vận chuyển
+            </ion-label>
+          </ion-item-divider>
+
+          <ion-item>
+            <ion-label position="stacked">
+              ID
+            </ion-label>
+            <ion-textarea formControlName="id"></ion-textarea>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="stacked">
+              Phí vận chuyển
+            </ion-label>
+            <ion-input formControlName="shippingFee" appInputCurrencyFormat></ion-input>
+          </ion-item>
+
+        </ng-container>
+      </ng-container>
+    </form>
+
+    
+  </div>
 </ion-content>
 
 <ion-footer>
@@ -25,6 +82,7 @@
         {{ 'Bỏ qua' }}
       </ion-button>
       <ion-button
+        [disabled]="formGroup.invalid"
         (click)="confirmAction()"
         size="small"
         mode="ios"

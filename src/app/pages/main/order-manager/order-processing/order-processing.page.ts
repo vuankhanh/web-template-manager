@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { OrderDetail } from 'src/app/Interfaces/Order';
+import { Order, OrderDetail } from 'src/app/Interfaces/Order';
 
 import { ResponseLogin } from 'src/app/services/api/login.service';
-import { OrderService } from 'src/app/services/api/order.service';
+import { OrderService, ShippingPartner } from 'src/app/services/api/order.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { ConfigService } from 'src/app/services/api/config.service';
 import { ToastService } from 'src/app/services/toast.service';
@@ -57,16 +57,16 @@ export class OrderProcessingPage implements OnInit, OnDestroy {
     return this.configService.filterNameOrderCreatedBy(code);
   }
 
-  revokeOrder(id: string){
-    this.orderManagementModalService.open().then(res=>{
+  revokeOrder(order: Order){
+    this.orderManagementModalService.open('revoke', order).then(res=>{
       console.log(res);
-      if(res.data){
+      let comments: string = res.data.comments || '';
+      if(comments){
         let tokenStoraged: ResponseLogin = this.localStorageService.get(this.localStorageService.tokenKey);
         this.subscription.add(
-          this.orderService.revokeOrder(tokenStoraged.accessToken, id, res.data).subscribe(res=>{
+          this.orderService.revokeOrder(tokenStoraged.accessToken, order._id, comments).subscribe(res=>{
             let order: OrderDetail = res;
             console.log(order);
-            
             if(!order){
               this.toastService.shortToastWarning('Không thể hủy đơn hàng này', 'Không thành công');
             }else{
@@ -79,35 +79,73 @@ export class OrderProcessingPage implements OnInit, OnDestroy {
     });
   }
 
-  confirmOrder(id: string){
-    let tokenStoraged: ResponseLogin = this.localStorageService.get(this.localStorageService.tokenKey);
-    
-    this.subscription.add(
-      this.orderService.confirmOrder(tokenStoraged.accessToken, id).subscribe(res=>{
-        console.log(res);
-      })
-    )
+  confirmOrder(order: Order){
+    this.orderManagementModalService.open('confirmed', order).then(res=>{
+      console.log(res);
+      let confirmation: boolean = res.data.value || false;
+      if(confirmation){
+        let tokenStoraged: ResponseLogin = this.localStorageService.get(this.localStorageService.tokenKey);
+
+        this.subscription.add(
+          this.orderService.confirmOrder(tokenStoraged.accessToken, order._id).subscribe(res=>{
+            let order: OrderDetail = res;
+            console.log(order);
+            if(!order){
+              this.toastService.shortToastWarning('Không thể xác nhận đơn hàng này', 'Không thành công');
+            }else{
+              this.order = order;
+              this.toastService.shortToastSuccess('Đã xác nhận đơn hàng '+this.order.code, 'Thành công');
+            }
+          })
+        )
+      }
+    });
+
   }
 
-  isComingOrder(id: string){
-    
-    let tokenStoraged: ResponseLogin = this.localStorageService.get(this.localStorageService.tokenKey);
-    
-    this.subscription.add(
-      this.orderService.confirmOrder(tokenStoraged.accessToken, id).subscribe(res=>{
-        console.log(res);
-      })
-    )
+  isComingOrder(order: Order){
+    this.orderManagementModalService.open('isComing', order).then(res=>{
+      console.log(res);
+      let shippingPartner: ShippingPartner = res.data;
+      if(shippingPartner && shippingPartner.id && shippingPartner.shippingFee){
+        let tokenStoraged: ResponseLogin = this.localStorageService.get(this.localStorageService.tokenKey);
+
+        this.subscription.add(
+          this.orderService.isComingOrder(tokenStoraged.accessToken, order._id, shippingPartner).subscribe(res=>{
+            let order: OrderDetail = res;
+            console.log(order);
+            if(!order){
+              this.toastService.shortToastWarning('Không thể vận chuyển đơn hàng này', 'Không thành công');
+            }else{
+              this.order = order;
+              this.toastService.shortToastSuccess('Đã xác nhận vận chuyến đơn hàng '+this.order.code, 'Thành công');
+            }
+          })
+        )
+      }
+    });
   }
 
-  finish(id: string){
-    let tokenStoraged: ResponseLogin = this.localStorageService.get(this.localStorageService.tokenKey);
-    
-    this.subscription.add(
-      this.orderService.confirmOrder(tokenStoraged.accessToken, id).subscribe(res=>{
-        console.log(res);
-      })
-    )
+  finish(order: Order){
+    this.orderManagementModalService.open('done', order).then(res=>{
+      console.log(res);
+      let confirmation: boolean = res.data.value || false;
+      if(confirmation){
+        let tokenStoraged: ResponseLogin = this.localStorageService.get(this.localStorageService.tokenKey);
+        this.subscription.add(
+          this.orderService.finish(tokenStoraged.accessToken, order._id).subscribe(res=>{
+            let order: OrderDetail = res;
+            console.log(order);
+            if(!order){
+              this.toastService.shortToastWarning('Không thể hoàn thành đơn hàng này', 'Không thành công');
+            }else{
+              this.order = order;
+              this.toastService.shortToastSuccess('Đã hoàn thành vận chuyến đơn hàng '+this.order.code, 'Thành công');
+            }
+          })
+        )
+      }
+    });
   }
 
   ngOnDestroy(){

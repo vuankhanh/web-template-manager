@@ -14,6 +14,10 @@ const routes: Routes = [
   {
     path: 'action-confirmation',
     loadChildren: () => import('../modal/action-confirmation/action-confirmation.module').then( m => m.ActionConfirmationPageModule)
+  },
+  {
+    path: 'order-creating',
+    loadChildren: () => import('../order-creating/order-creating.module').then( m => m.OrderCreatingPageModule)
   }
 ];
 

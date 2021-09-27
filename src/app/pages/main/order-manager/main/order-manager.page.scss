@@ -8,13 +8,14 @@ ion-content{
                     max-width: unset;
                 }
             }
+
         }
         .order-list-table{
             table {
                 width: 100%;
                 .mat-row:hover{
                     cursor: pointer;
-                    background: #333333;
+                    background: #ededed;
                 }
                 .mat-row{
                     .mat-column-status{

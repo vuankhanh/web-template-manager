@@ -118,7 +118,7 @@
                 <ion-button
                     size="small"
                     color="danger"
-                    (click)="revokeOrder(order._id)"
+                    (click)="revokeOrder(order)"
                     [disabled]="order.status==='revoke' || order.status==='done'"
                 >
                     <span>Hủy</span>
@@ -127,7 +127,7 @@
                 <ion-button
                     *ngIf="order.status==='pending'"
                     size="small"
-                    (click)="confirmOrder(order._id)"
+                    (click)="confirmOrder(order)"
                 >
                     <span>Xác nhận</span>
                 </ion-button>
@@ -135,7 +135,7 @@
                 <ion-button
                     *ngIf="order.status==='confirmed'"
                     size="small"
-                    (click)="isComingOrder(order._id)"
+                    (click)="isComingOrder(order)"
                 >
                     <span>Đang vận chuyển</span>
                 </ion-button>
@@ -143,7 +143,7 @@
                 <ion-button
                     *ngIf="order.status==='isComing'"
                     size="small"
-                    (click)="finish(order._id)"
+                    (click)="finish(order)"
                 >
                     <span>Kết thúc</span>
                 </ion-button>
