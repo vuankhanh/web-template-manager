@@ -79,12 +79,13 @@
         <ion-item>
           <ion-label>Mã Đơn hàng</ion-label>
           <ion-input
+            #inputOrderCode
             clearInput="true"
             placeholder="Mã Đơn hàng"
             showCancelButton="always"
             [(ngModel)]="orderCode"
             (ionBlur)="blurOrderCode()"
-            (keydown.enter)="$event.target.blur()"
+            (keydown.enter)="enterKeydownInputOrderCode()"
           ></ion-input>
           <ion-button slot="end">
             <ion-icon slot="icon-only" name="search-circle-outline"></ion-icon>
@@ -96,12 +97,13 @@
         <ion-item>
           <ion-label>Số điện thoại</ion-label>
           <ion-input
+            #inputPhoneNumber
             clearInput="true"
             placeholder="Số điện thoại"
             showCancelButton="always"
             [(ngModel)]="phoneNumber"
             (ionBlur)="blurPhoneNumber()"
-            (keydown.enter)="$event.target.blur()"
+            (keydown.enter)="enterKeydownInputPhoneNumber()"
           ></ion-input>
           <ion-button slot="end">
             <ion-icon slot="icon-only" name="search-circle-outline"></ion-icon>

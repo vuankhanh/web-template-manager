@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormControl } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
@@ -16,6 +16,7 @@ import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { PlatformService } from 'src/app/services/platform.service';
 
 import { Subscription } from 'rxjs';
+import { IonInput } from '@ionic/angular';
 
 const date = new Date();
 @Component({
@@ -24,6 +25,9 @@ const date = new Date();
   styleUrls: ['./order-manager.page.scss'],
 })
 export class OrderManagerPage implements OnInit, OnDestroy {
+  @ViewChild('inputOrderCode', { static: false }) inputOrderCode: IonInput;
+  @ViewChild('inputPhoneNumber', { static: false }) inputPhoneNumber: IonInput;
+  
   orderCode: string;
   phoneNumber: string;
 
@@ -197,6 +201,10 @@ export class OrderManagerPage implements OnInit, OnDestroy {
     }
   }
 
+  enterKeydownInputOrderCode(){
+    this.inputOrderCode.getInputElement().then(inputOrderCode=>inputOrderCode.blur());
+  }
+
   blurPhoneNumber(){
     if(this.phoneNumber){
       this.getAll(
@@ -211,8 +219,11 @@ export class OrderManagerPage implements OnInit, OnDestroy {
     }
   }
 
+  enterKeydownInputPhoneNumber(){
+    this.inputPhoneNumber.getInputElement().then(inputPhoneNumber=>inputPhoneNumber.blur());
+  }
+
   orderProcessing(order: Order){
-    console.log(order);
     this.router.navigate(['/main/order-manager/order-processing', order._id]);
   }
 

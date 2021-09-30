@@ -100,7 +100,7 @@
                         type="text"
                         class="product-quantity"
                         [value]="product.quantity"
-                        (change)="quantityInputChange($event.target.value, i)"
+                        (change)="quantityInputChange($event, i)"
                         appInputOnlyNumber
                       >
                       <button

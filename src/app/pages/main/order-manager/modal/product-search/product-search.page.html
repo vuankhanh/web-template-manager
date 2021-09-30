@@ -11,7 +11,8 @@
 
 <ion-content>
   <ion-searchbar 
-    (ionChange)="onSearch($event.target.value)"
+    (ionChange)="onSearch()"
+    [(ngModel)]="txtSearch"
   ></ion-searchbar>
   <ion-list>
     <ion-item *ngFor="let product of products; let i = index;" (click)="modalController.dismiss(product)">

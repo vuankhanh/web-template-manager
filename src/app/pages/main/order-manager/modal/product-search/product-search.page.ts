@@ -13,7 +13,7 @@ import { LocalStorageService } from 'src/app/services/local-storage.service';
   styleUrls: ['./product-search.page.scss'],
 })
 export class ProductSearchPage implements OnInit {
-
+  txtSearch: string;
   products: Array<Product>;
 
   subscription: Subscription = new Subscription();
@@ -26,12 +26,12 @@ export class ProductSearchPage implements OnInit {
   ngOnInit() {
   }
 
-  onSearch(value: string){
-    if(value){
+  onSearch(){
+    if(this.txtSearch){
       let tokenStoraged: ResponseLogin = <ResponseLogin>this.localStorageService.get(this.localStorageService.tokenKey);
       if(tokenStoraged){
         this.subscription.add(
-          this.productService.searching(tokenStoraged.accessToken, value).subscribe(res=>{
+          this.productService.searching(tokenStoraged.accessToken, this.txtSearch).subscribe(res=>{
             this.products = res;
           },err=>alert('Đã có lỗi xảy ra '+err))
         )
