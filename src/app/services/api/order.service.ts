@@ -1,7 +1,9 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Address } from 'src/app/Interfaces/Address';
 import { Order, OrderDetail } from 'src/app/Interfaces/Order';
 import { PaginationParams } from 'src/app/Interfaces/PaginationParams';
+import { Product } from 'src/app/Interfaces/Product';
 import { hostConfiguration } from 'src/environments/environment';
 
 @Injectable({
@@ -9,6 +11,7 @@ import { hostConfiguration } from 'src/environments/environment';
 })
 export class OrderService {
   private urlOrder: string = hostConfiguration.host+'/order';
+  private urlOrderInsert: string = hostConfiguration.host+'/order/insert';
   constructor(
     private httpClient: HttpClient
   ) { }
@@ -19,6 +22,7 @@ export class OrderService {
     status?: string,
     createdBy?: string,
     orderCode?: string,
+    phoneNumber?: string,
     fromDate?: Date,
     toDate?: Date
   ){
@@ -43,6 +47,10 @@ export class OrderService {
 
     if(orderCode){
       params = params.append('orderCode', orderCode.trim());
+    }
+
+    if(phoneNumber){
+      params = params.append('phoneNumber', phoneNumber.trim());
     }
 
     if(fromDate){
@@ -118,11 +126,28 @@ export class OrderService {
     return this.httpClient.put<OrderDetail>(this.urlOrder+'/'+orderId+'/done', {}, { headers })
   }
 
+  insert(
+    token: string,
+    order: BodyInsert
+  ){
+    let headers: HttpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'x-access-token': token
+    });
+
+    return this.httpClient.post<OrderDetail>(this.urlOrderInsert, order, { headers })
+  }
+
 }
 
 export interface ShippingPartner{
   id: string,
   shippingFee: number
+}
+
+export interface BodyInsert{
+  deliverTo: Address,
+  products: Array<Product>
 }
 
 export interface OrderRespone{

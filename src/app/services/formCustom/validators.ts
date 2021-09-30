@@ -1,5 +1,6 @@
-import {AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
+import {AbstractControl, FormArray, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
 import { BannerGallery } from 'src/app/Interfaces/BannerGallery';
+import { Product } from 'src/app/Interfaces/Product';
 
 export function safePassword(): ValidatorFn {
     return (control: AbstractControl) : ValidationErrors | null => {
@@ -71,5 +72,12 @@ export function productHightLight(){
                 albumBannerControl.setErrors({required: true});
             }
         }
+    }
+}
+
+export function arrayNotEmpty(): ValidatorFn{
+    return (productsControl: AbstractControl): ValidationErrors | null=>{
+        const productsValue: Array<Product> = productsControl.value;
+        return !productsValue || productsValue.length===0 ?  {productsNotEmpty: true} : null;
     }
 }

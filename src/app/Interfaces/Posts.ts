@@ -3,4 +3,6 @@ export interface Posts{
     type: string,
     name: string,
     data: string | any,
+    createdAt?: string,
+    updatedAt?: string
 }

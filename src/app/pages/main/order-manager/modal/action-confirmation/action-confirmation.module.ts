@@ -6,11 +6,11 @@ import { IonicModule } from '@ionic/angular';
 
 import { ActionConfirmationPageRoutingModule } from './action-confirmation-routing.module';
 
-import { ActionConfirmationPage } from './action-confirmation.page';
-
 //Directives
-import { InputOnlyNumberDirective } from '../../../../../directives/input-only-number.directive';
-import { InputCurrencyFormatDirective } from '../../../../../directives/input-currency-format.directive';
+import { InputOnlyNumberModule } from '../../../../../directives/input-only-number/input-only-number.module';
+import { InputCurrencyFormatModule } from '../../../../../directives/input-currency-format/input-currency-format.module';
+
+import { ActionConfirmationPage } from './action-confirmation.page';
 
 @NgModule({
   imports: [
@@ -18,12 +18,10 @@ import { InputCurrencyFormatDirective } from '../../../../../directives/input-cu
     FormsModule,
     ReactiveFormsModule,
     IonicModule,
-    ActionConfirmationPageRoutingModule
+    ActionConfirmationPageRoutingModule,
+    InputOnlyNumberModule,
+    InputCurrencyFormatModule
   ],
-  declarations: [
-    ActionConfirmationPage,
-    InputOnlyNumberDirective,
-    InputCurrencyFormatDirective,
-  ]
+  declarations: [ActionConfirmationPage]
 })
 export class ActionConfirmationPageModule {}

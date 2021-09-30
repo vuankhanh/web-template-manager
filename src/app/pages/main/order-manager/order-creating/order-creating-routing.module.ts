@@ -7,6 +7,10 @@ const routes: Routes = [
   {
     path: '',
     component: OrderCreatingPage
+  },
+  {
+    path: 'product-search',
+    loadChildren: () => import('../modal/product-search/product-search.module').then( m => m.ProductSearchPageModule)
   }
 ];
 

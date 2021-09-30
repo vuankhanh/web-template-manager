@@ -10,6 +10,7 @@ import { GalleryPage } from '../../gallery/main/gallery.page';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { PostsService } from 'src/app/services/api/posts.service';
 import { ResponseLogin } from 'src/app/services/api/login.service';
+import { Subscription } from 'rxjs';
 
 const tokenKey = "authentication-information";
 @Component({
@@ -40,6 +41,8 @@ export class PostModifyPage implements OnInit {
   preview: string = '';
 
   currentPositionScroll: number = 0;
+
+  subscription: Subscription = new Subscription();
   constructor(
     public modalController: ModalController,
     private formBuilder: FormBuilder,
@@ -111,9 +114,15 @@ export class PostModifyPage implements OnInit {
       if(tokenStoraged && tokenStoraged.accessToken){
         let posts: Posts = this.postsForm.value;
         posts.data = toDoc(posts.data);
-        this.postsService.insert(tokenStoraged.accessToken, this.postsForm.value).subscribe(res=>{
-          console.log(res);
-        },err=>console.log(err));
+        this.subscription.add(
+          this.postsService.insert(tokenStoraged.accessToken, this.postsForm.value).subscribe(res=>{
+            let params: Params = {
+              type: this.params.type,
+              data: res
+            }
+            this.modalController.dismiss(params);
+          },err=>console.log(err))
+        )
       }
     }
   }
@@ -126,17 +135,20 @@ export class PostModifyPage implements OnInit {
           _id: this.params.data._id,
           ...this.postsForm.value
         };
-
-        this.postsService.update(tokenStoraged.accessToken, posts).subscribe(res=>{
-          console.log(res);
-          
-        },err=>console.log(err));
+        this.subscription.add(
+          this.postsService.update(tokenStoraged.accessToken, posts).subscribe(res=>{
+            let params: Params = {
+              type: this.params.type,
+              data: res
+            }
+            this.modalController.dismiss(params);
+          },err=>console.log(err))
+        )
       }
     }
   }
 
   ngOnDestroy(){
-    console.log(toDoc(this.postsForm.value.data));
     this.editor.destroy();
   }
 

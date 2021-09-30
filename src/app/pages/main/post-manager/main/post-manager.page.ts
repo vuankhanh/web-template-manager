@@ -71,27 +71,32 @@ export class PostManagerPage implements OnInit, OnDestroy {
     
     const data = await modal.onDidDismiss();
     console.log(data);
-    // if(data.data && data.data.type){
+    if(data.data && data.data.type){
 
-    //   let params: Params = {
-    //     type: <'insert' | 'update'>data.data.type,
-    //     data: <Product>data.data.data
-    //   }
+      let params: Params = {
+        type: <'insert' | 'update'>data.data.type,
+        data: <Posts>data.data.data
+      }
 
-    //   if(type === 'insert'){
-    //     this.products.push(params.data);
-    //   }else if(type==='update'){
-    //     for(let [index, productCategory] of this.products.entries()){
-    //       if(productCategory._id === params.data._id){
-    //         this.products[index] = params.data;
-    //       }
-    //     }
-    //   }
-    // }
+      if(type === 'insert'){
+        this.postses.push(params.data);
+      }else if(type==='update'){
+        for(let [index, post] of this.postses.entries()){
+          if(post._id === params.data._id){
+            this.postses[index] = params.data;
+          }
+        }
+      }
+    }
   }
 
   ngOnDestroy(){
     this.subscription.unsubscribe();
   }
 
+}
+
+interface Params{
+  type: 'insert' | 'update',
+  data: Posts
 }

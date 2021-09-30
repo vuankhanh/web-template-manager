@@ -25,6 +25,7 @@ const date = new Date();
 })
 export class OrderManagerPage implements OnInit, OnDestroy {
   orderCode: string;
+  phoneNumber: string;
 
   orderStatusesConfig: Array<OrderStatus>;
   createdBysConfig: Array<OrderStatus>;
@@ -65,6 +66,7 @@ export class OrderManagerPage implements OnInit, OnDestroy {
       null,
       null,
       null,
+      null,
       this.range.controls['start'].value,
       this.range.controls['end'].value
     );
@@ -77,6 +79,7 @@ export class OrderManagerPage implements OnInit, OnDestroy {
     status?: string,
     createdBy?: string,
     orderCode?: string,
+    phoneNumber?: string,
     fromDate?: Date,
     toDate?: Date
   ){
@@ -88,6 +91,7 @@ export class OrderManagerPage implements OnInit, OnDestroy {
         status,
         createdBy,
         orderCode,
+        phoneNumber,
         fromDate,
         toDate
       ).subscribe(res=>{
@@ -128,6 +132,7 @@ export class OrderManagerPage implements OnInit, OnDestroy {
       this.orderStatusParam,
       this.orderCreatedByParam,
       this.orderCode,
+      this.phoneNumber,
       this.range.controls['start'].value,
       this.range.controls['end'].value
     );
@@ -139,6 +144,7 @@ export class OrderManagerPage implements OnInit, OnDestroy {
       this.orderStatusParam,
       this.orderCreatedByParam,
       this.orderCode,
+      this.phoneNumber,
       this.range.controls['start'].value,
       this.range.controls['end'].value
     );
@@ -154,6 +160,7 @@ export class OrderManagerPage implements OnInit, OnDestroy {
         this.orderStatusParam,
         this.orderCreatedByParam,
         this.orderCode,
+        this.phoneNumber,
         event.value,
         this.range.controls['end'].value,
       );
@@ -169,22 +176,39 @@ export class OrderManagerPage implements OnInit, OnDestroy {
         this.orderStatusParam,
         this.orderCreatedByParam,
         this.orderCode,
+        this.phoneNumber,
         this.range.controls['start'].value,
         event.value,
       );
     }
   }
 
-  blurFilter(){
-    console.log(this.orderCode);
-    this.getAll(
-      this.paginationParams,
-      this.orderStatusParam,
-      this.orderCreatedByParam,
-      this.orderCode,
-      this.range.controls['start'].value,
-      this.range.controls['end'].value
-    );
+  blurOrderCode(){
+    if(this.orderCode){
+      this.getAll(
+        this.paginationParams,
+        this.orderStatusParam,
+        this.orderCreatedByParam,
+        this.orderCode,
+        this.phoneNumber,
+        this.range.controls['start'].value,
+        this.range.controls['end'].value
+      );
+    }
+  }
+
+  blurPhoneNumber(){
+    if(this.phoneNumber){
+      this.getAll(
+        this.paginationParams,
+        this.orderStatusParam,
+        this.orderCreatedByParam,
+        this.orderCode,
+        this.phoneNumber,
+        this.range.controls['start'].value,
+        this.range.controls['end'].value
+      );
+    }
   }
 
   orderProcessing(order: Order){

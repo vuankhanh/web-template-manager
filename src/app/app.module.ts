@@ -15,10 +15,6 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MaterialModule } from './material.module';
 import { NgxMaskModule, IConfig, MaskPipe } from 'ngx-mask';
 
-//Directives
-import { InputOnlyNumberDirective } from './directives/input-only-number.directive';
-import { InputCurrencyFormatDirective } from './directives/input-currency-format.directive';
-
 import { GalleryRoutePipe } from './pipes/gallery-route/gallery-route.pipe';
 
 import { AppComponent } from './app.component';
@@ -30,11 +26,7 @@ export const options: Partial<IConfig> = {
   thousandSeparator: ","
 };
 @NgModule({
-  declarations: [
-    AppComponent,
-    InputOnlyNumberDirective,
-    InputCurrencyFormatDirective,
-  ],
+  declarations: [AppComponent],
   entryComponents: [],
   imports: [
     BrowserModule,

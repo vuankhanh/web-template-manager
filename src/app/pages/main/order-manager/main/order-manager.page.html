@@ -83,7 +83,24 @@
             placeholder="Mã Đơn hàng"
             showCancelButton="always"
             [(ngModel)]="orderCode"
-            (ionBlur)="blurFilter()"
+            (ionBlur)="blurOrderCode()"
+            (keydown.enter)="$event.target.blur()"
+          ></ion-input>
+          <ion-button slot="end">
+            <ion-icon slot="icon-only" name="search-circle-outline"></ion-icon>
+          </ion-button>
+        </ion-item>
+      </div>
+
+      <div class="horizontal-container">
+        <ion-item>
+          <ion-label>Số điện thoại</ion-label>
+          <ion-input
+            clearInput="true"
+            placeholder="Số điện thoại"
+            showCancelButton="always"
+            [(ngModel)]="phoneNumber"
+            (ionBlur)="blurPhoneNumber()"
             (keydown.enter)="$event.target.blur()"
           ></ion-input>
           <ion-button slot="end">

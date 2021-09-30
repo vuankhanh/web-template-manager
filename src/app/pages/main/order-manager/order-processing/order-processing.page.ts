@@ -60,7 +60,7 @@ export class OrderProcessingPage implements OnInit, OnDestroy {
   revokeOrder(order: Order){
     this.orderManagementModalService.open('revoke', order).then(res=>{
       console.log(res);
-      let comments: string = res.data.comments || '';
+      let comments: string = res.data && res.data.comments ? res.data.comments : '';
       if(comments){
         let tokenStoraged: ResponseLogin = this.localStorageService.get(this.localStorageService.tokenKey);
         this.subscription.add(

@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="end" (click)="modalController.dismiss()">
+      <ion-button>
+        <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Tìm kiếm sản phẩm</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-searchbar 
+    (ionChange)="onSearch($event.target.value)"
+  ></ion-searchbar>
+  <ion-list>
+    <ion-item *ngFor="let product of products; let i = index;" (click)="modalController.dismiss(product)">
+      <ion-thumbnail slot="start">
+        <img src="{{product.thumbnailUrl | galleryRoute}}">
+      </ion-thumbnail>
+      <ion-label>
+        <h3>{{ product.name }}</h3>
+        <p>{{ product.price | currency:'VND':'symbol' | replaceSpace }}</p>
+        <p>{{ product.category.name }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

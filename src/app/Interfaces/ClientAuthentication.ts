@@ -8,6 +8,7 @@ export interface AccountType{
 }
 
 export interface ClientAuthentication{
+    _id?: string,
     customerCode: string,
     email: string,
     phoneNumber: string,

@@ -8,5 +8,130 @@
 </ion-header>
 
 <ion-content>
+  <div class="order-creating-container">
+    <form [formGroup]="formGroup" (ngSubmit)="createOrder()">
+
+      <ion-item-group formGroupName="receiver">
+
+        <ion-item-divider color="primary">
+          <ion-label>Thông tin người nhận</ion-label>
+        </ion-item-divider>
+
+        <ion-item>
+          <ion-label>Người chịu trách nhiệm</ion-label>
+          <ion-input type="text" placeholder="Người chịu trách nhiệm" formControlName="responsiblePerson"></ion-input>
+        </ion-item>
   
+        <ion-item>
+          <ion-label>Số điện thoại</ion-label>
+          <ion-input type="text" placeholder="Số điện thoại" formControlName="phoneNumber"></ion-input>
+        </ion-item>
+  
+        <ion-item>
+          <ion-label>Địa chỉ</ion-label>
+          <ion-textarea type="text" placeholder="Địa chỉ" formControlName="street"></ion-textarea>
+        </ion-item>
+  
+        <ion-item>
+          <ion-label>Tỉnh/Thành Phố</ion-label>
+          <ion-select formControlName="province" (ionChange)="provinceChange()">
+            <ion-select-option *ngFor="let province of provinces; let i = index" [value]="i">
+              {{ province.name }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+  
+        <ion-item>
+          <ion-label>Quận/Huyện</ion-label>
+          <ion-select formControlName="district" (ionChange)="districtChange()">
+            <ion-select-option *ngFor="let district of districts; let i = index" [value]="i">
+              {{ district.name }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+  
+        <ion-item>
+          <ion-label>Phường/Xã</ion-label>
+          <ion-select formControlName="ward">
+            <ion-select-option *ngFor="let wards of wards; let i = index" [value]="i">
+              {{ wards.name }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+  
+        <ion-item>
+          <ion-label>Tọa độ</ion-label>
+          <div formGroupName="position" class="horizontal-container">
+            <ion-input type="text" placeholder="Vĩ Độ" formControlName="lat"></ion-input>
+            <ion-input type="text" placeholder="Kinh Độ" formControlName="lng"></ion-input>
+          </div>
+        </ion-item>
+      </ion-item-group>
+
+      <ion-item-group>
+        <ion-item-divider color="primary">
+          <ion-label>Mặt hàng</ion-label>
+        </ion-item-divider>
+
+        <div class="search-suggestion-bar">
+          <ion-list>
+            <ion-item *ngFor="let product of products; let i = index">
+              <ion-thumbnail slot="start">
+                <img src="{{product.thumbnailUrl | galleryRoute}}">
+              </ion-thumbnail>
+              <ion-label>
+                <h3>{{ product.name }}</h3>
+                <p>{{ product.price | currency:'VND':'symbol' | replaceSpace }}</p>
+                <p>{{ product.category.name }}</p>
+              </ion-label>
+
+              <div class="horizontal-container" slot="end">
+                <div class="change-quantity-container horizontal-container">
+                  <div class="horizontal-container">
+                      <button
+                        class="button-change"
+                        (click)="changeQuantity(false, i)"
+                        type="button"
+                        [disabled]="(!product.quantity || product.quantity===1)"
+                      >
+                        <span>-</span>
+                      </button>
+                      <input
+                        type="text"
+                        class="product-quantity"
+                        [value]="product.quantity"
+                        (change)="quantityInputChange($event.target.value, i)"
+                        appInputOnlyNumber
+                      >
+                      <button
+                        class="button-change"
+                        type="button"
+                        (click)="changeQuantity(true, i)"
+                      >
+                        <span>+</span>
+                      </button>
+                  </div>
+                </div>
+
+                <div class="width-space"></div>
+
+                <ion-button color="danger" size="small" (click)="removeProduct(i)">
+                  <ion-icon slot="icon-only" name="remove-outline"></ion-icon>
+                </ion-button>
+              </div>
+            </ion-item>
+          </ion-list>
+          <ion-button size="small" type="button" (click)="openProductSearchModal()">
+            <ion-icon slot="icon-only" name="add-outline"></ion-icon>
+            Thêm mặt hàng
+          </ion-button>
+        </div>
+      </ion-item-group>
+
+      <ion-button type="submit" [disabled]="formGroup.invalid">
+        <ion-icon name="bag-check-outline"></ion-icon>
+        Tạo mới
+      </ion-button>
+    </form>
+  </div>
 </ion-content>

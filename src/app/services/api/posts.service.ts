@@ -38,7 +38,7 @@ export class PostsService {
       'Content-Type': 'application/json',
       'x-access-token': token
     });
-    return this.httpClient.post<PostsResponse>(this.urlInsert, posts, { headers });
+    return this.httpClient.post<Posts>(this.urlInsert, posts, { headers });
   }
 
   update(token: string, posts: Posts){
@@ -46,7 +46,7 @@ export class PostsService {
       'Content-Type': 'application/json',
       'x-access-token': token
     });
-    return this.httpClient.put<PostsResponse>(this.urlUpdate, posts, { headers });
+    return this.httpClient.put<Posts>(this.urlUpdate, posts, { headers });
   }
 
   remove(token: string, posts: Posts){

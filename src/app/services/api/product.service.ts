@@ -6,12 +6,12 @@ import { hostConfiguration } from '../../../environments/environment';
 import { PaginationParams } from 'src/app/Interfaces/PaginationParams';
 import { Product } from 'src/app/Interfaces/Product';
 
-import { map } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
   private urlGetAll: string = hostConfiguration.host+'/product';
+  private urlSearching: string = hostConfiguration.host+'/product/search';
   private urlInsert: string = hostConfiguration.host+'/product/insert';
   private urlUpdate: string = hostConfiguration.host+'/product/update';
   private urlRemove: string = hostConfiguration.host+'/product/remove';
@@ -31,6 +31,21 @@ export class ProductService {
       'x-access-token': token
     });
     return this.httpClient.get<ProductResponse>(this.urlGetAll, { headers, params });
+  }
+
+  searching(token: string, productName: string){
+    let headers: HttpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'x-access-token': token
+    });
+
+    let params: HttpParams = new HttpParams();
+
+    if(productName){
+      params = params.append('productName', productName);
+    }
+
+    return this.httpClient.get<Array<Product>>(this.urlSearching, { headers, params });
   }
 
   insert(token: string, product: Product){

@@ -21,5 +21,6 @@ export interface Product{
     albumImg?: ProductGallery | null,
     albumVideo?: ProductGallery | null
     createdAt?: string,
-    updatedAt?: string
+    updatedAt?: string,
+    quantity?: number
   }
