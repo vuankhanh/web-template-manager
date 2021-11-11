@@ -41,6 +41,10 @@ const routes: Routes = [
         loadChildren: () => import('../identification-manager/identification-information/identification-information.module').then( m => m.IdentificationInformationPageModule)
       },
       {
+        path: 'redirect-manager',
+        loadChildren: () => import('../redirect-manager/redirect-manager.module').then( m => m.RedirectManagerPageModule)
+      },
+      {
         path: 'chat',
         loadChildren: () => import('../chat/chat.module').then( m => m.ChatPageModule)
       },

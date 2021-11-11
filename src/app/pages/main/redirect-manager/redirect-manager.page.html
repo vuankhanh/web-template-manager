@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Quản lý chuyển tiếp</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="redirect-manager-container">
+    <ion-item>
+      <ion-label>Đường dẫn</ion-label>
+      <ion-input
+        placeholder="Nhập đường dẫn"
+        [(ngModel)]="originalUrl"
+      ></ion-input>
+    </ion-item>
+    <div class="height-space"></div>
+    <div class="vertical-container" *ngIf="redirectInsertRespone">
+      <div class="horizontal-container" >
+        <span>Đường link rút gọn:</span>
+        <div class="width-space"></div>
+        <a>{{redirectInsertRespone.shortenedLink}}</a>
+      </div>
+      <div class="horizontal-container" >
+        <span>Dẫn đến:</span>
+        <div class="width-space"></div>
+        <a>{{redirectInsertRespone.redirectTo}}</a>
+      </div>
+    </div>
+    <div class="height-space"></div>
+    <ion-button mode="ios" size="small" (click)="createShortenedLink()">Tạo đường dẫn</ion-button>
+  </div>
+</ion-content>

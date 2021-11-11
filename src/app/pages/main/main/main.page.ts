@@ -16,6 +16,7 @@ export class MainPage implements OnInit {
     { title: 'Quản lý sản phẩm', url: '/main/product-manager', icon: 'fish' },
     { title: 'Quản lý bài viết', url: '/main/post-manager', icon: 'reader' },
     { title: 'Thông tin nhận diện', url: '/main/identification-information', icon: 'cog' },
+    { title: 'Quản lý chuyển tiếp', url: '/main/redirect-manager', icon: 'arrow-redo' },
     { title: 'Trả lời khách hàng', url: '/main/chat', icon: 'chatbubbles' },
   ];
 
