@@ -12,6 +12,7 @@ export class MainPage implements OnInit {
     { title: 'Trang chủ', url: '/main/dashboard', icon: 'apps' },
     { title: 'Quản lý người dùng', url: '/main/user-management', icon: 'people' },
     { title: 'Thư viện hình ảnh', url: '/main/gallery', icon: 'images' },
+    { title: 'Thư viện video', url: '/main/gallery-video', icon: 'videocam' },
     { title: 'Quản lý đơn hàng', url: '/main/order-manager', icon: 'receipt' },
     { title: 'Quản lý sản phẩm', url: '/main/product-manager', icon: 'fish' },
     { title: 'Quản lý bài viết', url: '/main/post-manager', icon: 'reader' },

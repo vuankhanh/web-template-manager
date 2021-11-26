@@ -25,6 +25,10 @@ const routes: Routes = [
     loadChildren: () => import('../choose-gallery/choose-gallery.module').then( m => m.ChooseGalleryPageModule)
   },
   {
+    path: 'choose-product-gallery-video',
+    loadChildren: () => import('../choose-gallery-video/choose-gallery-video.module').then( m => m.ChooseGalleryVideoPageModule)
+  },
+  {
     path: 'choose-banner-gallery',
     loadChildren: () => import('../choose-banner-gallery/choose-banner-gallery.module').then( m => m.ChooseBannerGalleryPageModule)
   }

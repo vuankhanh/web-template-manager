@@ -9,7 +9,6 @@ import { LocalStorageService } from 'src/app/services/local-storage.service';
 
 import { Subscription } from 'rxjs';
 
-const tokenKey = "authentication-information";
 @Component({
   selector: 'app-logo',
   templateUrl: './logo.component.html',
@@ -49,7 +48,7 @@ export class LogoComponent implements OnInit, OnDestroy {
 
   updateLogo(){
     if(this.willUploadLogo.value){
-      let tokenStoraged: ResponseLogin = this.localStorageService.get(tokenKey);
+      let tokenStoraged: ResponseLogin = this.localStorageService.get(this.localStorageService.tokenKey);
       if(tokenStoraged && tokenStoraged.accessToken){
         this.subscription.add(
           this.identificationService.updateLogo(tokenStoraged.accessToken, this.willUploadLogo.value).subscribe(res=>{

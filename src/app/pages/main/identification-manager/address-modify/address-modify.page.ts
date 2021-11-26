@@ -12,7 +12,6 @@ import { Subscription } from 'rxjs';
 import { ToastService } from 'src/app/services/toast.service';
 import { Identification } from 'src/app/Interfaces/Identification';
 
-const tokenKey = "authentication-information";
 @Component({
   selector: 'app-address-modify',
   templateUrl: './address-modify.page.html',
@@ -79,7 +78,7 @@ export class AddressModifyPage implements OnInit {
   }
 
   getProvince(){
-    let tokenStoraged: ResponseLogin = <ResponseLogin>this.localStorageService.get(tokenKey);
+    let tokenStoraged: ResponseLogin = <ResponseLogin>this.localStorageService.get(this.localStorageService.tokenKey);
     if(tokenStoraged){
       this.subscription.add(
         this.administrativeUnitsService.getProvince(tokenStoraged.accessToken).subscribe(res=>{
@@ -97,7 +96,7 @@ export class AddressModifyPage implements OnInit {
   }
 
   getDistrict(provinceCode: string, ){
-    let tokenStoraged: ResponseLogin = <ResponseLogin>this.localStorageService.get(tokenKey);
+    let tokenStoraged: ResponseLogin = <ResponseLogin>this.localStorageService.get(this.localStorageService.tokenKey);
     if(tokenStoraged){
       this.subscription.add(
         this.administrativeUnitsService.getDistrict(tokenStoraged.accessToken, provinceCode).subscribe(res=>{
@@ -114,7 +113,7 @@ export class AddressModifyPage implements OnInit {
   }
 
   getWard(districtCode: string){
-    let tokenStoraged: ResponseLogin = <ResponseLogin>this.localStorageService.get(tokenKey);
+    let tokenStoraged: ResponseLogin = <ResponseLogin>this.localStorageService.get(this.localStorageService.tokenKey);
     if(tokenStoraged){
       this.subscription.add(
         this.administrativeUnitsService.getWard(tokenStoraged.accessToken, districtCode).subscribe(res=>{

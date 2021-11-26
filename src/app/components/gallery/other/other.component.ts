@@ -11,7 +11,6 @@ import { BannerGalleryService } from 'src/app/services/api/banner-gallery.servic
 
 import { Subscription } from 'rxjs';
 
-const tokenKey = "authentication-information";
 @Component({
   selector: 'app-other-gallery',
   templateUrl: './other.component.html',
@@ -31,7 +30,7 @@ export class OtherComponent implements OnInit, OnDestroy {
   }
 
   getProductGallery(){
-    let tokenStoraged: ResponseLogin = this.localStorageService.get(tokenKey);
+    let tokenStoraged: ResponseLogin = this.localStorageService.get(this.localStorageService.tokenKey);
     
     if(tokenStoraged && tokenStoraged.accessToken){
       this.subscription.add(
@@ -88,7 +87,7 @@ export class OtherComponent implements OnInit, OnDestroy {
   }
 
   removeBannerGallery(bannerGallery: BannerGallery){
-    let tokenStoraged: ResponseLogin = this.localStorageService.get(tokenKey);
+    let tokenStoraged: ResponseLogin = this.localStorageService.get(this.localStorageService.tokenKey);
     
     if(tokenStoraged && tokenStoraged.accessToken){
       this.subscription.add(

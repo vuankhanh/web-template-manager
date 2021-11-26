@@ -10,7 +10,6 @@ import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { ResponseLogin } from 'src/app/services/api/login.service';
 import { Subscription } from 'rxjs';
 
-const tokenKey = "authentication-information";
 @Component({
   selector: 'app-product-category',
   templateUrl: './product-category.page.html',
@@ -31,7 +30,7 @@ export class ProductCategoryPage implements OnInit, OnDestroy {
   }
 
   getProductCategory(){
-    let tokenStoraged: ResponseLogin = this.localStorageService.get(tokenKey);
+    let tokenStoraged: ResponseLogin = this.localStorageService.get(this.localStorageService.tokenKey);
     if(tokenStoraged && tokenStoraged.accessToken){
       this.subscription.add(
         this.productCategoryService.get(tokenStoraged.accessToken).subscribe(res=>{
@@ -75,7 +74,7 @@ export class ProductCategoryPage implements OnInit, OnDestroy {
   }
 
   removeProductCategory(productCategory: ProductCategory){
-    let tokenStoraged: ResponseLogin = this.localStorageService.get(tokenKey);
+    let tokenStoraged: ResponseLogin = this.localStorageService.get(this.localStorageService.tokenKey);
     if(tokenStoraged && tokenStoraged.accessToken){
       let accessToken = tokenStoraged.accessToken;
       this.subscription.add(

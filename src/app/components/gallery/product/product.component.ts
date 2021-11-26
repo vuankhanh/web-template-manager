@@ -12,7 +12,6 @@ import { ResponseLogin } from 'src/app/services/api/login.service';
 
 import { Subscription } from 'rxjs';
 
-const tokenKey = "authentication-information";
 @Component({
   selector: 'app-product-gallery',
   templateUrl: './product.component.html',
@@ -36,7 +35,7 @@ export class ProductComponent implements OnInit, OnDestroy {
   }
   
   getProductGallery(paginationParams?: PaginationParams){
-    let tokenStoraged: ResponseLogin = this.localStorageService.get(tokenKey);
+    let tokenStoraged: ResponseLogin = this.localStorageService.get(this.localStorageService.tokenKey);
     
     if(tokenStoraged && tokenStoraged.accessToken){
       this.subscription.add(
@@ -49,6 +48,7 @@ export class ProductComponent implements OnInit, OnDestroy {
             totalPages: res.totalPages
           };
           this.productGallerys = this.productGalleryResponse.data;
+          console.log(this.productGallerys);
           // this.navigatorToModify('update', this.productGallerys[1])
           
         })
@@ -80,20 +80,12 @@ export class ProductComponent implements OnInit, OnDestroy {
         data: <ProductGallery>data.data.data
       }
 
-      let newData;
-      let mainMedia = this.productGalleryService.getMainSrc(params.data.media);
-      if(mainMedia){
-        newData = { ...params.data, src: mainMedia.src, thumbnail: mainMedia.srcThumbnail }
-      }else{
-        newData = { ...params.data, src: '', thumbnail: '' }
-      }
-
       if(type === 'insert'){
-        this.productGallerys.push(newData);
+        this.productGallerys.push(params.data);
       }else if(type==='update'){
         for(let [index, productCategory] of this.productGallerys.entries()){
-          if(productCategory._id === newData._id){
-            this.productGallerys[index] = newData;
+          if(productCategory._id === params.data._id){
+            this.productGallerys[index] = params.data;
           }
         }
       }
@@ -101,7 +93,7 @@ export class ProductComponent implements OnInit, OnDestroy {
   }
 
   removeProductGallery(productGallery: ProductGallery){
-    let tokenStoraged: ResponseLogin = this.localStorageService.get(tokenKey);
+    let tokenStoraged: ResponseLogin = this.localStorageService.get(this.localStorageService.tokenKey);
     
     if(tokenStoraged && tokenStoraged.accessToken){
       this.subscription.add(

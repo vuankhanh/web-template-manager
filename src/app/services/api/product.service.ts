@@ -61,6 +61,7 @@ export class ProductService {
       'Content-Type': 'application/json',
       'x-access-token': token
     });
+    console.log(product.albumVideo);
     return this.httpClient.put<Product>(this.urlUpdate, product, { headers });
   }
 

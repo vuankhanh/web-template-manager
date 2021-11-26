@@ -12,7 +12,6 @@ import { PostsService } from 'src/app/services/api/posts.service';
 import { ResponseLogin } from 'src/app/services/api/login.service';
 import { Subscription } from 'rxjs';
 
-const tokenKey = "authentication-information";
 @Component({
   selector: 'app-post-modify',
   templateUrl: './post-modify.page.html',
@@ -110,7 +109,7 @@ export class PostModifyPage implements OnInit {
 
   insert(){
     if(this.postsForm.valid){
-      let tokenStoraged: ResponseLogin = this.localStorageService.get(tokenKey);
+      let tokenStoraged: ResponseLogin = this.localStorageService.get(this.localStorageService.tokenKey);
       if(tokenStoraged && tokenStoraged.accessToken){
         let posts: Posts = this.postsForm.value;
         posts.data = toDoc(posts.data);
@@ -129,7 +128,7 @@ export class PostModifyPage implements OnInit {
 
   update(){
     if(this.postsForm.valid){
-      let tokenStoraged: ResponseLogin = this.localStorageService.get(tokenKey);
+      let tokenStoraged: ResponseLogin = this.localStorageService.get(this.localStorageService.tokenKey);
       if(tokenStoraged && tokenStoraged.accessToken){
         let posts: Posts = {
           _id: this.params.data._id,

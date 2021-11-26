@@ -1,0 +1,22 @@
+.product-gallery-video-container{
+    justify-content: space-between;
+    height: 100%;
+    ion-list{
+        height: 100%;
+        overflow-y: auto;
+        ion-item{
+            .item-container{
+                justify-content: space-between;
+                width: 100%;
+                padding: 15px 0;
+                .horizontal-container{
+                    justify-content: center;
+                    align-items: center;
+                }
+                .action-container{
+                    
+                }
+            }
+        }
+    }
+}

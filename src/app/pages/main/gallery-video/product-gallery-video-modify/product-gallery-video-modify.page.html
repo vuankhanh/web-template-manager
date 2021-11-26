@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="end" (click)="modalController.dismiss()">
+      <ion-button>
+        <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>{{ params.type === 'update' ? 'Cập nhật Thư Viện Sản Phẩm' : 'Thêm mới Thư Viện Sản Phẩm' }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="product-category-container vertical-container">
+    <form
+      *ngIf="productGalleryVideoForm"
+      [formGroup]="productGalleryVideoForm"
+      id="ngForm"
+      #pgForm="ngForm"
+    >
+      <ion-list>
+        <ion-item>
+          <ion-label>Tên bộ sưu tập: </ion-label>
+          <ion-input formControlName="name"></ion-input>
+        </ion-item>
+      </ion-list>
+    </form>
+    <ng-container>
+      <app-show-youtube-video
+        [videos]="productGalleryVideoForm.value.media"
+        [isMain]="productGalleryVideoForm.value.isMain"
+        (emitChangeMain)="setMain($event)"
+        (emitAddVideo)="addVideo($event)"
+        (emitRemoveVideo)="removeVideo($event)"
+      ></app-show-youtube-video>
+    </ng-container>
+    
+    <ion-button class="submit-form" (click)="modify()" [disabled]="productGalleryVideoForm.invalid">
+      {{ params.type === 'update' ? 'Cập nhật' : 'Thêm mới' }}
+    </ion-button>
+  </div>
+</ion-content>

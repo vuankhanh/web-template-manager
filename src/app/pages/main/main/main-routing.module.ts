@@ -23,6 +23,9 @@ const routes: Routes = [
       },{
         path: 'gallery',
         loadChildren: () => import('../gallery/main/gallery.module').then( m => m.GalleryPageModule)
+      },{
+        path: 'gallery-video',
+        loadChildren: () => import('../gallery-video/main/gallery-video.module').then( m => m.GalleryVideoPageModule)
       },
       {
         path: 'order-manager',

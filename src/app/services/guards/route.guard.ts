@@ -9,7 +9,6 @@ import { AuthService } from '../auth.service';
 import { Observable, of } from 'rxjs';
 import { catchError , map } from 'rxjs/operators'
 
-const tokenKey = "authentication-information";
 @Injectable({
   providedIn: 'root'
 })
@@ -24,7 +23,7 @@ export class RouteGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-      let tokenStoraged: ResponseLogin = this.localStorageService.get(tokenKey);
+      let tokenStoraged: ResponseLogin = this.localStorageService.get(this.localStorageService.tokenKey);
       if(tokenStoraged && tokenStoraged.accessToken){
         let accessToken = tokenStoraged.accessToken;
         return this.configService.getConfig(accessToken).pipe(map(res=>{

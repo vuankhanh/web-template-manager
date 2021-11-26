@@ -9,7 +9,6 @@ import { IdentificationService } from 'src/app/services/api/identification.servi
 
 import { Subscription } from 'rxjs';
 
-const tokenKey = "authentication-information";
 @Component({
   selector: 'app-social-networking',
   templateUrl: './social-networking.component.html',
@@ -69,7 +68,7 @@ export class SocialNetworkingComponent implements OnInit, OnDestroy {
     if(this.myForm.valid){
       console.log(this.myForm.value);
       
-      let tokenStoraged: ResponseLogin = this.localStorageService.get(tokenKey);
+      let tokenStoraged: ResponseLogin = this.localStorageService.get(this.localStorageService.tokenKey);
       if(tokenStoraged && tokenStoraged.accessToken){
         this.subscription.add(
           this.identificationService.updateSocialNetwork(tokenStoraged.accessToken, this.myForm.value.socialNetwork).subscribe(res=>{

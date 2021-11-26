@@ -1,0 +1,62 @@
+<div class="show-youtube-video-container">
+  <div class="horizontal-container youtube-video-container">
+    <ng-container *ngFor="let video of videos; let i = index">
+      <div
+        class="video-information vertical-container"
+        [ngClass]="isMain === i ? 'image-is-main' : ''"
+      >
+        <div class="ratio-container">
+          <iframe
+            [src]="video.youtubeId | youtubeEmbed | trustYoutubeUrl"
+            title="YouTube video player"
+            frameborder="0"
+            allowfullscreen
+          ></iframe>
+          <div class="frame-action">
+            <ion-icon
+              name="home-outline"
+              (click)="setMain(i);"
+            ></ion-icon>
+            <div class="mini-width-space"></div>
+            <ion-icon
+              name="trash-outline"
+              (click)="remove(i); $event.stopPropagation();"
+            ></ion-icon>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-container>
+      <div class="video-information vertical-container">
+        <div class="ratio-container">
+          <ng-container *ngIf="editing; else showFormButton;">
+            <form [formGroup]="addYotubeIdForm" (ngSubmit)="addToList()">
+              <ion-item>
+                <ion-label position="stacked">
+                  Đường dẫn video
+                </ion-label>
+                <ion-input formControlName="ybUrl" placeholder="Đường dẫn"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label>
+                  Đặt làm mặc định
+                </ion-label>
+                <ion-checkbox formControlName="isMain"></ion-checkbox>
+              </ion-item>
+              <ion-button type="submit" size="small" mode="ios">
+                <ion-icon name="checkmark-outline"></ion-icon>
+                Thêm vào danh sách
+              </ion-button>
+            </form>
+          </ng-container>
+          <ng-template #showFormButton>
+            <div class="show-form-container vertical-container" (click)="editing=!editing">
+              <ion-icon name="add-outline"></ion-icon>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

@@ -21,8 +21,6 @@ export class GalleryPage implements OnInit {
 
   segmentChanged(){
     console.log(this.selection);
-    
-
   }
 
 }

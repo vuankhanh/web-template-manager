@@ -10,7 +10,6 @@ import { ResponseLogin } from 'src/app/services/api/login.service';
 import { PaginationParams } from 'src/app/Interfaces/PaginationParams';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 
-const tokenKey = "authentication-information";
 @Component({
   selector: 'app-product-manager',
   templateUrl: './product-manager.page.html',
@@ -31,7 +30,7 @@ export class ProductManagerPage implements OnInit {
   }
 
   listenProduct(paginationParams?: PaginationParams){
-    let tokenStoraged: ResponseLogin = this.localStorageService.get(tokenKey);
+    let tokenStoraged: ResponseLogin = this.localStorageService.get(this.localStorageService.tokenKey);
     if(tokenStoraged && tokenStoraged.accessToken){
       this.productService.get(tokenStoraged.accessToken, paginationParams).subscribe(res=>{
         this.productResponse = res;

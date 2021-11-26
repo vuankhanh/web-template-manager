@@ -11,7 +11,6 @@ import { ProductGalleryService } from 'src/app/services/api/product-gallery.serv
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { ToastService } from 'src/app/services/toast.service';
 
-const tokenKey = "authentication-information";
 @Component({
   selector: 'app-product-gallery-modify',
   templateUrl: './product-gallery-modify.page.html',
@@ -118,7 +117,7 @@ export class ProductGalleryModifyPage implements OnInit {
         ...this.productGalleryForm.value
       }
 
-      let tokenStoraged: ResponseLogin = this.localStorageService.get(tokenKey);
+      let tokenStoraged: ResponseLogin = this.localStorageService.get(this.localStorageService.tokenKey);
       if(tokenStoraged && tokenStoraged.accessToken){
         let accessToken = tokenStoraged.accessToken;
         this.productGalleryService.update(accessToken, productGallery).subscribe(res=>{
@@ -149,7 +148,7 @@ export class ProductGalleryModifyPage implements OnInit {
 
   insert(){
     if(this.productGalleryForm.valid){
-      let tokenStoraged: ResponseLogin = this.localStorageService.get(tokenKey);
+      let tokenStoraged: ResponseLogin = this.localStorageService.get(this.localStorageService.tokenKey);
       if(tokenStoraged && tokenStoraged.accessToken){
         let accessToken = tokenStoraged.accessToken;
         this.productGalleryService.insert(accessToken, this.productGalleryForm.value).subscribe(res=>{

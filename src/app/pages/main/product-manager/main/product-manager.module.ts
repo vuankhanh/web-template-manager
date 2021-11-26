@@ -6,6 +6,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { ProductManagerPageRoutingModule } from './product-manager-routing.module';
 import { GalleryRouteModule } from '../../../../pipes/gallery-route/gallery-route.module';
+import { IsMainModule } from '../../../../pipes/is-main/is-main.module';
 import { PaginationModule } from '../../../../components/pagination/pagination.module';
 
 import { ProductManagerPage } from './product-manager.page';
@@ -17,6 +18,7 @@ import { ProductManagerPage } from './product-manager.page';
     IonicModule,
     ProductManagerPageRoutingModule,
     GalleryRouteModule,
+    IsMainModule,
     PaginationModule
   ],
   declarations: [

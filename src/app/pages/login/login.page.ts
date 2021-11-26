@@ -8,7 +8,6 @@ import { LocalStorageService } from 'src/app/services/local-storage.service';
 
 import { Subscription } from 'rxjs';
 
-const tokenKey = "authentication-information";
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -29,7 +28,7 @@ export class LoginPage implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.localStorageService.remove(tokenKey);
+    this.localStorageService.remove(this.localStorageService.tokenKey);
   }
 
   initLoginForm(){
@@ -49,7 +48,7 @@ export class LoginPage implements OnInit, OnDestroy {
     if(this.loginGroup.valid){
       this.subscription.add(
         this.loginService.login(this.loginGroup.value).subscribe(res=>{
-          this.localStorageService.set(tokenKey, res);
+          this.localStorageService.set(this.localStorageService.tokenKey, res);
           this.router.navigateByUrl('/main');
         },err=>{
           console.log(err);

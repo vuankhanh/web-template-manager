@@ -16,7 +16,6 @@ export class ProductGalleryService {
   private urlInsert: string = hostConfiguration.host+'/product-gallery/insert';
   private urlUpdate: string = hostConfiguration.host+'/product-gallery/update';
   private urlRemove: string = hostConfiguration.host+'/product-gallery/remove';
-  private urlRemoveMedia: string = hostConfiguration.host+'/product-gallery/media/remove';
   constructor(
     private httpClient: HttpClient
   ) { }
@@ -32,18 +31,7 @@ export class ProductGalleryService {
       'Content-Type': 'application/json',
       'x-access-token': token
     });
-    return this.httpClient.get<ProductGalleryResponse>(this.urlGetAll, { headers, params }).pipe(map(productGallerysResponse=>{
-      let data = productGallerysResponse.data.map(productGallery=>{
-        let mainMedia = this.getMainSrc(productGallery.media);
-        if(mainMedia){
-          return { ...productGallery, src: mainMedia.src, thumbnail: mainMedia.srcThumbnail }
-        }else{
-          return { ...productGallery, src: '', thumbnail: '' }
-        }
-      });
-      productGallerysResponse.data = data;
-      return productGallerysResponse;
-    }));
+    return this.httpClient.get<ProductGalleryResponse>(this.urlGetAll, { headers, params })
   }
 
   insert(token: string, productGallery: ProductGallery){
@@ -98,24 +86,6 @@ export class ProductGalleryService {
       'x-access-token': token
     });
     return this.httpClient.post<ProductGallery | null>(this.urlRemove, productGallery, { headers });
-  }
-
-  removeMedia(token: string, productGallery: ProductGallery, mediaId: string){
-    let headers: HttpHeaders = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'x-access-token': token
-    });
-
-    let body = {
-      _id: productGallery._id,
-      mediaId: mediaId
-    }
-    return this.httpClient.post<ProductGallery | null>(this.urlRemoveMedia, body, { headers });
-  }
-
-  getMainSrc(medias: Array<Media>): Src{
-    let index: number = medias.findIndex(me=>me.isMain);
-    return index>=0 ? medias[index] : medias[0];
   }
 }
 

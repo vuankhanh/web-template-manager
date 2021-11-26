@@ -8,7 +8,6 @@ import { ProductGalleryService, ProductGalleryResponse } from 'src/app/services/
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { ResponseLogin } from 'src/app/services/api/login.service';
 
-const tokenKey = "authentication-information";
 @Component({
   selector: 'app-choose-gallery',
   templateUrl: './choose-gallery.page.html',
@@ -30,7 +29,7 @@ export class ChooseGalleryPage implements OnInit {
   }
   
   getProductGallery(paginationParams?: PaginationParams){
-    let tokenStoraged: ResponseLogin = this.localStorageService.get(tokenKey);
+    let tokenStoraged: ResponseLogin = this.localStorageService.get(this.localStorageService.tokenKey);
     if(tokenStoraged && tokenStoraged.accessToken){
       this.productGalleryService.get(tokenStoraged.accessToken, paginationParams).subscribe(res=>{
         this.productGalleryResponse = res;
@@ -41,6 +40,7 @@ export class ChooseGalleryPage implements OnInit {
           totalPages: res.totalPages
         };
         this.productGallerys = this.productGalleryResponse.data;
+        console.log(this.productGallerys);
       })
     }
   }

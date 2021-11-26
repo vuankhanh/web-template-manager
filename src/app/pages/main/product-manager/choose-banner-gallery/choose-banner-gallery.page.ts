@@ -9,7 +9,6 @@ import { LocalStorageService } from 'src/app/services/local-storage.service';
 
 import { Subscription } from 'rxjs';
 
-const tokenKey = "authentication-information";
 @Component({
   selector: 'app-choose-banner-gallery',
   templateUrl: './choose-banner-gallery.page.html',
@@ -30,7 +29,7 @@ export class ChooseBannerGalleryPage implements OnInit, OnDestroy {
   }
 
   getBannerGallery(){
-    let tokenStoraged: ResponseLogin = this.localStorageService.get(tokenKey);
+    let tokenStoraged: ResponseLogin = this.localStorageService.get(this.localStorageService.tokenKey);
     if(tokenStoraged && tokenStoraged.accessToken){
       this.subscription.add(
         this.bannerGalleryService.get(tokenStoraged.accessToken).subscribe(res=>{

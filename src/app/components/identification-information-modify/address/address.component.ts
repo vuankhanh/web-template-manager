@@ -12,7 +12,6 @@ import { IdentificationService } from 'src/app/services/api/identification.servi
 
 import { Subscription } from 'rxjs';
 
-const tokenKey = "authentication-information";
 @Component({
   selector: 'app-address',
   templateUrl: './address.component.html',
@@ -71,7 +70,7 @@ export class AddressComponent implements OnInit, OnDestroy {
   }
 
   updateAddress(){
-    let tokenStoraged: ResponseLogin = this.localStorageService.get(tokenKey);
+    let tokenStoraged: ResponseLogin = this.localStorageService.get(this.localStorageService.tokenKey);
     if(tokenStoraged && tokenStoraged.accessToken){
       this.subscription.add(
         this.identificationService.updateAddress(tokenStoraged.accessToken, this.addresses).subscribe(res=>{

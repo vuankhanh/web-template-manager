@@ -1,0 +1,10 @@
+.product-container{
+    height: 100%;
+    .component-container{
+        height: calc(100% - 48px);
+        ion-list{
+            height: 100%;
+            overflow-y: auto;
+        }
+    }
+}

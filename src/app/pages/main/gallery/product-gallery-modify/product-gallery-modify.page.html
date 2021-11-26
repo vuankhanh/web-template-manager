@@ -17,26 +17,26 @@
       id="ngForm"
       #pgForm="ngForm"
     >
-    <ion-list>
-      <ion-item>
-        <ion-label>Tên bộ sưu tập: </ion-label>
-        <ion-input formControlName="name"></ion-input>
-      </ion-item>
-  
-      <ion-item>
-        <ion-label>Chọn ảnh: </ion-label>
-        <ion-button (click)="file.click()">
-          {{
-            params.type === 'update' ? 'Thêm ảnh' : 
-            (
+      <ion-list>
+        <ion-item>
+          <ion-label>Tên bộ sưu tập: </ion-label>
+          <ion-input formControlName="name"></ion-input>
+        </ion-item>
+    
+        <ion-item>
+          <ion-label>Chọn ảnh: </ion-label>
+          <ion-button (click)="file.click()">
+            {{
+              params.type === 'update' ? 'Thêm ảnh' : 
               (
-                productGalleryForm.value.media.length===0 &&
-                productGalleryForm.value.willUpload.length===0
-              ) ? 'Chọn ảnh' : 'Thêm ảnh')
-          }}
-        </ion-button>
-      </ion-item>
-    </ion-list>
+                (
+                  productGalleryForm.value.media.length===0 &&
+                  productGalleryForm.value.willUpload.length===0
+                ) ? 'Chọn ảnh' : 'Thêm ảnh')
+            }}
+          </ion-button>
+        </ion-item>
+      </ion-list>
     </form>
     <ng-container *ngIf="
       productGalleryForm.value.media.length>0 ||

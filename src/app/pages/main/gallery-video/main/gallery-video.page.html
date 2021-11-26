@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start" *ngIf="!componentType">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons
+      slot="end"
+      *ngIf="componentType === 'modal'"
+      (click)="modalController.dismiss()"
+    >
+      <ion-button>
+        <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Thư viện hình ảnh</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="vertical-container gallery-video-container">
+    <ion-segment [(ngModel)]="selection" (ionChange)="segmentChanged()">
+      <ion-segment-button value="product">
+        <ion-label>Sản phẩm</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+    <div [ngSwitch]="selection" class="component-container">
+      <app-product-gallery-video *ngSwitchCase="'product'"></app-product-gallery-video>
+    </div>
+  </div>
+</ion-content>

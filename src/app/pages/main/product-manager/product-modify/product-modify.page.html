@@ -98,8 +98,8 @@
         
         <div *ngIf="productForm.controls['albumImg'].value as albumImgValue; else btnChooseGallery">
           <ion-item>
-            <ion-avatar slot="start">
-              <img src="{{ albumImgValue.thumbnail | galleryRoute }}">
+            <ion-avatar slot="start" *ngIf="(albumImgValue.media | isMain : ProductGallery) as image">
+              <img src="{{ image.srcThumbnail | galleryRoute }}">
             </ion-avatar>
             <ion-label>
               <h2>{{ albumImgValue.productName }}</h2>
@@ -112,9 +112,22 @@
         </ng-template>
       </ion-item>
 
-      <ion-item>
+      <ion-item (click)="chooseGalleryVideo()">
         <ion-label>Video: </ion-label>
-        <ion-input formControlName="albumVideo"></ion-input>
+        <div *ngIf="productForm.controls['albumVideo'].value as albumVideoValue; else btnChooseGalleryVideo">
+          <ion-item>
+            <ion-avatar slot="start" *ngIf="(albumVideoValue.media | isMain : ProductGalleryVideo) as video">
+              <img src="{{ video.youtubeId | youtubeThumbnail }}">
+            </ion-avatar>
+            <ion-label>
+              <h2>{{ albumVideoValue.productName }}</h2>
+              <h3>{{ albumVideoValue.createdAt | date: 'dd/MM/yyyy HH:mm:ss' }}</h3>
+            </ion-label>
+          </ion-item>
+        </div>
+        <ng-template #btnChooseGalleryVideo>
+          <ion-button >Chọn trong thư viện Video</ion-button>
+        </ng-template>
       </ion-item>
 
       <ion-item-divider></ion-item-divider>

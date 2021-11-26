@@ -6,11 +6,14 @@ import { ModalController } from '@ionic/angular';
 import { ChooseBannerGalleryPage } from '../choose-banner-gallery/choose-banner-gallery.page';
 import { ChoosePostsPage } from '../choose-posts/choose-posts.page';
 import { ChooseGalleryPage } from '../choose-gallery/choose-gallery.page';
+import { ChooseGalleryVideoPage } from '../choose-gallery-video/choose-gallery-video.page';
 
 import { ProductCategory } from '../../../../Interfaces/ProductCategory';
 import { Product } from '../../../../Interfaces/Product';
 import { BannerGallery } from 'src/app/Interfaces/BannerGallery';
 import { Posts } from 'src/app/Interfaces/Posts';
+import { ProductGalleryVideo } from 'src/app/Interfaces/ProductGalleryVideo';
+import { ProductGallery } from 'src/app/Interfaces/ProductGallery';
 
 import { ProductCategoryService } from 'src/app/services/api/product-category.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
@@ -21,7 +24,6 @@ import { productHightLight } from 'src/app/services/formCustom/validators';
 
 import { Subscription } from 'rxjs';
 
-const tokenKey = "authentication-information";
 const draftProductNew = "draft-product-new";
 @Component({
   selector: 'app-product-modify',
@@ -56,6 +58,7 @@ export class ProductModifyPage implements OnInit, OnDestroy {
         type: <'update' | 'insert'>this.type,
         data: <Product>this.data
       }
+      console.log(this.params.data);
       
       if(this.type === 'update'){
         this.initForm(this.params.data);
@@ -71,7 +74,7 @@ export class ProductModifyPage implements OnInit, OnDestroy {
   }
 
   getProductCategory(){
-    let tokenStoraged: ResponseLogin = this.localStorageService.get(tokenKey);
+    let tokenStoraged: ResponseLogin = this.localStorageService.get(this.localStorageService.tokenKey);
 
     if(tokenStoraged && tokenStoraged.accessToken){
       this.subscription.add(
@@ -100,6 +103,7 @@ export class ProductModifyPage implements OnInit, OnDestroy {
   }
 
   initForm(data: Product){
+    console.log(data)
     this.productForm = this.formBuilder.group({
       name: [data && data!.name ? data!.name : '', Validators.required],
       category: [data && data!.category ? data!.category : null, Validators.required],
@@ -115,7 +119,6 @@ export class ProductModifyPage implements OnInit, OnDestroy {
       supplier: [data && data!.supplier ? data!.supplier : null],
       albumImg: [data && data!.albumImg ? data!.albumImg : null, Validators.required],
       albumVideo: [data && data!.albumVideo ? data!.albumVideo : null],
-      thumbnailUrl: [data && data!.thumbnailUrl ? data!.thumbnailUrl : '', Validators.required],
 
       highlight: [data && data!.highlight ? data!.highlight : false, Validators.required],
       albumBanner: [data && data!.albumBanner ? data!.albumBanner : null],
@@ -148,8 +151,23 @@ export class ProductModifyPage implements OnInit, OnDestroy {
     
     const data = await modal.onDidDismiss();
     if(data.data){
-      let productGallery: ProductCategory = <ProductCategory>data.data;
+      let productGallery: ProductGallery = <ProductGallery>data.data;
       this.productForm.controls['albumImg'].setValue(productGallery);
+    }
+  }
+
+  async chooseGalleryVideo(){
+    const modal = await this.modalController.create({
+      component: ChooseGalleryVideoPage,
+    });
+
+    modal.present();
+    
+    const data = await modal.onDidDismiss();
+    if(data.data){
+      let productGalleryVideo: ProductGalleryVideo = <ProductGalleryVideo>data.data;
+      console.log(productGalleryVideo)
+      this.productForm.controls['albumVideo'].setValue(productGalleryVideo);
     }
   }
 
@@ -161,7 +179,6 @@ export class ProductModifyPage implements OnInit, OnDestroy {
     modal.present();
     
     const data = await modal.onDidDismiss();
-    
     
     if(data.data){
       let bannerGallery: BannerGallery = <BannerGallery>data.data;
@@ -184,11 +201,10 @@ export class ProductModifyPage implements OnInit, OnDestroy {
         _id: this.params.data._id,
         ...this.productForm.value
       }
-      let tokenStoraged: ResponseLogin = this.localStorageService.get(tokenKey);
+      let tokenStoraged: ResponseLogin = this.localStorageService.get(this.localStorageService.tokenKey);
       if(tokenStoraged && tokenStoraged.accessToken){
         let accessToken = tokenStoraged.accessToken;
         this.productService.update(accessToken, product).subscribe(res=>{
-          console.log(res);
           if(res){
             this.toastService.shortToastSuccess('Đã cập nhật Sản phẩm sản phẩm', 'Thành công').then(_=>{
               this.params = {
@@ -216,7 +232,7 @@ export class ProductModifyPage implements OnInit, OnDestroy {
 
   insert(){
     if(this.productForm.valid){
-      let tokenStoraged: ResponseLogin = this.localStorageService.get(tokenKey);
+      let tokenStoraged: ResponseLogin = this.localStorageService.get(this.localStorageService.tokenKey);
       if(tokenStoraged && tokenStoraged.accessToken){
         let accessToken = tokenStoraged.accessToken;
         this.productService.insert(accessToken, this.productForm.value).subscribe(res=>{

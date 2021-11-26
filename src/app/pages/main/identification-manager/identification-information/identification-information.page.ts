@@ -9,7 +9,6 @@ import { Subscription } from 'rxjs';
 import { Identification } from 'src/app/Interfaces/Identification';
 import { ModalController } from '@ionic/angular';
 
-const tokenKey = "authentication-information";
 @Component({
   selector: 'app-identification-information',
   templateUrl: './identification-information.page.html',
@@ -31,7 +30,7 @@ export class IdentificationInformationPage implements OnInit, OnDestroy {
   }
 
   listenIdentification(){
-    let tokenStoraged: ResponseLogin = this.localStorageService.get(tokenKey);
+    let tokenStoraged: ResponseLogin = this.localStorageService.get(this.localStorageService.tokenKey);
     if(tokenStoraged && tokenStoraged.accessToken){
       this.subscription.add(
         this.identificationService.getAll(tokenStoraged.accessToken).subscribe(res=>{

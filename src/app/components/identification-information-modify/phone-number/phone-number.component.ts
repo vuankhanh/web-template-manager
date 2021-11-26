@@ -10,7 +10,6 @@ import { LocalStorageService } from 'src/app/services/local-storage.service';
 
 import { Subscription } from 'rxjs';
 
-const tokenKey = "authentication-information";
 @Component({
   selector: 'app-phone-number',
   templateUrl: './phone-number.component.html',
@@ -92,7 +91,7 @@ export class PhoneNumberComponent implements OnInit, OnDestroy {
     console.log(this.myForm.value);
     
     if(this.myForm.valid){
-      let tokenStoraged: ResponseLogin = this.localStorageService.get(tokenKey);
+      let tokenStoraged: ResponseLogin = this.localStorageService.get(this.localStorageService.tokenKey);
       if(tokenStoraged && tokenStoraged.accessToken){
         this.subscription.add(
           this.identificationService.updatePhoneNumber(tokenStoraged.accessToken, this.myForm.value.phoneNumber).subscribe(res=>{

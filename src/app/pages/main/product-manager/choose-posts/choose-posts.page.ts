@@ -9,7 +9,6 @@ import { ResponseLogin } from 'src/app/services/api/login.service';
 import { PostsResponse, PostsService } from 'src/app/services/api/posts.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 
-const tokenKey = "authentication-information";
 @Component({
   selector: 'app-choose-posts',
   templateUrl: './choose-posts.page.html',
@@ -32,7 +31,7 @@ export class ChoosePostsPage implements OnInit, OnDestroy {
   }
 
   listenPosts(postsType: 'product'| 'other', paginationParams?: PaginationParams){
-    let tokenStoraged: ResponseLogin = this.localStorageService.get(tokenKey);
+    let tokenStoraged: ResponseLogin = this.localStorageService.get(this.localStorageService.tokenKey);
 
     if(tokenStoraged && tokenStoraged.accessToken){
       this.subscription.add(

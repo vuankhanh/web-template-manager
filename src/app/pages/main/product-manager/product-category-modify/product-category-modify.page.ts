@@ -10,7 +10,6 @@ import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { ToastService } from 'src/app/services/toast.service';
 import { ResponseLogin } from 'src/app/services/api/login.service';
 
-const tokenKey = "authentication-information";
 @Component({
   selector: 'app-product-category-modify',
   templateUrl: './product-category-modify.page.html',
@@ -75,7 +74,7 @@ export class ProductCategoryModifyPage implements OnInit {
         route: this.productCategoryForm.value.route
       }
 
-      let tokenStoraged: ResponseLogin = this.localStorageService.get(tokenKey);
+      let tokenStoraged: ResponseLogin = this.localStorageService.get(this.localStorageService.tokenKey);
       if(tokenStoraged && tokenStoraged.accessToken){
         let accessToken = tokenStoraged.accessToken;
         this.productCategoryService.update(accessToken, productCategory).subscribe(res=>{
@@ -106,7 +105,7 @@ export class ProductCategoryModifyPage implements OnInit {
 
   insert(){
     if(this.productCategoryForm.valid){
-      let tokenStoraged: ResponseLogin = this.localStorageService.get(tokenKey);
+      let tokenStoraged: ResponseLogin = this.localStorageService.get(this.localStorageService.tokenKey);
       if(tokenStoraged && tokenStoraged.accessToken){
         let accessToken = tokenStoraged.accessToken;
         this.productCategoryService.insert(accessToken, this.productCategoryForm.value).subscribe(res=>{

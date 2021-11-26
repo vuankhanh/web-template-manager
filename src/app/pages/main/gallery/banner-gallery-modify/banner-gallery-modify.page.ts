@@ -11,7 +11,6 @@ import { BannerGalleryService } from 'src/app/services/api/banner-gallery.servic
 import { ToastService } from 'src/app/services/toast.service';
 import { Media } from 'src/app/Interfaces/ProductGallery';
 
-const tokenKey = "authentication-information";
 @Component({
   selector: 'app-banner-gallery-modify',
   templateUrl: './banner-gallery-modify.page.html',
@@ -106,7 +105,7 @@ export class BannerGalleryModifyPage implements OnInit {
         ...this.bannerGalleryForm.value
       }
 
-      let tokenStoraged: ResponseLogin = this.localStorageService.get(tokenKey);
+      let tokenStoraged: ResponseLogin = this.localStorageService.get(this.localStorageService.tokenKey);
       if(tokenStoraged && tokenStoraged.accessToken){
         let accessToken = tokenStoraged.accessToken;
         this.bannerGalleryService.update(accessToken, bannerGallery).subscribe(res=>{
@@ -137,7 +136,7 @@ export class BannerGalleryModifyPage implements OnInit {
 
   insert(){
     if(this.bannerGalleryForm.valid){
-      let tokenStoraged: ResponseLogin = this.localStorageService.get(tokenKey);
+      let tokenStoraged: ResponseLogin = this.localStorageService.get(this.localStorageService.tokenKey);
       if(tokenStoraged && tokenStoraged.accessToken){
         let accessToken = tokenStoraged.accessToken;
         this.bannerGalleryService.insert(accessToken, this.bannerGalleryForm.value).subscribe(res=>{
