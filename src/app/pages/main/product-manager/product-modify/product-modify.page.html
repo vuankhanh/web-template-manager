@@ -98,7 +98,7 @@
         
         <div *ngIf="productForm.controls['albumImg'].value as albumImgValue; else btnChooseGallery">
           <ion-item>
-            <ion-avatar slot="start" *ngIf="(albumImgValue.media | isMain : ProductGallery) as image">
+            <ion-avatar slot="start" *ngIf="(albumImgValue.media | isMain) as image">
               <img src="{{ image.srcThumbnail | galleryRoute }}">
             </ion-avatar>
             <ion-label>
@@ -116,7 +116,7 @@
         <ion-label>Video: </ion-label>
         <div *ngIf="productForm.controls['albumVideo'].value as albumVideoValue; else btnChooseGalleryVideo">
           <ion-item>
-            <ion-avatar slot="start" *ngIf="(albumVideoValue.media | isMain : ProductGalleryVideo) as video">
+            <ion-avatar slot="start" *ngIf="(albumVideoValue.media | isMain) as video">
               <img src="{{ video.youtubeId | youtubeThumbnail }}">
             </ion-avatar>
             <ion-label>

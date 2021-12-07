@@ -16,7 +16,7 @@
     <div class="vertical-container component-container">
       <ion-list>
         <ion-item *ngFor="let product of products" (click)="navigatorToModify('update', product)">
-          <ion-avatar slot="start" *ngIf="(product.albumImg.media | isMain : ProductGallery) as image">
+          <ion-avatar slot="start" *ngIf="(product.albumImg.media | isMain) as image">
             <img src="{{ image.srcThumbnail | galleryRoute }}">
           </ion-avatar>
           <ion-label>

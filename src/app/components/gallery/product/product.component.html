@@ -3,7 +3,7 @@
     <ion-item *ngFor="let productGallery of productGallerys">
       <div class="item-container horizontal-container">
         <div class="horizontal-container">
-          <ion-avatar slot="start" *ngIf="(productGallery.media | isMain : ProductGallery) as image">
+          <ion-avatar slot="start" *ngIf="(productGallery.media | isMain) as image">
             <img src="{{ image.srcThumbnail | galleryRoute }}">
           </ion-avatar>
           <div class="mini-width-space"></div>

@@ -90,8 +90,6 @@ export class PostModifyPage implements OnInit {
       name: [ posts?.name ? posts?.name : '', Validators.required],
       data: [ posts?.data ? posts?.data : '', Validators.required],
     });
-    this.postsForm.valueChanges.subscribe(change=>console.log(change)
-    )
   }
 
   moveToTop(){
@@ -145,6 +143,11 @@ export class PostModifyPage implements OnInit {
         )
       }
     }
+  }
+
+  copyValue(){
+    console.log(this.postsForm.value);
+    navigator.clipboard.writeText(this.postsForm.value.data);
   }
 
   ngOnDestroy(){

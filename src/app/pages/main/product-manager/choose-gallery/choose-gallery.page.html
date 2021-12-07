@@ -13,7 +13,7 @@
   <div class="vertical-container product-gallery-container">
     <ion-list>
       <ion-item *ngFor="let productGallery of productGallerys" (click)="chooseProductGallery(productGallery)">
-        <ion-avatar slot="start" *ngIf="(productGallery.media | isMain : ProductGallery) as image">
+        <ion-avatar slot="start" *ngIf="(productGallery.media | isMain) as image">
           <img src="{{ image.srcThumbnail | galleryRoute }}">
         </ion-avatar>
         <ion-label>

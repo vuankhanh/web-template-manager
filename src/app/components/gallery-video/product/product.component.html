@@ -3,7 +3,7 @@
     <ion-item *ngFor="let productGalleryVideo of productGalleryVideos">
       <div class="item-container horizontal-container">
         <div class="horizontal-container">
-          <ion-avatar slot="start" *ngIf="(productGalleryVideo.media | isMain : ProductGalleryVideo) as video">
+          <ion-avatar slot="start" *ngIf="(productGalleryVideo.media | isMain) as video">
             <img src="{{ video.youtubeId | youtubeThumbnail }}">
           </ion-avatar>
           <div class="mini-width-space"></div>

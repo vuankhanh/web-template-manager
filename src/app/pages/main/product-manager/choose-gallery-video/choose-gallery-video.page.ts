@@ -19,7 +19,7 @@ export class ChooseGalleryVideoPage implements OnInit {
 
   configPagination: PaginationParams;
   constructor(
-    private modalController: ModalController,
+    public modalController: ModalController,
     private localStorageService: LocalStorageService,
     private productGalleryVideoService: ProductGalleryVideoService
   ) { }
