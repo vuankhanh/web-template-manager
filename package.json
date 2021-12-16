@@ -6,7 +6,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ionic serve --open",
-    "build": "ng build",
+    "build": "ionic build --configuration production",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
