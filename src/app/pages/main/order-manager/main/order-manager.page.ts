@@ -107,6 +107,8 @@ export class OrderManagerPage implements OnInit, OnDestroy {
           page: res.page-1,
           totalPages: res.totalPages
         }
+      },error=>{
+        console.log(error);
       })
     );
   }
@@ -238,6 +240,7 @@ export class OrderManagerPage implements OnInit, OnDestroy {
       this.orderStatusParam,
       this.orderCreatedByParam,
       this.orderCode,
+      this.phoneNumber,
       this.range.controls['start'].value,
       this.range.controls['end'].value
     );
