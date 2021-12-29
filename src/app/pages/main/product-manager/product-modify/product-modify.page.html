@@ -146,7 +146,7 @@
         <div *ngIf="productForm.controls['albumBanner'].value as albumBanner; else btnChooseBannergallerys">
           <ion-item>
             <ion-avatar slot="start">
-              <img src="{{ albumBanner.thumbnail | galleryRoute }}">
+              <img src="{{ albumBanner.media[0].srcThumbnail | galleryRoute }}">
             </ion-avatar>
             <ion-label>
               <h2>{{ albumBanner.bannerName }}</h2>
