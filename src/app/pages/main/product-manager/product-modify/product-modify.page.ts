@@ -4,12 +4,13 @@ import { ModalController } from '@ionic/angular';
 
 
 import { ChooseBannerGalleryPage } from '../choose-banner-gallery/choose-banner-gallery.page';
+import { ProductModifyUnitPage } from '../product-modify-unit/product-modify-unit.page';
 import { ChoosePostsPage } from '../choose-posts/choose-posts.page';
 import { ChooseGalleryPage } from '../choose-gallery/choose-gallery.page';
 import { ChooseGalleryVideoPage } from '../choose-gallery-video/choose-gallery-video.page';
 
 import { ProductCategory } from '../../../../Interfaces/ProductCategory';
-import { Product } from '../../../../Interfaces/Product';
+import { Product, Unit } from '../../../../Interfaces/Product';
 import { BannerGallery } from 'src/app/Interfaces/BannerGallery';
 import { Posts } from 'src/app/Interfaces/Posts';
 import { ProductGalleryVideo } from 'src/app/Interfaces/ProductGalleryVideo';
@@ -39,7 +40,6 @@ export class ProductModifyPage implements OnInit, OnDestroy {
   productCategorys: Array<ProductCategory>;
 
   currencyUnits: Array<string> = ['VND', '$', '€'];
-  units: Array<string> = ['kg', 'gam', 'túi', 'hộp'];
 
   subscription: Subscription = new Subscription();
   constructor(
@@ -111,7 +111,7 @@ export class ProductModifyPage implements OnInit, OnDestroy {
       price: [data && data!.price ? data!.price : 0, Validators.required],
       currencyUnit: [data && data!.currencyUnit ? data!.currencyUnit : this.currencyUnits[0], Validators.required],
       theRemainingAmount: [data && data!.theRemainingAmount ? data!.theRemainingAmount : 0, Validators.required],
-      unit: [data && data!.unit ? data!.unit : this.units[0], Validators.required],
+      unit: [data && data!.unit ? data!.unit : '', Validators.required],
 
       sortDescription: [data && data!.sortDescription ? data!.sortDescription : '', Validators.required],
 
@@ -123,6 +123,25 @@ export class ProductModifyPage implements OnInit, OnDestroy {
       highlight: [data && data!.highlight ? data!.highlight : false, Validators.required],
       albumBanner: [data && data!.albumBanner ? data!.albumBanner : null],
     }, {validator: productHightLight()});
+  }
+
+  async openUnitModify(){
+    console.log(this.productForm.controls['unit'].value);
+    
+    const modal = await this.modalController.create({
+      component: ProductModifyUnitPage,
+      componentProps: {
+        unit: this.productForm.controls['unit'].value
+      }
+    });
+
+    modal.present();
+
+    const data = await modal.onDidDismiss();
+    if(data.data){
+      let unit: Unit = <Unit>data.data;
+      this.productForm.controls['unit'].setValue(unit);
+    }
   }
 
   async choosePosts(){

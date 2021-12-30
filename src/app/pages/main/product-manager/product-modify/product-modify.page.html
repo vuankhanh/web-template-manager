@@ -55,16 +55,15 @@
         <ion-input formControlName="theRemainingAmount"></ion-input>
       </ion-item>
   
-      <ion-item>
+      <ion-item (click)="openUnitModify()">
         <ion-label>Đơn vị: </ion-label>
-        <ion-select placeholder="Chọn danh mục" formControlName="unit">
-          <ion-select-option
-            *ngFor="let unit of units; let i = index;"
-            [value]="unit"
-          >
-            {{ unit }}
-          </ion-select-option>
-        </ion-select>
+        <ng-container *ngIf="productForm.controls['unit'].value as unit;">
+          <div>
+            <span>{{unit.packagingType}}</span>
+            <span>{{ ' ' }}</span>
+            <span>{{unit.weightNumber}}{{unit.unitOfMassMeasurement}}</span>
+          </div>
+        </ng-container>
       </ion-item>
 
       <ion-item-divider></ion-item-divider>

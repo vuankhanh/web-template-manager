@@ -1,0 +1,50 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="end" (click)="modalController.dismiss()">
+      <ion-button>
+        <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Đơn vị sản phẩm</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form *ngIf="unitForm" [formGroup]="unitForm" (ngSubmit)="close()">
+    <ion-list>
+      <ion-item>
+        <ion-label>Loại bao bì: </ion-label>
+        <ion-select formControlName="packagingType">
+          <ion-select-option
+            *ngFor="let packaging of packagingTypes"
+            [value]="packaging"
+          >
+            {{ packaging }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Số cân nặng: </ion-label>
+        <ion-input formControlName="weightNumber"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Đơn vị: </ion-label>
+        <ion-select formControlName="unitOfMassMeasurement">
+          <ion-select-option
+            *ngFor="let unit of unitOfMassMeasurements"
+            [value]="unit"
+          >
+            {{ unit }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-list>
+
+    <ion-button type="submit" [disabled]="unitForm.invalid">
+      Kết thúc
+    </ion-button>
+  </form>
+  
+</ion-content>
