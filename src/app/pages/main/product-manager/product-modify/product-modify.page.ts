@@ -39,7 +39,7 @@ export class ProductModifyPage implements OnInit, OnDestroy {
   productCategorys: Array<ProductCategory>;
 
   currencyUnits: Array<string> = ['VND', '$', '€'];
-  units: Array<string> = ['kg', 'gam', 'túi'];
+  units: Array<string> = ['kg', 'gam', 'túi', 'hộp'];
 
   subscription: Subscription = new Subscription();
   constructor(
