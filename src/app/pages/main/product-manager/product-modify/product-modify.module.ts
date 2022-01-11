@@ -7,7 +7,6 @@ import { IonicModule } from '@ionic/angular';
 import { ProductModifyPageRoutingModule } from './product-modify-routing.module';
 import { GalleryRouteModule } from '../../../../pipes/gallery-route/gallery-route.module';
 import { YoutubeIdModule } from '../../../../pipes/youtube-id/youtube-id.module';
-import { IsMainModule } from '../../../../pipes/is-main/is-main.module';
 
 import { ProductModifyPage } from './product-modify.page';
 
@@ -20,7 +19,6 @@ import { ProductModifyPage } from './product-modify.page';
     ProductModifyPageRoutingModule,
     GalleryRouteModule,
     YoutubeIdModule,
-    IsMainModule
   ],
   declarations: [ProductModifyPage]
 })

@@ -13,11 +13,11 @@
   <div class="vertical-container product-gallery-container">
     <ion-list>
       <ion-item *ngFor="let productGallery of productGallerys" (click)="chooseProductGallery(productGallery)">
-        <ion-avatar slot="start" *ngIf="(productGallery.media | isMain) as image">
-          <img src="{{ image.srcThumbnail | galleryRoute }}">
+        <ion-avatar slot="start">
+          <img src="{{ productGallery.thumbnail | galleryRoute }}">
         </ion-avatar>
         <ion-label>
-          <h2>{{ productGallery.productName }}</h2>
+          <h2>{{ productGallery.name }}</h2>
           <h3>{{ productGallery.createdAt | date: 'dd/MM/yyyy HH:mm:ss' }}</h3>
         </ion-label>
       </ion-item>

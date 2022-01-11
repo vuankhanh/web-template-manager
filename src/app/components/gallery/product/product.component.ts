@@ -48,9 +48,6 @@ export class ProductComponent implements OnInit, OnDestroy {
             totalPages: res.totalPages
           };
           this.productGallerys = this.productGalleryResponse.data;
-          console.log(this.productGallerys);
-          // this.navigatorToModify('update', this.productGallerys[1])
-          
         })
       );
     }
@@ -61,33 +58,27 @@ export class ProductComponent implements OnInit, OnDestroy {
     this.getProductGallery(this.configPagination);
   }
 
-  async navigatorToModify(type: 'update'| 'insert', productGallery: ProductGallery){
+  async navigatorToModify(productGallery?: ProductGallery){
     const modal = await this.modalController.create({
       component: ProductGalleryModifyPage,
       componentProps: {
-        type,
-        data: Object.assign({},productGallery)
+        productGalleryId : productGallery ? productGallery._id : 'new'
       }
     });
 
     modal.present();
     
     const data = await modal.onDidDismiss();
-    if(data.data && data.data.type){
 
-      let params: Params = {
-        type: <'insert' | 'update'>data.data.type,
-        data: <ProductGallery>data.data.data
-      }
-
-      if(type === 'insert'){
-        this.productGallerys.push(params.data);
-      }else if(type==='update'){
+    if(data.data){
+      if(productGallery){
         for(let [index, productCategory] of this.productGallerys.entries()){
-          if(productCategory._id === params.data._id){
-            this.productGallerys[index] = params.data;
+          if(productCategory._id === data.data._id){
+            this.productGallerys[index] = data.data;
           }
         }
+      }else{
+        this.productGallerys.push(data.data);
       }
     }
   }
@@ -98,7 +89,6 @@ export class ProductComponent implements OnInit, OnDestroy {
     if(tokenStoraged && tokenStoraged.accessToken){
       this.subscription.add(
         this.productGalleryService.remove(tokenStoraged.accessToken, productGallery).subscribe(res=>{
-          console.log(res);
           let index = this.productGallerys.findIndex(productGallery=>productGallery._id === res._id);
           if(index>=0){
             this.productGallerys.splice(index, 1);
@@ -111,9 +101,4 @@ export class ProductComponent implements OnInit, OnDestroy {
   ngOnDestroy(){
     this.subscription.unsubscribe();
   }
-}
-
-interface Params{
-  type: 'insert' | 'update',
-  data: ProductGallery
 }

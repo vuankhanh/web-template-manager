@@ -5,9 +5,8 @@ import { hostConfiguration } from '../../../environments/environment';
 
 import { PaginationParams } from '../../Interfaces/PaginationParams';
 
-import { Media, ProductGallery } from '../../Interfaces/ProductGallery';
+import { ImageAlbumWillUpload, ProductGallery } from '../../Interfaces/ProductGallery';
 
-import { map } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
@@ -34,49 +33,56 @@ export class ProductGalleryService {
     return this.httpClient.get<ProductGalleryResponse>(this.urlGetAll, { headers, params })
   }
 
-  insert(token: string, productGallery: ProductGallery){
-    console.log(productGallery);
+  getDetail(token: string, id: string){
+    let headers: HttpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'x-access-token': token
+    });
+    
+    return this.httpClient.get<ProductGallery>(this.urlGetAll+'/'+id, { headers });
+  }
+
+  insert(token: string, imageAlbumWillUpload: ImageAlbumWillUpload){
+    console.log(imageAlbumWillUpload);
     
     let headers: HttpHeaders = new HttpHeaders({
       'x-access-token': token
     });
 
     let params: HttpParams = new HttpParams();
-    params = params.append('name', productGallery.name);
+    params = params.append('name', imageAlbumWillUpload.name);
 
     let formData = new FormData();
-    for(let media of productGallery.willUpload){
-      delete media.base64;
+    for(let media of imageAlbumWillUpload.willUpload){
       formData.append('many-files', media)
     }
 
-    formData.append('isMain', productGallery.isMain.toString())
+    formData.append('isMain', imageAlbumWillUpload.isMain.toString())
 
     return this.httpClient.post<ProductGallery>(this.urlInsert, formData, { headers, params });
   }
 
-  update(token: string, productGallery: ProductGallery){
+  update(token: string, id: string, imageAlbumWillUpload: ImageAlbumWillUpload){
     let headers: HttpHeaders = new HttpHeaders({
       'x-access-token': token
     });
 
     let params: HttpParams = new HttpParams();
-    params = params.append('name', productGallery.name);
-    params = params.append('_id', productGallery._id);
+    params = params.append('name', imageAlbumWillUpload.name);
+    params = params.append('_id', id);
 
     let formData = new FormData();
-
-    if(productGallery.willUpload){
-      for(let media of productGallery.willUpload){
-        delete media.base64;
-        formData.append('many-files', media)
-      }
+    for(let media of imageAlbumWillUpload.willUpload){
+      formData.append('many-files', media);
     }
 
-    formData.append('isMain', productGallery.isMain.toString());
+    if(imageAlbumWillUpload.mediaWillBeDeleted?.length){
+      let mediaWillBeDeleted = imageAlbumWillUpload.mediaWillBeDeleted;
+      formData.append('mediaWillBeDeleted', JSON.stringify(mediaWillBeDeleted));
+    }
 
-    let mediaString = productGallery.media ? JSON.stringify(productGallery.media) : "[]";
-    formData.append('oldMedia', mediaString);
+    formData.append('isMain', imageAlbumWillUpload.isMain.toString());
+
     return this.httpClient.put<ProductGallery>(this.urlUpdate, formData, { headers, params });
   }
 
@@ -95,11 +101,6 @@ export interface ProductGalleryResponse{
   page: number,
   totalPages: number,
   data: Array<ProductGallery>
-}
-
-interface Src{
-  src: string,
-  srcThumbnail: string
 }
 
 

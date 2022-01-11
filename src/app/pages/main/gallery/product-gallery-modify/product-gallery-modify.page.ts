@@ -11,18 +11,21 @@ import { ProductGalleryService } from 'src/app/services/api/product-gallery.serv
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { ToastService } from 'src/app/services/toast.service';
 
+import { Subscription } from 'rxjs';
+
 @Component({
   selector: 'app-product-gallery-modify',
   templateUrl: './product-gallery-modify.page.html',
   styleUrls: ['./product-gallery-modify.page.scss'],
 })
 export class ProductGalleryModifyPage implements OnInit {
-  @Input() type:string;
-  @Input() data: ProductGallery;
+  @Input() productGalleryId: string | 'new';
+
   productGalleryForm: FormGroup;
-  params: Params;
 
   fileList: FileList;
+
+  subscription: Subscription = new Subscription();
   constructor(
     public modalController: ModalController,
     private formBuilder: FormBuilder,
@@ -34,26 +37,39 @@ export class ProductGalleryModifyPage implements OnInit {
   }
 
   ngOnInit() {
-    if(this.type){
-      const data = JSON.parse(JSON.stringify(this.data));
-      this.params = {
-        type: <'update' | 'insert'>this.type,
-        data: <ProductGallery>data
-      };
-      
-      this.initForm(this.params.data);
+    if(this.productGalleryId === 'new'){
+      this.initForm();
+    }else{
+      this.getDetail(this.productGalleryId);
     }
   }
 
-  initForm(productGallery: ProductGallery | null){
+  getDetail(id: string){
+    let tokenStoraged: ResponseLogin = this.localStorageService.get(this.localStorageService.tokenKey);
+    if(tokenStoraged && tokenStoraged.accessToken){
+      this.subscription.add(
+        this.productGalleryService.getDetail(tokenStoraged.accessToken, id).subscribe(res=>{
+          this.initForm(res);
+        },err=>{
+          console.log('Lỗi');
+          console.log(err);
+        })
+      )
+    }
+  }
+
+  initForm(productGallery?: ProductGallery){
+    let isMain: number = productGallery ? productGallery.media.findIndex(media=>media.isMain) : 0;
+    this.productGalleryForm = this.formBuilder.group({
+      name: [productGallery ? productGallery.name : '', Validators.required],
+      media: [productGallery ? productGallery.media : []],
+      willUpload: [[]],
+      isMain: [isMain, Validators.required]
+    });
+
     if(productGallery){
-      let isMain: number = productGallery?.media?.findIndex(media=>media.isMain) | 0;
-      this.productGalleryForm = this.formBuilder.group({
-        name: [productGallery && productGallery!.productName ? productGallery!.productName : '', Validators.required],
-        media: [productGallery && productGallery!.media ? productGallery!.media : []],
-        willUpload: [[]],
-        isMain: [isMain, Validators.required]
-      });
+      let mediaWillBeDeleted = this.formBuilder.control([]);
+      this.productGalleryForm.addControl('mediaWillBeDeleted', mediaWillBeDeleted);
     }
     
   }
@@ -78,15 +94,18 @@ export class ProductGalleryModifyPage implements OnInit {
     });
   }
 
-  changeMain(event){
-    console.log(event);
-    this.productGalleryForm.controls['isMain'].setValue(event);
+  changeMain(index: number){
+    console.log(index);
+    this.productGalleryForm.controls['isMain'].setValue(index);
   }
 
   removeImage(image: Media){
     let listMedia: Array<Media> = <Array<Media>>this.productGalleryForm.value.media;
     let index = listMedia.findIndex(media=>media._id === image._id);
     if(index>=0){
+      let mediaWillBeDeleted: Array<Media> = <Array<Media>>this.productGalleryForm.value.mediaWillBeDeleted;
+      mediaWillBeDeleted.push(listMedia[index]);
+      this.productGalleryForm.controls['mediaWillBeDeleted'].setValue(mediaWillBeDeleted);
       listMedia.splice(index, 1);
     }
     this.productGalleryForm.controls['media'].setValue(listMedia);
@@ -94,40 +113,29 @@ export class ProductGalleryModifyPage implements OnInit {
   }
 
   removeWillUpload(index: number){
-    console.log(index);
     let listWillUpload: Array<WillUpload> = <Array<WillUpload>>Array.from(this.productGalleryForm.value.willUpload);
     
     listWillUpload.splice(index, 1);
     this.productGalleryForm.controls['willUpload'].setValue(listWillUpload);
-    console.log(listWillUpload);
   }
 
   modify(){
-    if(this.params.type === 'insert'){
+    if(this.productGalleryId === 'new'){
       this.insert();
-    }else if(this.params.type === 'update'){
+    }else{
       this.update();
     }
   }
 
   update(){
     if(this.productGalleryForm.valid){
-      let productGallery: ProductGallery = {
-        _id: this.params.data._id,
-        ...this.productGalleryForm.value
-      }
-
       let tokenStoraged: ResponseLogin = this.localStorageService.get(this.localStorageService.tokenKey);
       if(tokenStoraged && tokenStoraged.accessToken){
         let accessToken = tokenStoraged.accessToken;
-        this.productGalleryService.update(accessToken, productGallery).subscribe(res=>{
+        this.productGalleryService.update(accessToken, this.productGalleryId, this.productGalleryForm.value).subscribe(res=>{
           if(res){
             this.toastService.shortToastSuccess('Đã cập nhật Thư viện Sản Phẩm', 'Thành công').then(_=>{
-              this.params = {
-                type: <'update' | 'insert'>this.type,
-                data: res
-              }
-              this.modalController.dismiss(this.params);
+              this.modalController.dismiss(res);
             });
           }else{
             this.toastService.shortToastWarning('Thư viện Sản Phẩm đã bị xóa', '');
@@ -154,11 +162,7 @@ export class ProductGalleryModifyPage implements OnInit {
         this.productGalleryService.insert(accessToken, this.productGalleryForm.value).subscribe(res=>{
           console.log(res);
           this.toastService.shortToastSuccess('Đã thêm một Danh mục sản phẩm', 'Thành công').then(_=>{
-            this.params = {
-              type: <'update' | 'insert'>this.type,
-              data: res
-            }
-            this.modalController.dismiss(this.params);
+            this.modalController.dismiss(res);
           });
         },error=>{
           console.log(error);

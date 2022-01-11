@@ -5,58 +5,62 @@
         <ion-icon slot="icon-only" name="close-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title>{{ params.type === 'update' ? 'Cập nhật Thư Viện Sản Phẩm' : 'Thêm mới Thư Viện Sản Phẩm' }}</ion-title>
+    <ion-title>{{ productGalleryId === 'new' ? 'Thêm mới Thư Viện Sản Phẩm' : 'Cập nhật Thư Viện Sản Phẩm' }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <div class="product-category-container vertical-container">
-    <form
-      *ngIf="productGalleryForm"
-      [formGroup]="productGalleryForm"
-      id="ngForm"
-      #pgForm="ngForm"
-    >
-      <ion-list>
-        <ion-item>
-          <ion-label>Tên bộ sưu tập: </ion-label>
-          <ion-input formControlName="name"></ion-input>
-        </ion-item>
-    
-        <ion-item>
-          <ion-label>Chọn ảnh: </ion-label>
-          <ion-button (click)="file.click()">
-            {{
-              params.type === 'update' ? 'Thêm ảnh' : 
-              (
-                (
-                  productGalleryForm.value.media.length===0 &&
-                  productGalleryForm.value.willUpload.length===0
-                ) ? 'Chọn ảnh' : 'Thêm ảnh')
-            }}
-          </ion-button>
-        </ion-item>
-      </ion-list>
-    </form>
-    <ng-container *ngIf="
-      productGalleryForm.value.media.length>0 ||
-      productGalleryForm.value.willUpload.length>0">
-      <div class="image-show-container">
-        <app-show-image
-          [images]="productGalleryForm.value.media"
-          [willUpload]= "productGalleryForm.value.willUpload"
-          [isMain]="productGalleryForm.value.isMain"
-          (emitChangeMain)="changeMain($event)"
-          (emitRemoveImage)="removeImage($event)"
-          (emitRemoveWillUpload)="removeWillUpload($event)"
-        ></app-show-image>
-      </div>
-    </ng-container>
-    
-    <ion-button class="submit-form" (click)="modify()" [disabled]="productGalleryForm.invalid">
-      {{ params.type === 'update' ? 'Cập nhật' : 'Thêm mới' }}
-    </ion-button>
-  </div>
+  <ng-container *ngIf="productGalleryForm">
+    <div class="product-category-container vertical-container">
+      <form
+        *ngIf="productGalleryForm"
+        [formGroup]="productGalleryForm"
+        id="ngForm"
+        #pgForm="ngForm"
+      >
+        <ion-list>
+          <ion-item>
+            <ion-label>Tên bộ sưu tập: </ion-label>
+            <ion-input formControlName="name"></ion-input>
+          </ion-item>
+      
+          <ion-item>
+            <ion-label>Chọn ảnh: </ion-label>
+            <ion-button (click)="file.click()">
+              {{
+                productGalleryId === 'new' ? (
+                  (
+                    productGalleryForm.value.media.length===0 &&
+                    productGalleryForm.value.willUpload.length===0
+                  ) ? 'Chọn ảnh' : 'Thêm ảnh') : 'Thêm ảnh'
+              }}
+            </ion-button>
+          </ion-item>
+        </ion-list>
+      </form>
+      <ng-container *ngIf="
+        productGalleryForm.value.media.length>0 ||
+        productGalleryForm.value.willUpload.length>0">
+        <div class="image-show-container">
+          <app-show-image
+            [images]="productGalleryForm.value.media"
+            [willUpload]= "productGalleryForm.value.willUpload"
+            [isMain]="productGalleryForm.value.isMain"
+            (emitChangeMain)="changeMain($event)"
+            (emitRemoveImage)="removeImage($event)"
+            (emitRemoveWillUpload)="removeWillUpload($event)"
+          ></app-show-image>
+        </div>
+      </ng-container>
+  
+      <ion-button
+        class="submit-form"
+        (click)="modify()"
+        [disabled]="productGalleryForm.invalid">
+        {{ productGalleryId === 'new' ? 'Thêm mới' : 'Cập nhật' }}
+      </ion-button>
+    </div>
+  </ng-container>
 </ion-content>
 
 <input

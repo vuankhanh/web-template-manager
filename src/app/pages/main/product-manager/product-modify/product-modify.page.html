@@ -11,9 +11,7 @@
 
 <ion-content>
   <form *ngIf="productForm" [formGroup]="productForm" (ngSubmit)="modify()">
-
     <ion-list>
-
       <ion-item>
         <ion-label>Tên Sản phẩm: </ion-label>
         <ion-input formControlName="name"></ion-input>
@@ -97,8 +95,8 @@
         
         <div *ngIf="productForm.controls['albumImg'].value as albumImgValue; else btnChooseGallery">
           <ion-item>
-            <ion-avatar slot="start" *ngIf="(albumImgValue.media | isMain) as image">
-              <img src="{{ image.srcThumbnail | galleryRoute }}">
+            <ion-avatar slot="start">
+              <img src="{{ albumImgValue.thumbnail | galleryRoute }}">
             </ion-avatar>
             <ion-label>
               <h2>{{ albumImgValue.productName }}</h2>

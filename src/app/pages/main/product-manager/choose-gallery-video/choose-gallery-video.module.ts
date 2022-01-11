@@ -6,7 +6,6 @@ import { IonicModule } from '@ionic/angular';
 
 import { ChooseGalleryVideoPageRoutingModule } from './choose-gallery-video-routing.module';
 import { YoutubeIdModule } from '../../../../pipes/youtube-id/youtube-id.module';
-import { IsMainModule } from '../../../../pipes/is-main/is-main.module';
 import { PaginationModule } from '../../../../components/pagination/pagination.module';
 
 import { ChooseGalleryVideoPage } from './choose-gallery-video.page';
@@ -18,7 +17,6 @@ import { ChooseGalleryVideoPage } from './choose-gallery-video.page';
     IonicModule,
     ChooseGalleryVideoPageRoutingModule,
     YoutubeIdModule,
-    IsMainModule,
     PaginationModule
   ],
   declarations: [ChooseGalleryVideoPage]

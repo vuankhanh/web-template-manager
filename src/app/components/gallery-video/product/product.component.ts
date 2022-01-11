@@ -95,7 +95,6 @@ export class ProductGalleryVideoComponent implements OnInit, OnDestroy {
     if(tokenStoraged && tokenStoraged.accessToken){
       this.subscription.add(
         this.productGalleryVideoService.remove(tokenStoraged.accessToken, productGallery).subscribe(res=>{
-          console.log(res);
           let index = this.productGalleryVideos.findIndex(productGallery=>productGallery._id === res._id);
           if(index>=0){
             this.productGalleryVideos.splice(index, 1);

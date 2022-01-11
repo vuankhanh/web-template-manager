@@ -6,7 +6,6 @@ import { IonicModule } from '@ionic/angular';
 
 import { ChooseGalleryPageRoutingModule } from './choose-gallery-routing.module';
 import { GalleryRouteModule } from '../../../../pipes/gallery-route/gallery-route.module';
-import { IsMainModule } from '../../../../pipes/is-main/is-main.module';
 import { PaginationModule } from '../../../../components/pagination/pagination.module';
 
 import { ChooseGalleryPage } from './choose-gallery.page';
@@ -18,7 +17,6 @@ import { ChooseGalleryPage } from './choose-gallery.page';
     IonicModule,
     ChooseGalleryPageRoutingModule,
     GalleryRouteModule,
-    IsMainModule,
     PaginationModule
   ],
   declarations: [

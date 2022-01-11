@@ -24,7 +24,6 @@ export class ShowYoutubeVideoComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log(this.videos);
     this.initForm();
   }
 
