@@ -41,41 +41,26 @@ export class OtherComponent implements OnInit, OnDestroy {
     }
   }
 
-  async navigatorToModify(type: 'update'| 'insert', bannerGallery: BannerGallery){
+  async navigatorToModify(bannerGallery?: BannerGallery){
     const modal = await this.modalController.create({
       component: BannerGalleryModifyPage,
       componentProps: {
-        type,
-        data: Object.assign({},bannerGallery)
+        bannerGallery: bannerGallery
       }
     });
 
     modal.present();
     
     const data = await modal.onDidDismiss();
-    if(data.data && data.data.type){
-
-      let params: Params = {
-        type: <'insert' | 'update'>data.data.type,
-        data: <BannerGallery>data.data.data
-      }
-
-      let newData;
-      let mainMedia = this.bannerGalleryService.getMainSrc(params.data.media);
-      if(mainMedia){
-        newData = { ...params.data, src: mainMedia.src, thumbnail: mainMedia.srcThumbnail }
-      }else{
-        newData = { ...params.data, src: '', thumbnail: '' }
-      }
-
-      if(type === 'insert'){
-        this.bannerGallerys.push(newData);
-      }else if(type==='update'){
-        for(let [index, bannerGallery] of this.bannerGallerys.entries()){
-          if(bannerGallery._id === newData._id){
-            this.bannerGallerys[index] = newData;
+    if(data.data){
+      if(bannerGallery){
+        for(let [index, productCategory] of this.bannerGallerys.entries()){
+          if(productCategory._id === data.data._id){
+            this.bannerGallerys[index] = data.data;
           }
         }
+      }else{
+        this.bannerGallerys.push(data.data);
       }
     }
   }

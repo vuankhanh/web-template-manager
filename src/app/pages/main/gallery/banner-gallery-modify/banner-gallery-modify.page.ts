@@ -17,11 +17,10 @@ import { Media } from 'src/app/Interfaces/ProductGallery';
   styleUrls: ['./banner-gallery-modify.page.scss'],
 })
 export class BannerGalleryModifyPage implements OnInit {
-  @Input() type:string;
-  @Input() data: BannerGallery;
+  @Input() bannerGallery: BannerGallery;
 
   bannerGalleryForm: FormGroup;
-  params: Params;
+
   constructor(
     private formBuilder: FormBuilder,
     public modalController: ModalController,
@@ -31,30 +30,21 @@ export class BannerGalleryModifyPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    const data = JSON.parse(JSON.stringify(this.data));
-      this.params = {
-        type: <'update' | 'insert'>this.type,
-        data: <BannerGallery>data
-      };
-      
-      this.initForm(this.params.data);
+    this.initForm(this.bannerGallery);
   }
 
   initForm(bannerGallery?: BannerGallery){
-    if(bannerGallery){
-      this.bannerGalleryForm = this.formBuilder.group({
-        name: [bannerGallery && bannerGallery!.bannerName ? bannerGallery!.bannerName : '', Validators.required],
-        media: [bannerGallery && bannerGallery!.media ? bannerGallery!.media : ''],
-        willUpload: [[]],
-        isMain: [0]
-      });
-    }
+    this.bannerGalleryForm = this.formBuilder.group({
+      name: [bannerGallery ? bannerGallery.name : '', Validators.required],
+      media: [bannerGallery ? [{src: bannerGallery.src}] : ''],
+      willUpload: [[]]
+    });
   }
 
   async onFileSelect(event: Event){
     let target: HTMLInputElement = <HTMLInputElement>event.target;
     let files = target.files;
-    console.log(files);
+
     if (files.length > 0) {
       this.bannerGalleryForm.controls['willUpload'].setValue(files);
       for(let i = 0; i< this.bannerGalleryForm.value.willUpload.length; i++){
@@ -91,31 +81,23 @@ export class BannerGalleryModifyPage implements OnInit {
   }
 
   modify(){
-    if(this.params.type === 'insert'){
+    if(!this.bannerGallery){
       this.insert();
-    }else if(this.params.type === 'update'){
+    }else{
       this.update();
     }
   }
 
   update(){
     if(this.bannerGalleryForm.valid){
-      let bannerGallery: BannerGallery = {
-        _id: this.params.data._id,
-        ...this.bannerGalleryForm.value
-      }
 
       let tokenStoraged: ResponseLogin = this.localStorageService.get(this.localStorageService.tokenKey);
       if(tokenStoraged && tokenStoraged.accessToken){
         let accessToken = tokenStoraged.accessToken;
-        this.bannerGalleryService.update(accessToken, bannerGallery).subscribe(res=>{
+        this.bannerGalleryService.update(accessToken, this.bannerGallery._id, this.bannerGalleryForm.value).subscribe(res=>{
           if(res){
             this.toastService.shortToastSuccess('Đã cập nhật Thư viện Banner', 'Thành công').then(_=>{
-              this.params = {
-                type: <'update' | 'insert'>this.type,
-                data: res
-              }
-              this.modalController.dismiss(this.params);
+              this.modalController.dismiss(res);
             });
           }else{
             this.toastService.shortToastWarning('Thư viện Banner đã bị xóa', '');
@@ -142,11 +124,7 @@ export class BannerGalleryModifyPage implements OnInit {
         this.bannerGalleryService.insert(accessToken, this.bannerGalleryForm.value).subscribe(res=>{
           console.log(res);
           this.toastService.shortToastSuccess('Đã thêm một Danh mục sản phẩm', 'Thành công').then(_=>{
-            this.params = {
-              type: <'update' | 'insert'>this.type,
-              data: res
-            }
-            this.modalController.dismiss(this.params);
+            this.modalController.dismiss(res);
           });
         },error=>{
           console.log(error);

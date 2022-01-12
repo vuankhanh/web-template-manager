@@ -5,7 +5,7 @@
         <ion-icon slot="icon-only" name="close-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title>{{ params.type === 'update' ? 'Cập nhật Thư Viện Banner' : 'Thêm mới Thư Viện Banner' }}</ion-title>
+    <ion-title>{{ bannerGallery ? 'Cập nhật Thư Viện Banner' : 'Thêm mới Thư Viện Banner' }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -27,7 +27,7 @@
         <ion-label>Chọn ảnh: </ion-label>
         <ion-button (click)="file.click()">
           {{
-            params.type === 'update' ? 'Thêm ảnh' : 
+            bannerGallery === 'update' ? 'Thêm ảnh' : 
             (
               (
                 bannerGalleryForm.value.media.length===0 &&
@@ -53,7 +53,7 @@
     </ng-container>
     
     <ion-button class="submit-form" (click)="modify()" [disabled]="bannerGalleryForm.invalid">
-      {{ params.type === 'update' ? 'Cập nhật' : 'Thêm mới' }}
+      {{ bannerGallery ? 'Cập nhật' : 'Thêm mới' }}
     </ion-button>
   </div>
 </ion-content>

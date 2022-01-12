@@ -1,14 +1,16 @@
-import { Media } from "./ProductGallery";
 import { WillUpload } from "./WillUpload";
 
 export interface BannerGallery{
-    _id?: string,
+    _id: string,
     name: string,
-    bannerName: string,
-    thumbnail?: string,
+    route: string,
+    thumbnail: string,
     src: string,
-    media: Array<Media>,
-    willUpload?: Array<WillUpload>,
-    createdAt?: string,
-    updatedAt?: string
+    createdAt: string,
+    updatedAt: string
+}
+
+export interface BannerGalleryWillUpload{
+    name: string,
+    willUpload: Array<WillUpload>
 }

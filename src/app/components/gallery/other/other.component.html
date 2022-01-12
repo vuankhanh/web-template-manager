@@ -8,13 +8,13 @@
           </ion-avatar>
           <div class="mini-width-space"></div>
           <ion-label>
-            <h2>{{ bannerGallery.bannerName }}</h2>
+            <h2>{{ bannerGallery.name }}</h2>
             <h3>{{ bannerGallery.createdAt | date: 'dd/MM/yyyy HH:mm:ss' }}</h3>
           </ion-label>
         </div>
         <div class="action-container horizontal-container">
           <ion-button
-              (click)="navigatorToModify('update', bannerGallery)"
+              (click)="navigatorToModify(bannerGallery)"
           >
             <ion-icon slot="icon-only" name="pencil-outline"></ion-icon>
           </ion-button>
@@ -29,7 +29,7 @@
   </ion-list>
   
   <ion-fab horizontal="end" vertical="bottom" slot="fixed">
-    <ion-fab-button color="danger" (click)="navigatorToModify('insert', null)">
+    <ion-fab-button color="danger" (click)="navigatorToModify()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>

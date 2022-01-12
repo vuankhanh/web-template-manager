@@ -99,7 +99,7 @@
               <img src="{{ albumImgValue.thumbnail | galleryRoute }}">
             </ion-avatar>
             <ion-label>
-              <h2>{{ albumImgValue.productName }}</h2>
+              <h2>{{ albumImgValue.name }}</h2>
               <h3>{{ albumImgValue.createdAt | date: 'dd/MM/yyyy HH:mm:ss' }}</h3>
             </ion-label>
           </ion-item>
@@ -143,10 +143,10 @@
         <div *ngIf="productForm.controls['albumBanner'].value as albumBanner; else btnChooseBannergallerys">
           <ion-item>
             <ion-avatar slot="start">
-              <img src="{{ albumBanner.media[0].srcThumbnail | galleryRoute }}">
+              <img src="{{ albumBanner.thumbnail | galleryRoute }}">
             </ion-avatar>
             <ion-label>
-              <h2>{{ albumBanner.bannerName }}</h2>
+              <h2>{{ albumBanner.name }}</h2>
               <h3>{{ albumBanner.createdAt | date: 'dd/MM/yyyy HH:mm:ss' }}</h3>
             </ion-label>
           </ion-item>

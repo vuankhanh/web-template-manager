@@ -3,10 +3,7 @@ import { Injectable } from '@angular/core';
 
 import { hostConfiguration } from 'src/environments/environment';
 
-import { BannerGallery } from 'src/app/Interfaces/BannerGallery';
-import { Media } from 'src/app/Interfaces/ProductGallery';
-
-import { map } from 'rxjs/operators';
+import { BannerGallery, BannerGalleryWillUpload } from 'src/app/Interfaces/BannerGallery';
 
 @Injectable({
   providedIn: 'root'
@@ -21,72 +18,41 @@ export class BannerGalleryService {
   ) { }
 
   get(token: string){
-
     let headers: HttpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
       'x-access-token': token
     });
-    return this.httpClient.get<Array<BannerGallery>>(this.urlGetAll, { headers }).pipe(
-      map(bannerGallerys=>{
-        console.log(bannerGallerys);
-        
-        return bannerGallerys.map(bannerGallery=>{
-          
-          let mainMedia = this.getMainSrc(bannerGallery.media);
-          if(mainMedia){
-            return { ...bannerGallery, src: mainMedia.src, thumbnail: mainMedia.srcThumbnail }
-          }else{
-            return { ...bannerGallery, src: '', thumbnail: '' }
-          }
-        });
-      })
-    );;
+    return this.httpClient.get<Array<BannerGallery>>(this.urlGetAll, { headers })
   }
 
-  insert(token: string, bannerGallery: BannerGallery){
-    console.log(bannerGallery);
+  insert(token: string, bannerGalleryWillUpload: BannerGalleryWillUpload){
     
     let headers: HttpHeaders = new HttpHeaders({
       'x-access-token': token
     });
 
     let params: HttpParams = new HttpParams();
-    params = params.append('name', bannerGallery.name);
+    params = params.append('name', bannerGalleryWillUpload.name);
 
     let formData = new FormData();
-    if(bannerGallery.willUpload){
-      for(let i=0; i<bannerGallery.willUpload.length; i++){
-        if(i === 0){
-          delete bannerGallery.willUpload[i].base64;
-          formData.append('single-file', bannerGallery.willUpload[i]);
-        }
-      }
-    }
+    formData.append('single-file', bannerGalleryWillUpload.willUpload[0]);
 
     return this.httpClient.post<BannerGallery>(this.urlInsert, formData, { headers, params });
   }
 
-  update(token: string, bannerGallery: BannerGallery){
+  update(token: string, id: string, bannerGalleryWillUpload: BannerGalleryWillUpload){
     let headers: HttpHeaders = new HttpHeaders({
       'x-access-token': token
     });
 
     let params: HttpParams = new HttpParams();
-    params = params.append('name', bannerGallery.name);
-    params = params.append('_id', bannerGallery._id);
+    params = params.append('name', bannerGalleryWillUpload.name);
+    params = params.append('_id', id);
 
     let formData = new FormData();
-    if(bannerGallery.willUpload){
-      for(let i=0; i<bannerGallery.willUpload.length; i++){
-        if(i === 0){
-          delete bannerGallery.willUpload[i].base64;
-          formData.append('single-file', bannerGallery.willUpload[i]);
-        }
-      }
+    if(bannerGalleryWillUpload.willUpload){
+      formData.append('single-file', bannerGalleryWillUpload.willUpload[0]);
     }
-
-    let mediaString = bannerGallery.media ? JSON.stringify(bannerGallery.media) : "[]";
-    formData.append('oldMedia', mediaString);
 
     return this.httpClient.put<BannerGallery>(this.urlUpdate, formData, { headers, params });
   }
@@ -98,14 +64,4 @@ export class BannerGalleryService {
     });
     return this.httpClient.post<BannerGallery | null>(this.urlRemove, bannerGallery, { headers });
   }
-
-  getMainSrc(medias: Array<Media>): Src{
-    let index: number = medias.findIndex(me=>me.isMain);
-    return index>0 ? medias[index] : medias[0];
-  }
-}
-
-interface Src{
-  src: string,
-  srcThumbnail: string
 }
