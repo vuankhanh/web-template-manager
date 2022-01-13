@@ -3,18 +3,18 @@
     <ion-item *ngFor="let productGalleryVideo of productGalleryVideos">
       <div class="item-container horizontal-container">
         <div class="horizontal-container">
-          <ion-avatar slot="start" *ngIf="(productGalleryVideo.media | isMain) as video">
-            <img src="{{ video.youtubeId | youtubeThumbnail }}">
+          <ion-avatar slot="start">
+            <img src="{{ productGalleryVideo.thumbnail | youtubeThumbnail }}">
           </ion-avatar>
           <div class="mini-width-space"></div>
           <ion-label>
-            <h2>{{ productGalleryVideo.productName }}</h2>
+            <h2>{{ productGalleryVideo.name }}</h2>
             <h3>{{ productGalleryVideo.createdAt | date: 'dd/MM/yyyy HH:mm:ss' }}</h3>
           </ion-label>
         </div>
         <div class="action-container horizontal-container">
           <ion-button
-              (click)="navigatorToModify('update', productGalleryVideo)"
+              (click)="navigatorToModify(productGalleryVideo)"
           >
             <ion-icon slot="icon-only" name="pencil-outline"></ion-icon>
           </ion-button>
@@ -31,7 +31,7 @@
   <app-pagination *ngIf="configPagination" [config]="configPagination" (emitChangeIndex)="changeIndex($event)"></app-pagination>
   
   <ion-fab horizontal="end" vertical="bottom" slot="fixed">
-    <ion-fab-button color="danger" (click)="navigatorToModify('insert', null)">
+    <ion-fab-button color="danger" (click)="navigatorToModify()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>

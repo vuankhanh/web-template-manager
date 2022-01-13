@@ -2,12 +2,14 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 
 import { BannerGalleryModifyPage } from '../../../pages/main/gallery/banner-gallery-modify/banner-gallery-modify.page';
+import { ConfirmPasswordPage } from '../../confirm-password/confirm-password.page';
 
 import { ResponseLogin } from 'src/app/services/api/login.service';
 import { BannerGallery } from 'src/app/Interfaces/BannerGallery';
 
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { BannerGalleryService } from 'src/app/services/api/banner-gallery.service';
+import { ToastService } from 'src/app/services/toast.service';
 
 import { Subscription } from 'rxjs';
 
@@ -22,7 +24,8 @@ export class OtherComponent implements OnInit, OnDestroy {
   constructor(
     private modalController: ModalController,
     private localStorageService: LocalStorageService,
-    private bannerGalleryService: BannerGalleryService
+    private bannerGalleryService: BannerGalleryService,
+    private toastService: ToastService
   ) { }
 
   ngOnInit() {
@@ -65,18 +68,39 @@ export class OtherComponent implements OnInit, OnDestroy {
     }
   }
 
-  removeBannerGallery(bannerGallery: BannerGallery){
-    let tokenStoraged: ResponseLogin = this.localStorageService.get(this.localStorageService.tokenKey);
+  async removeBannerGallery(bannerGallery: BannerGallery){
+    const modal = await this.modalController.create({
+      component: ConfirmPasswordPage
+    });
+
+    modal.present();
     
-    if(tokenStoraged && tokenStoraged.accessToken){
-      this.subscription.add(
-        this.bannerGalleryService.remove(tokenStoraged.accessToken, bannerGallery).subscribe(res=>{
-          let index = this.bannerGallerys.findIndex(bannerGallery=>bannerGallery._id === res._id);
-          if(index>=0){
-            this.bannerGallerys.splice(index, 1);
-          }
-        })
-      );
+    const data = await modal.onDidDismiss();
+    if(data.data){
+      let password = data.data;
+      let tokenStoraged: ResponseLogin = this.localStorageService.get(this.localStorageService.tokenKey);
+      
+      if(tokenStoraged && tokenStoraged.accessToken){
+        this.subscription.add(
+          this.bannerGalleryService.remove(tokenStoraged.accessToken, bannerGallery._id, password).subscribe(res=>{
+            if(res){
+              let index = this.bannerGallerys.findIndex(bannerGallery=>bannerGallery._id === res._id);
+              if(index>=0){
+                this.bannerGallerys.splice(index, 1);
+                this.toastService.shortToastSuccess('Đã xóa thành công', 'Thành công');
+              }
+            }else{
+              this.toastService.shortToastWarning('Không tồn tại album này', '');
+            }
+          },error=>{
+            if(error.status === 400){
+              this.toastService.shortToastError('Sai mật khẩu', 'Thất bại');
+            }else{
+              this.toastService.shortToastError('Đã có lỗi xảy ra', 'Thất bại');
+            }
+          })
+        );
+      }
     }
   }
 

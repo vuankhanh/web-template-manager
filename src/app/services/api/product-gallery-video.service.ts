@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { hostConfiguration } from 'src/environments/environment';
 
 import { PaginationParams } from 'src/app/Interfaces/PaginationParams';
-import { Media, ProductGalleryVideo } from 'src/app/Interfaces/ProductGalleryVideo';
+import { Media, ProductGalleryVideo, ProductGalleryVideoWillUpload } from 'src/app/Interfaces/ProductGalleryVideo';
 
 import { map }  from 'rxjs/operators';
 
@@ -34,48 +34,52 @@ export class ProductGalleryVideoService {
     return this.httpClient.get<ProductGalleryVideoResponse>(this.urlGetAll, { headers, params });
   }
 
-  insert(token: string, productGalleryVideo: ProductGalleryVideo){
-    console.log(productGalleryVideo);
+  insert(token: string, productGalleryVideoWillUpload: ProductGalleryVideoWillUpload){
     
     let headers: HttpHeaders = new HttpHeaders({
       'x-access-token': token
     });
 
     let params: HttpParams = new HttpParams();
-    params = params.append('name', productGalleryVideo.name);
+    params = params.append('name', productGalleryVideoWillUpload.name);
 
     let body = {
-      urls: productGalleryVideo.media,
-      isMain: productGalleryVideo.isMain
+      urls: productGalleryVideoWillUpload.media,
+      isMain: productGalleryVideoWillUpload.isMain
     }
 
     return this.httpClient.post<ProductGalleryVideo>(this.urlInsert, body, { headers, params });
   }
 
-  update(token: string, productGalleryVideo: ProductGalleryVideo){
+  update(token: string, id: string, productGalleryVideoWillUpload: ProductGalleryVideoWillUpload){
     let headers: HttpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
       'x-access-token': token
     });
 
     let params: HttpParams = new HttpParams();
-    params = params.append('name', productGalleryVideo.name);
-    params = params.append('_id', productGalleryVideo._id);
+    params = params.append('name', productGalleryVideoWillUpload.name);
+    params = params.append('_id', id);
 
     let body = {
-      urls: productGalleryVideo.media,
-      isMain: productGalleryVideo.isMain
+      urls: productGalleryVideoWillUpload.media,
+      isMain: productGalleryVideoWillUpload.isMain
     }
     
     return this.httpClient.put<ProductGalleryVideo>(this.urlUpdate, body, { headers, params });
   }
 
-  remove(token: string, productGallery: ProductGalleryVideo){
+  remove(token: string, id: string, password: string){
     let headers: HttpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
       'x-access-token': token
     });
-    return this.httpClient.post<ProductGalleryVideo | null>(this.urlRemove, productGallery, { headers });
+
+    let body = {
+      _id: id, password
+    }
+
+    return this.httpClient.post<ProductGalleryVideo>(this.urlRemove, body, { headers });
   }
 }
 
@@ -85,9 +89,4 @@ export interface ProductGalleryVideoResponse{
   page: number,
   totalPages: number,
   data: Array<ProductGalleryVideo>
-}
-
-interface Src{
-  src: string,
-  srcThumbnail: string
 }

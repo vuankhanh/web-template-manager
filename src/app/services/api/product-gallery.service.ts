@@ -86,12 +86,17 @@ export class ProductGalleryService {
     return this.httpClient.put<ProductGallery>(this.urlUpdate, formData, { headers, params });
   }
 
-  remove(token: string, productGallery: ProductGallery){
+  remove(token: string, id: string, password: string){
     let headers: HttpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
       'x-access-token': token
     });
-    return this.httpClient.post<ProductGallery | null>(this.urlRemove, productGallery, { headers });
+
+    let body = {
+      _id: id, password
+    }
+
+    return this.httpClient.post<ProductGallery>(this.urlRemove, body, { headers });
   }
 }
 

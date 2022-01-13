@@ -13,8 +13,8 @@
   <div class="vertical-container product-gallery-video-container">
     <ion-list>
       <ion-item *ngFor="let productGalleryVideo of productGalleryVideos" (click)="chooseProductGalleryVideo(productGalleryVideo)">
-        <ion-avatar slot="start" *ngIf="(productGalleryVideo.media | isMain) as video">
-          <img src="{{ video.youtubeId | youtubeThumbnail }}">
+        <ion-avatar slot="start">
+          <img src="{{ productGalleryVideo.thumbnail | youtubeThumbnail }}">
         </ion-avatar>
         <ion-label>
           <h2>{{ productGalleryVideo.productName }}</h2>

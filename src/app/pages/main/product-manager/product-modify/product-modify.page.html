@@ -113,8 +113,8 @@
         <ion-label>Video: </ion-label>
         <div *ngIf="productForm.controls['albumVideo'].value as albumVideoValue; else btnChooseGalleryVideo">
           <ion-item>
-            <ion-avatar slot="start" *ngIf="(albumVideoValue.media | isMain) as video">
-              <img src="{{ video.youtubeId | youtubeThumbnail }}">
+            <ion-avatar slot="start">
+              <img src="{{ albumVideoValue.thumbnail | youtubeThumbnail }}">
             </ion-avatar>
             <ion-label>
               <h2>{{ albumVideoValue.productName }}</h2>

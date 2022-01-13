@@ -57,11 +57,15 @@ export class BannerGalleryService {
     return this.httpClient.put<BannerGallery>(this.urlUpdate, formData, { headers, params });
   }
 
-  remove(token: string, bannerGallery: BannerGallery){
+  remove(token: string, id: string, password: string){
     let headers: HttpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
       'x-access-token': token
     });
-    return this.httpClient.post<BannerGallery | null>(this.urlRemove, bannerGallery, { headers });
+
+    let body = {
+      _id: id, password
+    }
+    return this.httpClient.post<BannerGallery | null>(this.urlRemove, body, { headers });
   }
 }

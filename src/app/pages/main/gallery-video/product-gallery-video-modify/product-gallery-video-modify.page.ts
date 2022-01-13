@@ -15,11 +15,9 @@ import { ToastService } from 'src/app/services/toast.service';
   styleUrls: ['./product-gallery-video-modify.page.scss'],
 })
 export class ProductGalleryVideoModifyPage implements OnInit {
-  @Input() type: string;
-  @Input() data: ProductGalleryVideo;
+  @Input() productGalleryVideo: ProductGalleryVideo;
 
   productGalleryVideoForm: FormGroup;
-  params: Params;
 
   fileList: FileList;
   constructor(
@@ -32,28 +30,18 @@ export class ProductGalleryVideoModifyPage implements OnInit {
     
   }
 
-  ngOnInit() {
-    if(this.type){
-      const data = JSON.parse(JSON.stringify(this.data));
-      this.params = {
-        type: <'update' | 'insert'>this.type,
-        data: <ProductGalleryVideo>data
-      };
-      
-      this.initForm(this.params.data);
-    }
+  ngOnInit(){
+    console.log(this.productGalleryVideo);
+    this.initForm(this.productGalleryVideo);
   }
 
-  initForm(productGalleryVideo: ProductGalleryVideo | null){
-    if(productGalleryVideo){
-      let isMain: number = productGalleryVideo?.media?.findIndex(media=>media.isMain) | 0;
-      this.productGalleryVideoForm = this.formBuilder.group({
-        name: [productGalleryVideo && productGalleryVideo!.productName ? productGalleryVideo!.productName : '', Validators.required],
-        media: [productGalleryVideo && productGalleryVideo!.media ? productGalleryVideo!.media : []],
-        isMain: [isMain, Validators.required]
-      });
-    }
-    
+  initForm(productGalleryVideo?: ProductGalleryVideo){
+    let isMain: number = productGalleryVideo?.media?.findIndex(media=>media.isMain) | 0;
+    this.productGalleryVideoForm = this.formBuilder.group({
+      name: [productGalleryVideo ? productGalleryVideo.name : '', Validators.required],
+      media: [productGalleryVideo ? productGalleryVideo.media : []],
+      isMain: [isMain, Validators.required]
+    });
   }
 
   addVideo(media: Media){
@@ -92,33 +80,22 @@ export class ProductGalleryVideoModifyPage implements OnInit {
   }
 
   modify(){
-    if(this.params.type === 'insert'){
+    if(!this.productGalleryVideo){
       this.insert();
-    }else if(this.params.type === 'update'){
+    }else{
       this.update();
     }
   }
 
   update(){
     if(this.productGalleryVideoForm.valid){
-      let productGalleryVideo: ProductGalleryVideo = {
-        _id: this.params.data._id,
-        ...this.productGalleryVideoForm.value
-      }
-
-      console.log(productGalleryVideo);
-
       let tokenStoraged: ResponseLogin = this.localStorageService.get(this.localStorageService.tokenKey);
       if(tokenStoraged && tokenStoraged.accessToken){
         let accessToken = tokenStoraged.accessToken;
-        this.productGalleryVideoService.update(accessToken, productGalleryVideo).subscribe(res=>{
+        this.productGalleryVideoService.update(accessToken, this.productGalleryVideo._id, this.productGalleryVideoForm.value).subscribe(res=>{
           if(res){
             this.toastService.shortToastSuccess('Đã cập nhật Thư viện Sản Phẩm Video', 'Thành công').then(_=>{
-              this.params = {
-                type: <'update' | 'insert'>this.type,
-                data: res
-              }
-              this.modalController.dismiss(this.params);
+              this.modalController.dismiss(res);
             });
           }else{
             this.toastService.shortToastWarning('Thư viện Sản Phẩm Video đã bị xóa', '');
@@ -145,11 +122,7 @@ export class ProductGalleryVideoModifyPage implements OnInit {
         this.productGalleryVideoService.insert(accessToken, this.productGalleryVideoForm.value).subscribe(res=>{
           console.log(res);
           this.toastService.shortToastSuccess('Đã thêm một Video vào Thư Viện', 'Thành công').then(_=>{
-            this.params = {
-              type: <'update' | 'insert'>this.type,
-              data: res
-            }
-            this.modalController.dismiss(this.params);
+            this.modalController.dismiss(res);
           });
         },error=>{
           console.log(error);
@@ -164,10 +137,4 @@ export class ProductGalleryVideoModifyPage implements OnInit {
       }
     }
   }
-
-}
-
-interface Params{
-  type: 'insert' | 'update',
-  data: ProductGalleryVideo
 }

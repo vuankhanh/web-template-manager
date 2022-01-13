@@ -17,10 +17,6 @@ const routes: Routes = [
     path: 'main',
     loadChildren: () => import('./pages/main/main/main.module').then( m => m.MainPageModule),
     canActivate: [RouteGuard]
-  },
-  {
-    path: 'product-modify-unit',
-    loadChildren: () => import('./pages/main/product-manager/product-modify-unit/product-modify-unit.module').then( m => m.ProductModifyUnitPageModule)
   }
 ];
 

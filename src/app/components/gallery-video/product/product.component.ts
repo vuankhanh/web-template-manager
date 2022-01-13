@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 
 import { ProductGalleryVideoModifyPage } from '../../../pages/main/gallery-video/product-gallery-video-modify/product-gallery-video-modify.page';
+import { ConfirmPasswordPage } from '../../confirm-password/confirm-password.page';
 
 import { PaginationParams } from 'src/app/Interfaces/PaginationParams';
 import { ProductGalleryVideo } from 'src/app/Interfaces/ProductGalleryVideo';
@@ -9,6 +10,7 @@ import { ProductGalleryVideo } from 'src/app/Interfaces/ProductGalleryVideo';
 import { ResponseLogin } from 'src/app/services/api/login.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { ProductGalleryVideoResponse, ProductGalleryVideoService } from 'src/app/services/api/product-gallery-video.service';
+import { ToastService } from 'src/app/services/toast.service';
 
 import { Subscription } from 'rxjs';
 
@@ -27,7 +29,8 @@ export class ProductGalleryVideoComponent implements OnInit, OnDestroy {
   constructor(
     private modalController: ModalController,
     private localStorageService: LocalStorageService,
-    private productGalleryVideoService: ProductGalleryVideoService
+    private productGalleryVideoService: ProductGalleryVideoService,
+    private toastService: ToastService
   ) { }
 
   ngOnInit() {
@@ -58,49 +61,63 @@ export class ProductGalleryVideoComponent implements OnInit, OnDestroy {
     this.getProductGalleryVideo(this.configPagination);
   }
 
-  async navigatorToModify(type: 'update'| 'insert', productGalleryVideo: ProductGalleryVideo){
+  async navigatorToModify(productGalleryVideo?: ProductGalleryVideo){
     const modal = await this.modalController.create({
       component: ProductGalleryVideoModifyPage,
       componentProps: {
-        type,
-        data: Object.assign({}, productGalleryVideo)
+        productGalleryVideo
       }
     });
 
     modal.present();
     
     const data = await modal.onDidDismiss();
-    if(data.data && data.data.type){
-
-      let params: Params = {
-        type: <'insert' | 'update'>data.data.type,
-        data: <ProductGalleryVideo>data.data.data
-      }
-
-      if(type === 'insert'){
-        this.productGalleryVideos.push(params.data);
-      }else if(type==='update'){
+    if(data.data){
+      if(productGalleryVideo){
         for(let [index, productCategory] of this.productGalleryVideos.entries()){
-          if(productCategory._id === params.data._id){
-            this.productGalleryVideos[index] = params.data;
+          if(productCategory._id === data.data._id){
+            this.productGalleryVideos[index] = data.data;
           }
         }
+      }else{
+        this.productGalleryVideos.push(data.data);
       }
     }
   }
 
-  removeProductGallery(productGallery: ProductGalleryVideo){
-    let tokenStoraged: ResponseLogin = this.localStorageService.get(this.localStorageService.tokenKey);
+  async removeProductGallery(productGallery: ProductGalleryVideo){
+    const modal = await this.modalController.create({
+      component: ConfirmPasswordPage
+    });
+
+    modal.present();
     
-    if(tokenStoraged && tokenStoraged.accessToken){
-      this.subscription.add(
-        this.productGalleryVideoService.remove(tokenStoraged.accessToken, productGallery).subscribe(res=>{
-          let index = this.productGalleryVideos.findIndex(productGallery=>productGallery._id === res._id);
-          if(index>=0){
-            this.productGalleryVideos.splice(index, 1);
-          }
-        })
-      );
+    const data = await modal.onDidDismiss();
+    if(data.data){
+      let password = data.data;
+      let tokenStoraged: ResponseLogin = this.localStorageService.get(this.localStorageService.tokenKey);
+      
+      if(tokenStoraged && tokenStoraged.accessToken){
+        this.subscription.add(
+          this.productGalleryVideoService.remove(tokenStoraged.accessToken, productGallery._id, password).subscribe(res=>{
+            if(res){
+              let index = this.productGalleryVideos.findIndex(productGallery=>productGallery._id === res._id);
+              if(index>=0){
+                this.productGalleryVideos.splice(index, 1);
+                this.toastService.shortToastSuccess('Đã xóa thành công', 'Thành công');
+              }
+            }else{
+              this.toastService.shortToastWarning('Không tồn tại album này', '');
+            }
+          },error=>{
+            if(error.status === 400){
+              this.toastService.shortToastError('Sai mật khẩu', 'Thất bại');
+            }else{
+              this.toastService.shortToastError('Đã có lỗi xảy ra', 'Thất bại');
+            }
+          })
+        );
+      }
     }
   }
 

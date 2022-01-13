@@ -5,7 +5,7 @@
         <ion-icon slot="icon-only" name="close-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title>{{ params.type === 'update' ? 'Cập nhật Thư Viện Sản Phẩm' : 'Thêm mới Thư Viện Sản Phẩm' }}</ion-title>
+    <ion-title>{{ productGalleryVideo ? 'Cập nhật Thư Viện Sản Phẩm' : 'Thêm mới Thư Viện Sản Phẩm' }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -35,7 +35,7 @@
     </ng-container>
     
     <ion-button class="submit-form" (click)="modify()" [disabled]="productGalleryVideoForm.invalid">
-      {{ params.type === 'update' ? 'Cập nhật' : 'Thêm mới' }}
+      {{ productGalleryVideo ? 'Cập nhật' : 'Thêm mới' }}
     </ion-button>
   </div>
 </ion-content>

@@ -126,8 +126,6 @@ export class ProductModifyPage implements OnInit, OnDestroy {
   }
 
   async openUnitModify(){
-    console.log(this.productForm.controls['unit'].value);
-    
     const modal = await this.modalController.create({
       component: ProductModifyUnitPage,
       componentProps: {
@@ -255,7 +253,6 @@ export class ProductModifyPage implements OnInit, OnDestroy {
       if(tokenStoraged && tokenStoraged.accessToken){
         let accessToken = tokenStoraged.accessToken;
         this.productService.insert(accessToken, this.productForm.value).subscribe(res=>{
-          console.log(res);
           this.toastService.shortToastSuccess('Đã thêm một sản phẩm', 'Thành công').then(_=>{
             this.params = {
               type: <'update' | 'insert'>this.type,
@@ -264,7 +261,6 @@ export class ProductModifyPage implements OnInit, OnDestroy {
             this.modalController.dismiss(this.params);
           });
         },error=>{
-          console.log(error);
           if(error.status === 409){
             this.toastService.shortToastError('Sản phẩm này đã tồn tại', 'Thất bại');
           }else{
