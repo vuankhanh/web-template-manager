@@ -27,7 +27,7 @@
         <ion-label>Chọn ảnh: </ion-label>
         <ion-button (click)="file.click()">
           {{
-            bannerGallery === 'update' ? 'Thêm ảnh' : 
+            bannerGallery ? 'Thêm ảnh' : 
             (
               (
                 bannerGalleryForm.value.media.length===0 &&
