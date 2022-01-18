@@ -10,7 +10,7 @@ import { AuthService } from 'src/app/services/auth.service';
 export class MainPage implements OnInit {
   public appPages = [
     { title: 'Trang chủ', url: '/main/dashboard', icon: 'apps' },
-    { title: 'Quản lý người dùng', url: '/main/user-management', icon: 'people' },
+    { title: 'Quản lý tài khoản', url: '/main/account-management', icon: 'people' },
     { title: 'Thư viện hình ảnh', url: '/main/gallery', icon: 'images' },
     { title: 'Thư viện video', url: '/main/gallery-video', icon: 'videocam' },
     { title: 'Quản lý đơn hàng', url: '/main/order-manager', icon: 'receipt' },
@@ -40,5 +40,9 @@ export class MainPage implements OnInit {
       console.log(this.admin);
       
     })
+  }
+
+  logout(){
+    this.authService.logout();
   }
 }

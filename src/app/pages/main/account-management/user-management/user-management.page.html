@@ -1,9 +1,9 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
+      <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>Quản lý người dùng</ion-title>
+    <ion-title>Tài khoản người dùng</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -46,14 +46,14 @@
       <ng-container matColumnDef="allowFacebook">
         <th mat-header-cell *matHeaderCellDef> Xác thực Facebook </th>
         <td mat-cell *matCellDef="let element">
-          <ion-icon name="{{ element.allowAccount ? 'checkmark-circle-outline' : 'close-circle-outline' }}"></ion-icon>
+          <ion-icon name="{{ element.allowFacebook ? 'checkmark-circle-outline' : 'close-circle-outline' }}"></ion-icon>
         </td>
       </ng-container>
   
       <ng-container matColumnDef="allowGoogle">
         <th mat-header-cell *matHeaderCellDef> Xác thực Google </th>
         <td mat-cell *matCellDef="let element">
-          <ion-icon name="{{ element.allowAccount ? 'checkmark-circle-outline' : 'close-circle-outline' }}"></ion-icon>
+          <ion-icon name="{{ element.allowGoogle ? 'checkmark-circle-outline' : 'close-circle-outline' }}"></ion-icon>
   
         </td>
       </ng-container>

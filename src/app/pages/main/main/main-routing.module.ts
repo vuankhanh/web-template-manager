@@ -18,8 +18,11 @@ const routes: Routes = [
         path: 'dashboard',
         loadChildren: () => import('../dasboard/dasboard.module').then( m => m.DasboardPageModule)
       },{
-        path: 'user-management',
-        loadChildren: () => import('../user-management/user-management.module').then( m => m.UserManagementPageModule)
+        path: 'account',
+        loadChildren: () => import('../account/account.module').then( m => m.AccountPageModule)
+      },{
+        path: 'account-management',
+        loadChildren: () => import('../account-management/main/account-management.module').then( m => m.AccountManagementPageModule)
       },{
         path: 'gallery',
         loadChildren: () => import('../gallery/main/gallery.module').then( m => m.GalleryPageModule)

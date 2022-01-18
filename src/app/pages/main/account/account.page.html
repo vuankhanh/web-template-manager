@@ -1,0 +1,94 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Cài đặt</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item-group>
+      <ion-item-divider>
+        <ion-label>
+          <h1>Bảo mật</h1>
+        </ion-label>
+      </ion-item-divider>
+
+      <ng-container>
+        <ion-item [ngStyle]="{ 'cursor': 'default' }">
+          <div class="item-container horizontal-container">
+            <div
+              class="title-container horizontal-container"
+              [ngStyle]="{ 'cursor': showChangePassword ? 'default' : 'pointer' }"
+              (click)="!showChangePassword && togglePasswordChange()"
+            >
+              <ion-icon slot="start" name="key-outline"></ion-icon>
+              <div class="width-space"></div>
+              <div class="vertical-container">
+                <span class="secondary-key">Đổi mật khẩu</span>
+                <span class="primary-key">Bạn nên sử dụng mật khẩu mạnh.</span>
+              </div>
+            </div>
+            <div class="width-space"></div>
+            <div class="button-container horizontal-container">
+              <button (click)="togglePasswordChange()">
+                {{ showChangePassword ? 'Đóng' : 'Chỉnh sửa' }}
+              </button>
+            </div>
+          </div>
+        </ion-item>
+
+        <div class="form-change-password-container horizontal-container" *ngIf="showChangePassword">
+          <form
+            *ngIf="changePasswordForm"
+            [formGroup]="changePasswordForm"
+            (ngSubmit)="changePassword()"
+          >
+            <ion-item>
+              <ion-icon slot="start" name="shield-outline"></ion-icon>
+              <ion-input
+                type="password"
+                placeholder="Mật khẩu cũ"
+                formControlName="oldPassword"
+              ></ion-input>
+            </ion-item>
+            <span class="error-control-warning" *ngIf="changePasswordForm.controls['oldPassword'].hasError('oldPasswordIsIncorrect')">
+              Mật khẩu cũ không đúng
+            </span>
+
+            <ion-item>
+              <ion-icon slot="start" name="key-outline"></ion-icon>
+              <ion-input
+                type="password"
+                placeholder="Mật khẩu mới"
+                formControlName="password"
+              ></ion-input>
+            </ion-item>
+            <span class="error-control-warning" *ngIf="changePasswordForm.controls['password'].hasError('safePassword')">
+              Mật khẩu gồm 6 ký tự chữ cái, viết thường, viết hoa và số
+            </span>
+
+            <ion-item>
+              <ion-icon slot="start" name="key-outline"></ion-icon>
+              <ion-input
+                type="password"
+                placeholder="Nhập lại mật khẩu mới"
+                formControlName="confirmPassword"
+              ></ion-input>
+            </ion-item>
+            <span class="error-control-warning" *ngIf="changePasswordForm.controls['confirmPassword'].hasError('passwordIsNotSame')">
+              Mật khẩu chưa trùng khớp
+            </span>
+            
+            <div class="height-space"></div>
+
+            <ion-button type="submit" [disabled]="changePasswordForm.invalid">Đổi mật khẩu</ion-button>
+          </form>
+        </div>
+      </ng-container>
+    </ion-item-group>
+  </ion-list>
+  
+</ion-content>

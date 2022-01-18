@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 //Service
 import { LoginService, ResponseLogin } from 'src/app/services/api/login.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
+import { ToastService } from 'src/app/services/toast.service';
 
 import { Subscription } from 'rxjs';
 
@@ -21,7 +22,8 @@ export class LoginPage implements OnInit, OnDestroy {
     private router: Router,
     private formBuilder: FormBuilder,
     private loginService: LoginService,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    private toastService: ToastService
 
   ){
     this.initLoginForm()
@@ -44,15 +46,25 @@ export class LoginPage implements OnInit, OnDestroy {
     
   }
 
+  keyDownFunction(event: KeyboardEvent){
+    if(event.key === 'Enter'){
+      this.submitForm();
+    }
+  }
+
   submitForm(){
     if(this.loginGroup.valid){
       this.subscription.add(
         this.loginService.login(this.loginGroup.value).subscribe(res=>{
+          this.toastService.shortToastSuccess('Đăng nhập thành công', 'Thành công');
           this.localStorageService.set(this.localStorageService.tokenKey, res);
           this.router.navigateByUrl('/main');
         },err=>{
-          console.log(err);
-          
+          if(err.status === 403 && err.error.message){
+            this.toastService.shortToastError(err.error.message, 'Thất bại');
+          }else{
+            this.toastService.shortToastError('Đã có lỗi xảy ra', 'Thất bại');
+          }
         })
       )
     }

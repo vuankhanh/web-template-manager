@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
-import { MaterialModule } from '../../../material.module';
+import { MaterialModule } from '../../../../material.module';
 
 import { UserManagementPageRoutingModule } from './user-management-routing.module';
 

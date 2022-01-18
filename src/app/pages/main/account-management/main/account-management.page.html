@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Quản lý Tài khoản</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="horizontal-container">
+    <ion-button mode="ios" routerLink="/main/account-management/user">
+      <ion-icon name="person-outline"></ion-icon>
+      <span>Người dùng</span>
+    </ion-button>
+    <ion-button mode="ios" routerLink="/main/account-management/admin">
+      <ion-icon name="cog-outline"></ion-icon>
+      <span>Admin</span>
+    </ion-button>
+  </div>
+  <!-- <div class="vertical-container gallery-container">
+    <ion-segment [(ngModel)]="selection" (ionChange)="segmentChanged()">
+      <ion-segment-button value="user">
+        <ion-label>Người dùng</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="admin">
+        <ion-label>Admin</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+
+    <div [ngSwitch]="selection" class="component-container">
+      <app-user-management *ngSwitchCase="'user'"></app-user-management>
+      <app-admin-management *ngSwitchCase="'admin'"></app-admin-management>
+    </div>
+  </div> -->
+</ion-content>

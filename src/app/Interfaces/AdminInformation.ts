@@ -10,6 +10,6 @@ export interface AdminInformation {
     name: string,
     avatar: string,
     permission: number,
-    createdAt: Date,
-    updatedAt: Date
+    createdAt: string,
+    updatedAt: string
 }

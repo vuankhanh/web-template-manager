@@ -1,0 +1,40 @@
+ion-list{
+    ion-item-group{
+        ion-item-divider{
+            ion-label{
+                h1{
+                    margin: 0;
+                }
+            }
+        }
+    }
+}
+ion-item{
+    .item-container{
+        width: 100%;
+        justify-content: space-between;
+        .title-container{
+            width: 100%;
+            align-items: center;
+            ion-icon{
+                min-width: 24px;
+                min-height: 24px;
+            }
+        }
+        .button-container{
+            white-space: nowrap;
+            button{
+                outline: none;
+            }
+        }
+    }
+}
+
+.form-change-password-container{
+    padding-left: 30px;
+    form{
+        .error-control-warning{
+            color: var(--ion-color-danger, #eb445a);
+        }
+    }
+}
