@@ -8,6 +8,7 @@ import { ProductCategory } from '../../../../Interfaces/ProductCategory';
 import { ProductCategoryService } from 'src/app/services/api/product-category.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { ResponseLogin } from 'src/app/services/api/login.service';
+
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -40,33 +41,25 @@ export class ProductCategoryPage implements OnInit, OnDestroy {
     }
   }
 
-  async navigatorToModify(type: 'update'| 'insert', productCategory: ProductCategory){
-    console.log(type);
-    console.log(productCategory);
+  async navigatorToModify(productCategory?: ProductCategory){
     const modal = await this.modalController.create({
       component: ProductCategoryModifyPage,
       componentProps: {
-        type,
-        data: productCategory
+        productCategory: productCategory
       }
     });
 
     modal.present();
     
     const data = await modal.onDidDismiss();
-    if(data.data && data.data.type){
+    if(data.data){
 
-      let params: Params = {
-        type: <'insert' | 'update'>data.data.type,
-        data: <ProductCategory>data.data.data
-      }
-
-      if(type === 'insert'){
-        this.productCategorys.push(params.data);
-      }else if(type==='update'){
+      if(!productCategory){
+        this.productCategorys.push(data.data);
+      }else{
         for(let [index, productCategory] of this.productCategorys.entries()){
-          if(productCategory._id === params.data._id){
-            this.productCategorys[index] = params.data;
+          if(productCategory._id === data.data._id){
+            this.productCategorys[index] = data.data;
           }
         }
       }
@@ -91,9 +84,4 @@ export class ProductCategoryPage implements OnInit, OnDestroy {
   ngOnDestroy(){
     this.subscription.unsubscribe();
   }
-}
-
-interface Params{
-  type: 'insert' | 'update',
-  data: ProductCategory
 }

@@ -25,7 +25,7 @@
           </ion-label>
           <div class="action-container horizontal-container">
             <ion-button
-              (click)="navigatorToModify('update', productCategory)"
+              (click)="navigatorToModify(productCategory)"
             >
               <ion-icon slot="icon-only" name="pencil-outline"></ion-icon>
             </ion-button>
@@ -41,7 +41,7 @@
     </ion-list>
     <ion-button
       class="create-new"
-      (click)="navigatorToModify('insert', null)"
+      (click)="navigatorToModify()"
     >Tạo mới</ion-button>
   </div>
 </ion-content>

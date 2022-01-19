@@ -5,7 +5,7 @@
         <ion-icon slot="icon-only" name="close-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title>product-category-modify</ion-title>
+    <ion-title>{{productCategory ? 'Cập nhật danh mục' : 'Tạo mới danh mục'}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -19,8 +19,12 @@
       <ion-label>Mã: </ion-label>
       <ion-input formControlName="route" readonly="true"></ion-input>
     </ion-item>
+    <ion-item>
+      <ion-label>Danh mục Google: </ion-label>
+      <ion-input formControlName="googleProductCategory"></ion-input>
+    </ion-item>
     <ion-button type="submit" [disabled]="productCategoryForm.invalid">
-      {{ params && (params.type === 'update') ? 'Cập nhật' : 'Tạo mới' }}
+      {{ productCategory ? 'Cập nhật' : 'Tạo mới' }}
     </ion-button>
   </form>
 </ion-content>

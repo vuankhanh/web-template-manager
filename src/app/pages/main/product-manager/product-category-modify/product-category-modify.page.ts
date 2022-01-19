@@ -16,10 +16,8 @@ import { ResponseLogin } from 'src/app/services/api/login.service';
   styleUrls: ['./product-category-modify.page.scss'],
 })
 export class ProductCategoryModifyPage implements OnInit {
-  @Input() type:string;
-  @Input() data: ProductCategory;
+  @Input() productCategory: ProductCategory;
   productCategoryForm: FormGroup;
-  params: Params;
 
   constructor(
     public modalController: ModalController,
@@ -33,21 +31,14 @@ export class ProductCategoryModifyPage implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.type);
-    console.log(this.data);
-    if(this.type){
-      this.params = {
-        type: <'update' | 'insert'>this.type,
-        data: <ProductCategory>this.data
-      }
-      this.initForm(this.params.data);
-    }
+    this.initForm(this.productCategory);
   }
 
-  initForm(data: ProductCategory | null){
+  initForm(productCategory?: ProductCategory){
     this.productCategoryForm = this.formBuilder.group({
-      name: [data && data!.name ? data!.name : '', Validators.required],
-      route: [data && data!.route ? data!.route : '', Validators.required],
+      name: [productCategory ? productCategory.name : '', Validators.required],
+      route: [productCategory ? productCategory.route : '', Validators.required],
+      googleProductCategory: [productCategory ? productCategory.googleProductCategory : '', Validators.required]
     })
   }
 
@@ -59,32 +50,27 @@ export class ProductCategoryModifyPage implements OnInit {
   }
 
   modify(){
-    if(this.params.type === 'insert'){
+    if(!this.productCategory){
       this.insert();
-    }else if(this.params.type === 'update'){
+    }else{
       this.update();
     }
   }
 
   update(){
     if(this.productCategoryForm.valid){
-      let productCategory: ProductCategory = {
-        _id: this.params.data._id,
-        name: this.productCategoryForm.value.name,
-        route: this.productCategoryForm.value.route
-      }
-
+      console.log(this.productCategoryForm.value);
       let tokenStoraged: ResponseLogin = this.localStorageService.get(this.localStorageService.tokenKey);
       if(tokenStoraged && tokenStoraged.accessToken){
         let accessToken = tokenStoraged.accessToken;
+        let productCategory: ProductCategory = {
+          _id: this.productCategory._id,
+          ...this.productCategoryForm.value
+        }
         this.productCategoryService.update(accessToken, productCategory).subscribe(res=>{
           if(res){
             this.toastService.shortToastSuccess('Đã cập nhật Danh mục sản phẩm', 'Thành công').then(_=>{
-              this.params = {
-                type: <'update' | 'insert'>this.type,
-                data: res
-              }
-              this.modalController.dismiss(this.params);
+              this.modalController.dismiss(res);
             });
           }else{
             this.toastService.shortToastWarning('Danh mục đã bị xóa', '');
@@ -111,11 +97,7 @@ export class ProductCategoryModifyPage implements OnInit {
         this.productCategoryService.insert(accessToken, this.productCategoryForm.value).subscribe(res=>{
           console.log(res);
           this.toastService.shortToastSuccess('Đã thêm một Danh mục sản phẩm', 'Thành công').then(_=>{
-            this.params = {
-              type: <'update' | 'insert'>this.type,
-              data: res
-            }
-            this.modalController.dismiss(this.params);
+            this.modalController.dismiss(res);
           });
         },error=>{
           console.log(error);
@@ -131,9 +113,4 @@ export class ProductCategoryModifyPage implements OnInit {
     }
   }
 
-}
-
-interface Params{
-  type: 'insert' | 'update',
-  data: ProductCategory
 }

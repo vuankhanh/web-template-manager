@@ -103,25 +103,24 @@ export class ProductModifyPage implements OnInit, OnDestroy {
   }
 
   initForm(data: Product){
-    console.log(data)
     this.productForm = this.formBuilder.group({
-      name: [data && data!.name ? data!.name : '', Validators.required],
-      category: [data && data!.category ? data!.category : null, Validators.required],
+      name: [data ? data.name : '', Validators.required],
+      category: [data ? data.category : null, Validators.required],
 
-      price: [data && data!.price ? data!.price : 0, Validators.required],
-      currencyUnit: [data && data!.currencyUnit ? data!.currencyUnit : this.currencyUnits[0], Validators.required],
-      theRemainingAmount: [data && data!.theRemainingAmount ? data!.theRemainingAmount : 0, Validators.required],
-      unit: [data && data!.unit ? data!.unit : '', Validators.required],
+      price: [data ? data.price : 0, Validators.required],
+      currencyUnit: [data ? data.currencyUnit : this.currencyUnits[0], Validators.required],
+      theRemainingAmount: [data ? data.theRemainingAmount : 0, Validators.required],
+      unit: [data ? data.unit : '', Validators.required],
 
-      sortDescription: [data && data!.sortDescription ? data!.sortDescription : '', Validators.required],
+      sortDescription: [data ? data.sortDescription : '', Validators.required],
 
-      longDescription: [data && data!.longDescription ? data!.longDescription : '', Validators.required],
-      supplier: [data && data!.supplier ? data!.supplier : null],
-      albumImg: [data && data!.albumImg ? data!.albumImg : null, Validators.required],
-      albumVideo: [data && data!.albumVideo ? data!.albumVideo : null],
+      longDescription: [data ? data.longDescription : '', Validators.required],
+      supplier: [data ? data.supplier : null],
+      albumImg: [data ? data.albumImg : null, Validators.required],
+      albumVideo: [data ? data.albumVideo : null],
 
-      highlight: [data && data!.highlight ? data!.highlight : false, Validators.required],
-      albumBanner: [data && data!.albumBanner ? data!.albumBanner : null],
+      highlight: [data ? data.highlight : false, Validators.required],
+      albumBanner: [data ? data.albumBanner : null],
     }, {validator: productHightLight()});
   }
 
