@@ -6,8 +6,14 @@ export interface OrderStatus{
     name: string
 }
 
+export interface AdminRight{
+    code: number,
+    name: string
+}
+
 export interface ServerConfig{
     identification: Identification,
     orderStatus: Array<OrderStatus>,
-    orderCreatedBy: Array<OrderStatus>
+    orderCreatedBy: Array<OrderStatus>,
+    adminRights : Array<AdminRight>
 }

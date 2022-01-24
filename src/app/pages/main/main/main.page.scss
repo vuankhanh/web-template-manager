@@ -1,6 +1,13 @@
 ion-menu ion-content {
     --background: var(--ion-item-background, var(--ion-background-color, #fff));
     --padding-top: 0 !important;
+    ion-list{
+        ion-list-header{
+            ion-menu-toggle{
+                width: 100%;
+            }
+        }
+    }
 }
 
 ion-menu.md ion-content {
