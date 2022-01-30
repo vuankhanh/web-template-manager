@@ -6,7 +6,10 @@ import { AdminManagementPage } from './admin-management.page';
 const routes: Routes = [
   {
     path: '',
-    component: AdminManagementPage
+    component: AdminManagementPage,
+  },{
+    path: ':id',
+    loadChildren: () => import('../admin-management-modify/admin-management-modify.module').then( m => m.AdminManagementModifyPageModule)
   }
 ];
 

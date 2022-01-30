@@ -48,7 +48,11 @@
       </ng-container>
     
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: displayedColumns;"
+        [routerLink]="['/main/account-management/admin', row._id]"
+      ></tr>
     </table>
   </div>
   <mat-paginator
@@ -61,4 +65,12 @@
     [showFirstLastButtons]="showFirstLastButtons"
     aria-label="Select page">
   </mat-paginator>
+
+  <ion-fab horizontal="end" vertical="bottom" slot="fixed">
+    <ion-fab-button color="danger"
+      [routerLink]="['/main/account-management/admin/new']"
+    >
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

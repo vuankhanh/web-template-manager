@@ -1,0 +1,9 @@
+.admin-management-container{
+    table {
+        width: 100%;
+        .mat-row:hover{
+            cursor: pointer;
+            background: #ededed;
+        }
+    }
+}

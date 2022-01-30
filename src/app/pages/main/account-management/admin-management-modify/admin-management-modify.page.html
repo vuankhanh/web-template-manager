@@ -1,0 +1,62 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+        <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ paramsId ==='new' ? 'Tạo mới tài khoản' : 'Cập nhật tài khoản' }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form *ngIf="adminAccountForm" [formGroup]="adminAccountForm" (ngSubmit)="modify()">
+    <ion-item>
+      <ion-label>Tài khoản</ion-label>
+      <ion-input
+        placeholder="Tài khoản"
+        formControlName="userName"
+        [readonly]="paramsId !='new'"
+      ></ion-input>
+    </ion-item>
+    
+    <ion-item>
+      <ion-label>Tên</ion-label>
+      <ion-input
+        placeholder="Tên"
+        formControlName="name"
+      ></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Avatar</ion-label>
+      <ion-input
+        placeholder="Avatar"
+        formControlName="avatar"
+        [readonly]="paramsId !='new'"
+      ></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Quyền</ion-label>
+      <ion-select formControlName="permission">
+        <ion-select-option
+          *ngFor="let adminRight of adminRights"
+          [value]="adminRight.code"
+        >
+          {{ adminRight.name }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Trạng thái hoạt động</ion-label>
+      <ion-toggle formControlName="activated"></ion-toggle>
+    </ion-item>
+
+    <ion-button
+      type="submit"
+      [disabled]="adminAccountForm.invalid"
+    >
+      {{ paramsId ==='new' ? 'Tạo mới' : 'Cập nhật' }}
+    </ion-button>
+  </form>
+</ion-content>

@@ -33,7 +33,7 @@
         </ion-item-divider>
 
         <ng-container *ngFor="let p of partner; let i = index">
-          <ion-menu-toggle auto-hide="false" *ngIf="admin.permission <= p.permission">
+          <ion-menu-toggle auto-hide="false" *ngIf="admin.permission >= p.permission">
             
             <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
               <ion-avatar slot="start">

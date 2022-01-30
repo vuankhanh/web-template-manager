@@ -42,7 +42,6 @@ export class ChooseGalleryPage implements OnInit, OnDestroy {
           totalPages: res.totalPages
         };
         this.productGallerys = this.productGalleryResponse.data;
-        console.log(this.productGallerys);
       })
     }
   }

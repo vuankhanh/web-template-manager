@@ -146,7 +146,6 @@ export class PostModifyPage implements OnInit {
   }
 
   copyValue(){
-    console.log(this.postsForm.value);
     navigator.clipboard.writeText(this.postsForm.value.data);
   }
 

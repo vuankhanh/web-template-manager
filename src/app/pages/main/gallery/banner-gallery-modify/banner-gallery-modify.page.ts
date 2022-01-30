@@ -72,12 +72,10 @@ export class BannerGalleryModifyPage implements OnInit {
   }
 
   removeWillUpload(index: number){
-    console.log(index);
     let listWillUpload: Array<WillUpload> = <Array<WillUpload>>Array.from(this.bannerGalleryForm.value.willUpload);
     
     listWillUpload.splice(index, 1);
     this.bannerGalleryForm.controls['willUpload'].setValue(listWillUpload);
-    console.log(listWillUpload);
   }
 
   modify(){
@@ -103,7 +101,6 @@ export class BannerGalleryModifyPage implements OnInit {
             this.toastService.shortToastWarning('Thư viện Banner đã bị xóa', '');
           }
         },error=>{
-          console.log(error);
           if(error.status === 409){
             this.toastService.shortToastError('Thư viện Banner này đã tồn tại', 'Thất bại');
           }else{
@@ -122,12 +119,10 @@ export class BannerGalleryModifyPage implements OnInit {
       if(tokenStoraged && tokenStoraged.accessToken){
         let accessToken = tokenStoraged.accessToken;
         this.bannerGalleryService.insert(accessToken, this.bannerGalleryForm.value).subscribe(res=>{
-          console.log(res);
           this.toastService.shortToastSuccess('Đã thêm một Danh mục sản phẩm', 'Thành công').then(_=>{
             this.modalController.dismiss(res);
           });
         },error=>{
-          console.log(error);
           if(error.status === 409){
             this.toastService.shortToastError('Danh mục này đã tồn tại', 'Thất bại');
           }else{

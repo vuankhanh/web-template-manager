@@ -70,7 +70,6 @@ export class InputOnlyNumberDirective {
   }
 
   @HostListener("ionBlur") onBlur() {
-    console.log(this.inputElement.value);
     if(this.inputElement.value === ''){
       this.inputElement.value = '1';
     }

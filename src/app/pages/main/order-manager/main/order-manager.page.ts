@@ -99,7 +99,6 @@ export class OrderManagerPage implements OnInit, OnDestroy {
         fromDate,
         toDate
       ).subscribe(res=>{
-        console.log(res);
         this.orderList = res.data;
         this.paginationParams = {
           totalItems: res.totalItems,
@@ -108,7 +107,6 @@ export class OrderManagerPage implements OnInit, OnDestroy {
           totalPages: res.totalPages
         }
       },error=>{
-        console.log(error);
       })
     );
   }
@@ -118,8 +116,6 @@ export class OrderManagerPage implements OnInit, OnDestroy {
       this.configService.get().subscribe(res=>{
         this.orderStatusesConfig = res.orderStatus;
         this.createdBysConfig = res.orderCreatedBy;
-        console.log(this.orderStatusesConfig);
-        console.log(this.createdBysConfig);
       })
     )
   }
@@ -157,9 +153,6 @@ export class OrderManagerPage implements OnInit, OnDestroy {
   }
 
   startDateChange(event: MatDatepickerInputEvent<Date>){
-    console.log('start Date');
-    console.log(event.value);
-    console.log(this.range.controls['start'].value);
     if(event.value){
       this.getAll(
         this.paginationParams,
@@ -174,8 +167,6 @@ export class OrderManagerPage implements OnInit, OnDestroy {
   }
 
   endDateChange(event: MatDatepickerInputEvent<Date>){
-    console.log('end Date');
-    console.log(event.value);
     if(event.value){
       this.getAll(
         this.paginationParams,

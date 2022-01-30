@@ -34,7 +34,6 @@ export class AddressComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.addresses = this.data.address;
     this.isMain = this.getIsMainAddress(this.addresses);
-    console.log(this.addresses);
   }
 
   remove(index: number){
@@ -64,8 +63,6 @@ export class AddressComponent implements OnInit, OnDestroy {
       this.isMain = this.getIsMainAddress(this.addresses);
       this.setMainAddress(this.isMain);
       this.emitChange.emit(data.data);
-      console.log(data);
-      // this.identification = data.data;
     }
   }
 

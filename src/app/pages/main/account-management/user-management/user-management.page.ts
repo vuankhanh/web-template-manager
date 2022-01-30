@@ -49,7 +49,6 @@ export class UserManagementPage implements OnInit {
     if(tokenStoraged){
       this.subscription.add(
         this.userManagementService.getAll(tokenStoraged.accessToken, paginationParams).subscribe(res=>{
-          console.log(res);
           this.userList = res.data;
           this.paginationParams = {
             totalItems: res.totalItems,

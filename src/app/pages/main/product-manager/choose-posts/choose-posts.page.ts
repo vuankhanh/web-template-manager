@@ -44,7 +44,6 @@ export class ChoosePostsPage implements OnInit, OnDestroy {
             totalPages: res.totalPages
           };
           this.postses = this.postsResponse.data;
-          console.log(this.postses);
         })
       );
     }

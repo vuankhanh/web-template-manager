@@ -42,8 +42,6 @@ export class LoginPage implements OnInit, OnDestroy {
 
   showPassword(){
     this.showPasswordField = !this.showPasswordField;
-    console.log(this.showPasswordField);
-    
   }
 
   keyDownFunction(event: KeyboardEvent){

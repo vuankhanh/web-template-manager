@@ -40,7 +40,6 @@ export class ChooseGalleryVideoPage implements OnInit {
           totalPages: res.totalPages
         };
         this.productGalleryVideos = this.productGalleryVideoResponse.data;
-        console.log(this.productGalleryVideos)
       })
     }
   }

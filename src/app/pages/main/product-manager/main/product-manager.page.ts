@@ -41,7 +41,6 @@ export class ProductManagerPage implements OnInit {
           totalPages: this.productResponse.totalPages
         };
         this.products = this.productResponse.data;
-        console.log(this.productResponse);
       })
     }
   }
@@ -58,7 +57,6 @@ export class ProductManagerPage implements OnInit {
     modal.present();
     
     const data = await modal.onDidDismiss();
-    console.log(data);
     if(data.data && data.data.type){
 
       let params: Params = {

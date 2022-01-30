@@ -144,7 +144,6 @@ export class OrderCreatingPage implements OnInit, OnDestroy {
     let product: Product = data.data;
     if(product){
       product.quantity = 1;
-      console.log();
       if(!this.products.some(pro=>pro._id === product._id)){
         this.products.push(product);
         this.setProductFormArray(this.products);
@@ -167,7 +166,6 @@ export class OrderCreatingPage implements OnInit, OnDestroy {
   }
 
   quantityInputChange(event: Event, index: number){
-    console.log(event);
     let value = (<HTMLInputElement>event.target).value;
     if(value){
       this.products[index].quantity = parseInt(value);

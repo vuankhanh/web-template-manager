@@ -38,7 +38,6 @@ export class AddressModifyPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log(this.data);
     this.formInit();
     this.getProvince();
     this.checkModalType(this.data);
@@ -85,11 +84,9 @@ export class AddressModifyPage implements OnInit {
           this.provinces = res;
           if(this.data.type === 'update' && this.data.index >= 0){
             let index:number = this.findIndexOfObjectInArray(this.identification.address[this.data.index].province._id, this.provinces)
-            console.log(index);
             
             this.addressForm.controls['province'].setValue(index);
           }
-          console.log(this.provinces);
         })
       )
     }
@@ -153,7 +150,6 @@ export class AddressModifyPage implements OnInit {
 
   update(){
     if(this.addressForm.valid){
-      console.log(this.addressForm.value);
 
       let address: Address = {
         responsiblePerson: this.addressForm.value.responsiblePerson,
@@ -179,7 +175,6 @@ export class AddressModifyPage implements OnInit {
 
   async insert(){
     if(this.addressForm.valid){
-      console.log(this.addressForm.value);
 
       let address: Address = {
         street: this.addressForm.value.street,

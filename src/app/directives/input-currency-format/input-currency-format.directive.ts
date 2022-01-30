@@ -77,12 +77,9 @@ export class InputCurrencyFormatDirective {
     let maskCommaSeprator = this.maskPipe.transform(this.inputElement.value, 'separator', ',');
 
     this.inputElement.value = maskCommaSeprator+'₫';
-    console.log(this.inputElement.value.replace(/\D/g, ''));
-    
   }
 
   @HostListener("ionBlur") onBlur() {
-    console.log(this.inputElement.value);
     if(this.inputElement.value === ''){
       this.inputElement.value = '1';
     }

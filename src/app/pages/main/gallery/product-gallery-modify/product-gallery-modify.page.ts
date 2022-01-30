@@ -51,8 +51,6 @@ export class ProductGalleryModifyPage implements OnInit {
         this.productGalleryService.getDetail(tokenStoraged.accessToken, id).subscribe(res=>{
           this.initForm(res);
         },err=>{
-          console.log('Lỗi');
-          console.log(err);
         })
       )
     }
@@ -95,7 +93,6 @@ export class ProductGalleryModifyPage implements OnInit {
   }
 
   changeMain(index: number){
-    console.log(index);
     this.productGalleryForm.controls['isMain'].setValue(index);
   }
 
@@ -141,7 +138,6 @@ export class ProductGalleryModifyPage implements OnInit {
             this.toastService.shortToastWarning('Thư viện Sản Phẩm đã bị xóa', '');
           }
         },error=>{
-          console.log(error);
           if(error.status === 409){
             this.toastService.shortToastError('Thư viện Sản Phẩm này đã tồn tại', 'Thất bại');
           }else{
@@ -160,12 +156,10 @@ export class ProductGalleryModifyPage implements OnInit {
       if(tokenStoraged && tokenStoraged.accessToken){
         let accessToken = tokenStoraged.accessToken;
         this.productGalleryService.insert(accessToken, this.productGalleryForm.value).subscribe(res=>{
-          console.log(res);
           this.toastService.shortToastSuccess('Đã thêm một Danh mục sản phẩm', 'Thành công').then(_=>{
             this.modalController.dismiss(res);
           });
         },error=>{
-          console.log(error);
           if(error.status === 409){
             this.toastService.shortToastError('Danh mục này đã tồn tại', 'Thất bại');
           }else{

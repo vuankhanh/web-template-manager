@@ -35,7 +35,6 @@ export class OrderProcessingPage implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    console.log(this.orderId);
     this.getDetail()
   }
 
@@ -43,7 +42,6 @@ export class OrderProcessingPage implements OnInit, OnDestroy {
     let tokenStoraged: ResponseLogin = this.localStorageService.get(this.localStorageService.tokenKey);
     this.subscription.add(
       this.orderService.getDetai(tokenStoraged.accessToken, this.orderId).subscribe(res=>{
-        console.log(res);
         this.order = res;
       })
     )
@@ -59,14 +57,12 @@ export class OrderProcessingPage implements OnInit, OnDestroy {
 
   revokeOrder(order: Order){
     this.orderManagementModalService.open('revoke', order).then(res=>{
-      console.log(res);
       let comments: string = res.data && res.data.comments ? res.data.comments : '';
       if(comments){
         let tokenStoraged: ResponseLogin = this.localStorageService.get(this.localStorageService.tokenKey);
         this.subscription.add(
           this.orderService.revokeOrder(tokenStoraged.accessToken, order._id, comments).subscribe(res=>{
             let order: OrderDetail = res;
-            console.log(order);
             if(!order){
               this.toastService.shortToastWarning('Không thể hủy đơn hàng này', 'Không thành công');
             }else{
@@ -81,7 +77,6 @@ export class OrderProcessingPage implements OnInit, OnDestroy {
 
   confirmOrder(order: Order){
     this.orderManagementModalService.open('confirmed', order).then(res=>{
-      console.log(res);
       let confirmation: boolean = res.data.value || false;
       if(confirmation){
         let tokenStoraged: ResponseLogin = this.localStorageService.get(this.localStorageService.tokenKey);
@@ -89,7 +84,6 @@ export class OrderProcessingPage implements OnInit, OnDestroy {
         this.subscription.add(
           this.orderService.confirmOrder(tokenStoraged.accessToken, order._id).subscribe(res=>{
             let order: OrderDetail = res;
-            console.log(order);
             if(!order){
               this.toastService.shortToastWarning('Không thể xác nhận đơn hàng này', 'Không thành công');
             }else{
@@ -105,7 +99,6 @@ export class OrderProcessingPage implements OnInit, OnDestroy {
 
   isComingOrder(order: Order){
     this.orderManagementModalService.open('isComing', order).then(res=>{
-      console.log(res);
       let shippingPartner: ShippingPartner = res.data;
       if(shippingPartner && shippingPartner.id && shippingPartner.shippingFee){
         let tokenStoraged: ResponseLogin = this.localStorageService.get(this.localStorageService.tokenKey);
@@ -113,7 +106,6 @@ export class OrderProcessingPage implements OnInit, OnDestroy {
         this.subscription.add(
           this.orderService.isComingOrder(tokenStoraged.accessToken, order._id, shippingPartner).subscribe(res=>{
             let order: OrderDetail = res;
-            console.log(order);
             if(!order){
               this.toastService.shortToastWarning('Không thể vận chuyển đơn hàng này', 'Không thành công');
             }else{
@@ -128,14 +120,12 @@ export class OrderProcessingPage implements OnInit, OnDestroy {
 
   finish(order: Order){
     this.orderManagementModalService.open('done', order).then(res=>{
-      console.log(res);
       let confirmation: boolean = res.data.value || false;
       if(confirmation){
         let tokenStoraged: ResponseLogin = this.localStorageService.get(this.localStorageService.tokenKey);
         this.subscription.add(
           this.orderService.finish(tokenStoraged.accessToken, order._id).subscribe(res=>{
             let order: OrderDetail = res;
-            console.log(order);
             if(!order){
               this.toastService.shortToastWarning('Không thể hoàn thành đơn hàng này', 'Không thành công');
             }else{

@@ -46,14 +46,12 @@ export class PostManagerPage implements OnInit, OnDestroy {
             totalPages: this.postsResponse.totalPages
           };
           this.postses = this.postsResponse.data;
-          console.log(this.postses);
         })
       )
     }
   }
 
   segmentChanged(){
-    console.log(this.selection);
     this.listenPosts(this.selection);
   }
 
@@ -70,7 +68,6 @@ export class PostManagerPage implements OnInit, OnDestroy {
     modal.present();
     
     const data = await modal.onDidDismiss();
-    console.log(data);
     if(data.data && data.data.type){
 
       let params: Params = {

@@ -35,7 +35,6 @@ export class IdentificationInformationPage implements OnInit, OnDestroy {
       this.subscription.add(
         this.identificationService.getAll(tokenStoraged.accessToken).subscribe(res=>{
           this.identification = res;
-          console.log(this.identification);
         })
       )
     }
@@ -52,7 +51,6 @@ export class IdentificationInformationPage implements OnInit, OnDestroy {
     modal.present();
 
     const data = await modal.onDidDismiss();
-    console.log(data);
     if(data.data){
       this.identification = data.data;
     }

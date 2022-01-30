@@ -59,7 +59,6 @@ export class ProductCategoryModifyPage implements OnInit {
 
   update(){
     if(this.productCategoryForm.valid){
-      console.log(this.productCategoryForm.value);
       let tokenStoraged: ResponseLogin = this.localStorageService.get(this.localStorageService.tokenKey);
       if(tokenStoraged && tokenStoraged.accessToken){
         let accessToken = tokenStoraged.accessToken;
@@ -76,7 +75,6 @@ export class ProductCategoryModifyPage implements OnInit {
             this.toastService.shortToastWarning('Danh mục đã bị xóa', '');
           }
         },error=>{
-          console.log(error);
           if(error.status === 409){
             this.toastService.shortToastError('Danh mục này đã tồn tại', 'Thất bại');
           }else{
@@ -95,12 +93,10 @@ export class ProductCategoryModifyPage implements OnInit {
       if(tokenStoraged && tokenStoraged.accessToken){
         let accessToken = tokenStoraged.accessToken;
         this.productCategoryService.insert(accessToken, this.productCategoryForm.value).subscribe(res=>{
-          console.log(res);
           this.toastService.shortToastSuccess('Đã thêm một Danh mục sản phẩm', 'Thành công').then(_=>{
             this.modalController.dismiss(res);
           });
         },error=>{
-          console.log(error);
           if(error.status === 409){
             this.toastService.shortToastError('Danh mục này đã tồn tại', 'Thất bại');
           }else{

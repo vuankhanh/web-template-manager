@@ -22,7 +22,6 @@ export class ProductModifyUnitPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log(this.unit);
     this.initForm(this.unit);
   }
 

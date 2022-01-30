@@ -6,10 +6,12 @@ export interface JwtDecoded{
 }
 
 export interface AdminInformation {
+    _id: string,
     userName: string,
     name: string,
     avatar: string,
     permission: number,
+    activated: boolean,
     createdAt: string,
     updatedAt: string
 }

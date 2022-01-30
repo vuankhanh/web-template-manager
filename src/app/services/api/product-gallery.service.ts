@@ -43,8 +43,6 @@ export class ProductGalleryService {
   }
 
   insert(token: string, imageAlbumWillUpload: ImageAlbumWillUpload){
-    console.log(imageAlbumWillUpload);
-    
     let headers: HttpHeaders = new HttpHeaders({
       'x-access-token': token
     });

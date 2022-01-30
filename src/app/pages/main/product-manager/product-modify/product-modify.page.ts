@@ -58,7 +58,6 @@ export class ProductModifyPage implements OnInit, OnDestroy {
         type: <'update' | 'insert'>this.type,
         data: <Product>this.data
       }
-      console.log(this.params.data);
       
       if(this.type === 'update'){
         this.initForm(this.params.data);
@@ -80,10 +79,8 @@ export class ProductModifyPage implements OnInit, OnDestroy {
       this.subscription.add(
         this.productCategoryService.get(tokenStoraged.accessToken).subscribe(res=>{
           this.productCategorys = res;
-          console.log()
           if(this.type === 'update'){
             let index = this.productCategorys.findIndex(productCategory=>this.params.data.category._id && (productCategory._id === this.params.data.category._id));
-            console.log(index);
             if(index>=0){
               this.productForm.controls['category'].setValue(this.productCategorys[index]);
             }
@@ -152,8 +149,6 @@ export class ProductModifyPage implements OnInit, OnDestroy {
 
     if(data.data){
       let posts: Posts = <Posts>data.data;
-      console.log(posts);
-      
       this.productForm.controls['longDescription'].setValue(posts);
     }
   }
@@ -182,7 +177,6 @@ export class ProductModifyPage implements OnInit, OnDestroy {
     const data = await modal.onDidDismiss();
     if(data.data){
       let productGalleryVideo: ProductGalleryVideo = <ProductGalleryVideo>data.data;
-      console.log(productGalleryVideo)
       this.productForm.controls['albumVideo'].setValue(productGalleryVideo);
     }
   }
@@ -199,7 +193,6 @@ export class ProductModifyPage implements OnInit, OnDestroy {
     if(data.data){
       let bannerGallery: BannerGallery = <BannerGallery>data.data;
       this.productForm.controls['albumBanner'].setValue(bannerGallery);
-      console.log(data);
     }
   }
 
@@ -233,7 +226,6 @@ export class ProductModifyPage implements OnInit, OnDestroy {
             this.toastService.shortToastWarning('Sản phẩm đã bị xóa', '');
           }
         },error=>{
-          console.log(error);
           if(error.status === 409){
             this.toastService.shortToastError('Sản phẩm này đã tồn tại', 'Thất bại');
           }else{
@@ -274,7 +266,6 @@ export class ProductModifyPage implements OnInit, OnDestroy {
 
   ngOnDestroy(){
     this.subscription.unsubscribe();
-    console.log(this.productForm.value);
     if(this.type === 'insert'){
       this.localStorageService.set(draftProductNew, this.productForm.value);
     }

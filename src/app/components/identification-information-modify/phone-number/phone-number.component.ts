@@ -33,7 +33,6 @@ export class PhoneNumberComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    console.log(this.data);
     this.initForm();
   }
 
@@ -60,8 +59,6 @@ export class PhoneNumberComponent implements OnInit, OnDestroy {
   }
 
   radioGroupChange(){
-    console.log(this.isMain);
-    
     for(let i = 0; i<this.phoneNuber.controls.length; i++){
       let number: FormGroup = <FormGroup>this.phoneNuber.controls[i];
       number.controls['isMain'].setValue(this.isMain === i ? true : false);
@@ -73,7 +70,6 @@ export class PhoneNumberComponent implements OnInit, OnDestroy {
     if(this.isMain === index){
       this.isMain--;
     }
-    console.log(this.phoneNuber);
   }
 
   addPhoneNumber(){
@@ -88,15 +84,11 @@ export class PhoneNumberComponent implements OnInit, OnDestroy {
   }
 
   updatePhoneNumber(){
-    console.log(this.myForm.value);
-    
     if(this.myForm.valid){
       let tokenStoraged: ResponseLogin = this.localStorageService.get(this.localStorageService.tokenKey);
       if(tokenStoraged && tokenStoraged.accessToken){
         this.subscription.add(
           this.identificationService.updatePhoneNumber(tokenStoraged.accessToken, this.myForm.value.phoneNumber).subscribe(res=>{
-            console.log(res);
-            
             this.emitChange.emit(res);
           })
         )

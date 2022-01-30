@@ -31,7 +31,6 @@ export class ProductGalleryVideoModifyPage implements OnInit {
   }
 
   ngOnInit(){
-    console.log(this.productGalleryVideo);
     this.initForm(this.productGalleryVideo);
   }
 
@@ -101,7 +100,6 @@ export class ProductGalleryVideoModifyPage implements OnInit {
             this.toastService.shortToastWarning('Thư viện Sản Phẩm Video đã bị xóa', '');
           }
         },error=>{
-          console.log(error);
           if(error.status === 409){
             this.toastService.shortToastError('Thư viện Sản Phẩm Video này đã tồn tại', 'Thất bại');
           }else{
@@ -120,12 +118,10 @@ export class ProductGalleryVideoModifyPage implements OnInit {
       if(tokenStoraged && tokenStoraged.accessToken){
         let accessToken = tokenStoraged.accessToken;
         this.productGalleryVideoService.insert(accessToken, this.productGalleryVideoForm.value).subscribe(res=>{
-          console.log(res);
           this.toastService.shortToastSuccess('Đã thêm một Video vào Thư Viện', 'Thành công').then(_=>{
             this.modalController.dismiss(res);
           });
         },error=>{
-          console.log(error);
           if(error.status === 409){
             this.toastService.shortToastError('video này đã tồn tại trong Thư Viện', 'Thất bại');
           }else{

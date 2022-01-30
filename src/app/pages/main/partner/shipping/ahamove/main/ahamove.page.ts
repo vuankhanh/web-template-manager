@@ -33,7 +33,6 @@ export class AhamovePage implements OnInit, OnDestroy {
   }
 
   segmentChanged(){
-    console.log(this.childUrl);
     this.router.navigate([this.rootUrl+'/'+this.childUrl]);
   }
 
