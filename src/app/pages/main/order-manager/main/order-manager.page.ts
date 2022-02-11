@@ -5,7 +5,7 @@ import { PageEvent } from '@angular/material/paginator';
 import { DateAdapter } from '@angular/material/core';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 
-import { OrderStatus } from 'src/app/Interfaces/ServerConfig';
+import { Status } from 'src/app/Interfaces/ServerConfig';
 import { Order } from 'src/app/Interfaces/Order';
 import { PaginationParams } from 'src/app/Interfaces/PaginationParams'
 
@@ -31,8 +31,8 @@ export class OrderManagerPage implements OnInit, OnDestroy {
   orderCode: string;
   phoneNumber: string;
 
-  orderStatusesConfig: Array<OrderStatus>;
-  createdBysConfig: Array<OrderStatus>;
+  orderStatusesConfig: Array<Status>;
+  createdBysConfig: Array<Status>;
 
   range = new FormGroup({
     start: new FormControl(new Date(date.getFullYear(), date.getMonth(), 1)),

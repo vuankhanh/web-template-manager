@@ -1,6 +1,6 @@
 import { Identification } from "./Identification";
 
-export interface OrderStatus{
+export interface Status{
     numericalOrder: number,
     code: string,
     name: string
@@ -13,7 +13,8 @@ export interface AdminRight{
 
 export interface ServerConfig{
     identification: Identification,
-    orderStatus: Array<OrderStatus>,
-    orderCreatedBy: Array<OrderStatus>,
-    adminRights : Array<AdminRight>
+    orderStatus: Array<Status>,
+    orderCreatedBy: Array<Status>,
+    adminRights : Array<AdminRight>,
+    reviewStatus: Array<Status>
 }

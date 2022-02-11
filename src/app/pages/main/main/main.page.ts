@@ -26,6 +26,7 @@ export class MainPage implements OnInit, OnDestroy {
     { title: 'Thông tin nhận diện', url: '/main/identification-information', icon: 'cog', permission: 1 },
     { title: 'Quản lý chuyển tiếp', url: '/main/redirect-manager', icon: 'arrow-redo', permission: 1 },
     { title: 'Trả lời khách hàng', url: '/main/chat', icon: 'chatbubbles', permission: 1 },
+    { title: 'Quản lý nhận xét', url: '/main/comment-manager', icon: 'star', permission: 1 },
   ];
 
   public partner: Array<MenuParner> = [

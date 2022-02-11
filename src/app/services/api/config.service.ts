@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { hostConfiguration } from '../../../environments/environment';
 
-import { OrderStatus, ServerConfig } from 'src/app/Interfaces/ServerConfig';
+import { Status, ServerConfig } from 'src/app/Interfaces/ServerConfig';
 
 import { BehaviorSubject, Observable } from "rxjs";
 @Injectable({
@@ -12,8 +12,8 @@ import { BehaviorSubject, Observable } from "rxjs";
 export class ConfigService {
   private url: string = hostConfiguration.host+'/config';
 
-  private orderStatus: Array<OrderStatus>;
-  private orderCreatedBy: Array<OrderStatus>;
+  private orderStatus: Array<Status>;
+  private orderCreatedBy: Array<Status>;
   private bConfig: BehaviorSubject<ServerConfig | null> = new BehaviorSubject<ServerConfig | null>(null);
   private config$: Observable<ServerConfig | null> = this.bConfig.asObservable();
   constructor(

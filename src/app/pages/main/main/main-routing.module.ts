@@ -55,9 +55,14 @@ const routes: Routes = [
         loadChildren: () => import('../chat/chat.module').then( m => m.ChatPageModule)
       },
       {
+        path: 'comment-manager',
+        loadChildren: () => import('../comment-manager/main/comment-manager.module').then( m => m.CommentManagerPageModule)
+      },
+      {
         path: 'partner/shipping',
         loadChildren: () => import('../partner/shipping/ahamove/main/ahamove.module').then( m => m.AhamovePageModule)
-      }
+      },
+ 
     ]
   },
 ];
