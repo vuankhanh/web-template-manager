@@ -41,7 +41,7 @@
           <th mat-header-cell *matHeaderCellDef> Trạng thái </th>
           <td mat-cell *matCellDef="let element;">
             <span [ngClass]="element.status+'-status'">
-              {{filterNameOrderStatus(element.status)}}
+              {{filterNameProductReviewsStatus(element.status)}}
             </span>
           </td>
         </ng-container>
@@ -55,13 +55,13 @@
         <!-- Name Column -->
         <ng-container matColumnDef="name">
           <th mat-header-cell *matHeaderCellDef> Tên khách hàng </th>
-          <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+          <td mat-cell *matCellDef="let element"> {{element.clientInformation.name}} </td>
         </ng-container>
   
         <!-- Phone Number Column -->
         <ng-container matColumnDef="phoneNumber">
           <th mat-header-cell *matHeaderCellDef> SĐT </th>
-          <td mat-cell *matCellDef="let element">{{element.phoneNumber}}</td>
+          <td mat-cell *matCellDef="let element">{{element.clientInformation.phoneNumber}}</td>
         </ng-container>
 
         <!-- Product Column -->

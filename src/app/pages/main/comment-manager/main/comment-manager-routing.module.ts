@@ -11,6 +11,10 @@ const routes: Routes = [
   {
     path: 'comment-processing/:commentId',
     loadChildren: () => import('../comment-processing/comment-processing.module').then( m => m.CommentProcessingPageModule)
+  },
+  {
+    path: 'action-confirmation',
+    loadChildren: () => import('../modal/action-confirmation/action-confirmation.module').then( m => m.ActionConfirmationPageModule)
   }
 ];
 

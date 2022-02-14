@@ -8,5 +8,93 @@
 </ion-header>
 
 <ion-content>
+  <ng-container *ngIf="productReviews; else isEmpty">
+    <div class="comment-processing-container">
+      <div class="product-container horizontal-container" *ngIf="productReviews.product as product">
+        <div class="limit-size-container">
+            <div class="img-container">
+                <img
+                    [src]="product.thumbnailUrl | galleryRoute"
+                    [alt]="product.name"
+                    loading="lazy"
+                >
+            </div>
+        </div>
+        <div class="width-space"></div>
+        <div class="product-information-container vertical-container">
+            <div class="product-name secondary-key">
+                {{product.name}}
+            </div>
+            <div class="product-short-description primary-key">
+                {{product.sortDescription}}
+            </div>
+        </div>
+      </div>
+      
+      <div class="height-space"></div>
 
+      <div class="status-container">
+        <span [ngClass]="productReviews.status+'-status'">
+          {{filterNameProductReviewsStatus(productReviews.status)}}
+        </span>
+      </div>
+
+      <div class="client-information-container horizontal-container">
+        <div class="client-information horizontal-container">
+          <span class="primary-key">Họ tên</span>
+          <div class="micro-width-space"></div>
+          <span class="secondary-key">{{productReviews.clientInformation.name}}</span>
+        </div>
+
+        <div class="width-space"></div>
+
+        <div class="client-information horizontal-container">
+          <span class="primary-key">Số điện thoại</span>
+          <div class="micro-width-space"></div>
+          <span class="secondary-key">{{productReviews.clientInformation.phoneNumber}}</span>
+        </div>
+      </div>
+
+      <app-rating [ratingValue]="4" [showRatingTitle]="true"></app-rating>
+
+      <div class="purchase-confirmation horizontal-container" *ngIf="productReviews.purchaseConfirmation">
+        <ion-icon name="checkmark-circle"></ion-icon>
+        <div class="micro-width-space"></div>
+        <span>Đã mua hàng</span>
+      </div>
+
+      <p class="comment-reviews" *ngIf="productReviews.content">
+        {{productReviews.content}}
+      </p>
+
+      <div class="created-at">
+        {{ productReviews.createdAt | date :'hh:mm dd/MM/yyyy' }}
+      </div>
+
+      <div class="button-container horizontal-container">
+        <ion-button
+            size="small"
+            color="danger"
+            [disabled]="productReviews.status==='revoke'"
+            (click)="changeStatus(0)"
+        >
+            <span>Hủy</span>
+        </ion-button>
+
+        <div class="width-space"></div>
+
+        <ion-button
+            [disabled]="productReviews.status==='confirmed'"
+            size="small"
+            (click)="changeStatus(2)"
+        >
+            <span>Xác nhận</span>
+        </ion-button>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-template #isEmpty>
+    Null
+  </ng-template>
 </ion-content>

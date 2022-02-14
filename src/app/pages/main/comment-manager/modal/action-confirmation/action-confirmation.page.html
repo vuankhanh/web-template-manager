@@ -1,0 +1,62 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="end" (click)="modalController.dismiss()">
+      <ion-button>
+        <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Chuyển trạng thái bình luận</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="action-confirmation-container">
+
+    <ion-item>
+      <ion-label class="secondary-key">Trạng thái</ion-label>
+      <div class="status-container">
+        <span [ngClass]="productReviews.status+'-status'">
+          {{filterNameProductReviewsStatus(productReviews.status)}}
+        </span>
+      </div>
+    </ion-item>
+
+    <ion-item>
+      <ion-label class="secondary-key">Trạng thái tiếp theo</ion-label>
+      <div class="status-container">
+        <span [ngClass]="newStatus+'-status'">
+          {{filterNameProductReviewsStatus(newStatus)}}
+        </span>
+      </div>
+    </ion-item>
+    
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button
+        (click)="modalController.dismiss()"
+        size="small"
+        mode="ios"
+        color="medium"
+      >
+        {{ 'Bỏ qua' }}
+      </ion-button>
+
+      <ion-button
+        (click)="changeStatus()"
+        size="small"
+        mode="ios"
+        color="primary"
+      >
+        {{ timeCountDown>=0 ? 'Dừng lại' : 'Chắc chắn' }}
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ng-container *ngIf="timeCountDown>=0">
+    <span>{{timeCountDown}}</span>
+    <ion-progress-bar color="primary" [value]="value"></ion-progress-bar>
+  </ng-container>
+</ion-footer>

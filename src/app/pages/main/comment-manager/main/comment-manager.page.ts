@@ -7,7 +7,7 @@ import { PaginationParams } from 'src/app/Interfaces/PaginationParams';
 
 import { ConfigService } from 'src/app/services/api/config.service';
 
-import { ProductReviews, ProductReviewsStatus } from 'src/app/Interfaces/ProductReviews';
+import { ProductReviews, ProductReviewsCodeStatus } from 'src/app/Interfaces/ProductReviews';
 import { ResponseLogin } from 'src/app/services/api/login.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { ProductReviewsService } from 'src/app/services/api/product-reviews.service';
@@ -28,7 +28,7 @@ export class CommentManagerPage implements OnInit {
   showFirstLastButtons = true;
 
   paginationParams: PaginationParams;
-  reviewsStatusParam: ProductReviewsStatus = 'pending';
+  reviewsStatusParam: ProductReviewsCodeStatus = 'pending';
   
   subscription: Subscription = new Subscription();
   constructor(
@@ -56,7 +56,7 @@ export class CommentManagerPage implements OnInit {
 
   getAll(
     paginationParams?: PaginationParams,
-    status?: ProductReviewsStatus,
+    status?: ProductReviewsCodeStatus,
     createdBy?: string,
     orderCode?: string,
     phoneNumber?: string,
@@ -83,8 +83,8 @@ export class CommentManagerPage implements OnInit {
     );
   }
 
-  filterNameOrderStatus(code: string){
-    return this.configService.filterNameOrderStatus(code);
+  filterNameProductReviewsStatus(code: ProductReviewsCodeStatus){
+    return this.configService.filterNameProductReviewsStatus(code);
   }
 
   reviewsStatusParamChange(){

@@ -7,11 +7,10 @@ import { Order, OrderStatus } from 'src/app/Interfaces/Order';
 import { ConfigService } from 'src/app/services/api/config.service';
 import { ShippingPartner } from 'src/app/services/api/order.service';
 
-import { interval, Observable, Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { interval, Observable, Subject, Subscription } from 'rxjs';
+import { filter, take, takeUntil } from 'rxjs/operators';
 
 const timeCountDown: number = 5;
-const valueCountDown: number = 1;
 @Component({
   selector: 'app-action-confirmation',
   templateUrl: './action-confirmation.page.html',
@@ -21,8 +20,10 @@ export class ActionConfirmationPage implements OnInit, OnDestroy {
   @Input() newStatus: OrderStatus;
   @Input() order: Order;
 
-  displayTime: number;
-  value: number;
+  value: number = 1;
+
+  timeCountDown: number = -1;
+  destroy: Subject<null> = new Subject();
 
   formGroup: FormGroup;
 
@@ -68,34 +69,43 @@ export class ActionConfirmationPage implements OnInit, OnDestroy {
     return this.configService.filterNameOrderCreatedBy(code);
   }
 
+  createCountdown(){
+    return interval(100).pipe(
+      takeUntil(this.destroy),
+      filter(()=>this.value>0)
+    );
+  }
+
   confirmAction(){
     if(this.formGroup.valid){
-      this.displayTime = timeCountDown;
-      this.value = valueCountDown;
-      
-      this.subscription.add(
-        this.countDownValue.subscribe(res=>{
-          let subtrahend: number = res+1;
-          this.value = valueCountDown - (subtrahend/(timeCountDown*10));
-        })
-      );
-      this.subscription.add(
-        this.countDownDisplayTime.subscribe(res=>{
-          let subtrahend: number = res+1;
-          this.displayTime = timeCountDown - subtrahend;
-          if(this.displayTime === 0){
-            if(this.newStatus === 'isComing'){
-              this.formGroup.value.shippingFee = this.formGroup.value.shippingFee.replace(/\D/g, '');
-            }
-            this.modalController.dismiss(this.formGroup.value);
-          }
-        })
-      );
-    }
 
+      if(this.timeCountDown>=0){
+        this.reset();
+      }else{
+        this.subscription.add(
+          this.createCountdown().subscribe(res=>{
+            this.value = parseFloat((this.value-1/timeCountDown/10).toFixed(2));
+            this.timeCountDown = Math.ceil(this.value*5);
+            if(this.value <= 0){
+              if(this.newStatus === 'isComing'){
+                this.formGroup.value.shippingFee = this.formGroup.value.shippingFee.replace(/\D/g, '');
+              }
+              this.modalController.dismiss(this.formGroup.value);
+            }
+          })
+        )
+      }
+    }
+  }
+
+  reset(){
+    this.destroy.next();
+    this.value = 1;
+    this.timeCountDown = -1;
   }
 
   ngOnDestroy(){
+    this.reset();
     this.subscription.unsubscribe();
   }
 

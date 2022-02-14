@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { hostConfiguration } from 'src/environments/environment';
 
 import { PaginationParams } from 'src/app/Interfaces/PaginationParams';
-import { ProductReviews, ProductReviewsStatus } from 'src/app/Interfaces/ProductReviews';
+import { ProductReviews, ProductReviewsCodeStatus } from 'src/app/Interfaces/ProductReviews';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +18,7 @@ export class ProductReviewsService {
   get(
     token: string,
     paginationParams?: PaginationParams,
-    status?: ProductReviewsStatus,
+    status?: ProductReviewsCodeStatus,
   ){
     let headers: HttpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -37,6 +37,32 @@ export class ProductReviewsService {
     }
 
     return this.httpClient.get<ProductReviewsResponse>(this.urlProductReviews, { headers, params });
+  }
+
+  getDetail(
+    token: string,
+    id: string
+  ){
+    let headers: HttpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'x-access-token': token
+    });
+
+    return this.httpClient.get<ProductReviews>(this.urlProductReviews+'/'+id, { headers });
+  }
+
+  changeStatus(
+    token: string,
+    id: string,
+    newStatus: ProductReviewsCodeStatus
+  ){
+
+    let headers: HttpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'x-access-token': token
+    });
+
+    return this.httpClient.put<ProductReviews>(this.urlProductReviews+'/'+id+'/changeStatus', { newStatus }, { headers });
   }
 }
 

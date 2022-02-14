@@ -85,12 +85,25 @@ $my-app-theme: mat-light-theme($my-app-primary, $my-app-accent);
     min-height: 10px;
 }
 
+.micro-width-space{
+    width: 5px;
+    min-width: 5px;
+}
+
+.micro-height-space{
+    height: 5px;
+    min-height: 5px;
+}
+
 .img-container{
     width: 100%;
-    padding-bottom: 66.66%;
+    padding-bottom: 100%;
     position: relative;
     img{
         position: absolute;
+        top: 0;
+        bottom: 0;
+        margin: auto;
         display: block;
         width: 100%;
         max-height: 100%;
@@ -98,6 +111,10 @@ $my-app-theme: mat-light-theme($my-app-primary, $my-app-accent);
         cursor: pointer;
     }
 }
+img{
+    border-radius: 5px;
+}
+
 .primary-key{
     color: #999999;
     --corlor: #999999;

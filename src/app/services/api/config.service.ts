@@ -3,9 +3,10 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { hostConfiguration } from '../../../environments/environment';
 
-import { Status, ServerConfig } from 'src/app/Interfaces/ServerConfig';
+import { Status, ServerConfig, ProductReviewsStatus } from 'src/app/Interfaces/ServerConfig';
 
 import { BehaviorSubject, Observable } from "rxjs";
+import { ProductReviewsCodeStatus } from 'src/app/Interfaces/ProductReviews';
 @Injectable({
   providedIn: 'root'
 })
@@ -14,6 +15,7 @@ export class ConfigService {
 
   private orderStatus: Array<Status>;
   private orderCreatedBy: Array<Status>;
+  private productReviewsStatuses: Array<ProductReviewsStatus>;
   private bConfig: BehaviorSubject<ServerConfig | null> = new BehaviorSubject<ServerConfig | null>(null);
   private config$: Observable<ServerConfig | null> = this.bConfig.asObservable();
   constructor(
@@ -31,6 +33,7 @@ export class ConfigService {
   set(config: ServerConfig){
     this.orderStatus = config.orderStatus;
     this.orderCreatedBy = config.orderCreatedBy;
+    this.productReviewsStatuses = config.reviewStatus;
     this.bConfig.next(config);
   }
 
@@ -54,5 +57,10 @@ export class ConfigService {
     }else{
       return null;
     }
+  }
+
+  filterNameProductReviewsStatus(code: ProductReviewsCodeStatus){
+    let index: number = this.productReviewsStatuses.findIndex(status=>status.code === code);
+    return index >=0 ? this.productReviewsStatuses[index].name : null
   }
 }

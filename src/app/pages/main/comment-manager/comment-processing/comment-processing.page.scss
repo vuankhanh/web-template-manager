@@ -1,0 +1,62 @@
+.comment-processing-container{
+    padding: 15px;
+    .product-container{
+        .limit-size-container{
+            width: 40px;
+        }
+        .product-information-container{
+            max-width: calc(100% - 55px);
+            font-size: 14px;
+            .product-name{
+                height: 26px;
+            }
+            .product-short-description{
+                line-height: 1;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        }
+    }
+    .status-container{
+        .revoke-status{
+            color: rgb(189, 54, 47, 1);
+        }
+
+        .pending-status{
+            color: rgb(248, 148, 6, 1);
+        }
+
+        .confirmed-status{
+            color: rgb(81, 163, 81, 1)
+        }
+        
+        span{
+            padding: 5px 10px;
+            border-radius: 15px;
+            background: white;
+            color: #424242;
+            font-size: 12px;
+            font-weight: 500;
+        }
+    }
+    .purchase-confirmation{
+        align-items: center;
+        color: rgb(0, 171, 86);
+        font-size: 13px;
+        ion-icon{
+            width: 14px;
+            height: 14px;
+            font-size: 14px;
+        }
+    }
+    .comment-reviews{
+        font-weight: 450;
+        margin: 10px 0;
+    }
+    .button-container{
+        ion-button{
+            margin: 0;
+        }
+    }
+}

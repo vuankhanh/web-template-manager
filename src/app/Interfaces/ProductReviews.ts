@@ -1,4 +1,5 @@
-export type ProductReviewsStatus = 'revoke' | 'pending' | 'confirmed';
+export type ProductReviewsCodeStatus = 'revoke' | 'pending' | 'confirmed';
+
 export interface ProductReviews{
     _id: string,
     product: string,

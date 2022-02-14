@@ -88,12 +88,12 @@
         mode="ios"
         color="primary"
       >
-        {{ 'Chắc chắn' }}
+        {{ timeCountDown>=0 ? 'Dừng lại' : 'Chắc chắn' }}
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
-  <ng-container *ngIf="displayTime">
-    <span>{{displayTime}}</span>
+  <ng-container *ngIf="timeCountDown>=0">
+    <span>{{timeCountDown}}</span>
     <ion-progress-bar color="primary" [value]="value"></ion-progress-bar>
   </ng-container>
 </ion-footer>
