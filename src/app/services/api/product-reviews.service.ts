@@ -5,15 +5,18 @@ import { hostConfiguration } from 'src/environments/environment';
 
 import { PaginationParams } from 'src/app/Interfaces/PaginationParams';
 import { ProductReviews, ProductReviewsCodeStatus } from 'src/app/Interfaces/ProductReviews';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductReviewsService {
   private urlProductReviews: string = hostConfiguration.host+'/product-reviews';
+  private bProductReviewsChange: BehaviorSubject<ProductReviews> = new BehaviorSubject(null);
+  private productReviewsChange$: Observable<ProductReviews> = this.bProductReviewsChange.asObservable();
   constructor(
     private httpClient: HttpClient
-  ) { }
+  ) {}
 
   get(
     token: string,
@@ -37,6 +40,14 @@ export class ProductReviewsService {
     }
 
     return this.httpClient.get<ProductReviewsResponse>(this.urlProductReviews, { headers, params });
+  }
+
+  setProductReviewsChange(productReviews: ProductReviews){
+    this.bProductReviewsChange.next(productReviews);
+  }
+
+  getProductReviewsChange(){
+   return this.productReviewsChange$;
   }
 
   getDetail(

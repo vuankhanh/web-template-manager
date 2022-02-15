@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { PageEvent } from '@angular/material/paginator';
+import { MatTable } from '@angular/material/table';
 
 import { Status } from 'src/app/Interfaces/ServerConfig';
 import { PaginationParams } from 'src/app/Interfaces/PaginationParams';
@@ -19,11 +20,12 @@ import { Subscription } from 'rxjs';
   templateUrl: './comment-manager.page.html',
   styleUrls: ['./comment-manager.page.scss'],
 })
-export class CommentManagerPage implements OnInit {
+export class CommentManagerPage implements OnInit, OnDestroy {
+  @ViewChild(MatTable) matTable: MatTable<any>;
   reviewsStatuses: Array<Status>;
 
   productReviewses: Array<ProductReviews>;
-  displayedColumns: string[] = ['status', 'rating', 'name', 'phoneNumber', 'product', 'createdAt', 'updatedAt'];
+  displayedColumns: string[] = ['status', 'rating', 'name', 'phoneNumber', 'createdAt', 'updatedAt'];
   pageSizeOptions = [5, 10, 25];
   showFirstLastButtons = true;
 
@@ -44,6 +46,7 @@ export class CommentManagerPage implements OnInit {
       null,
       this.reviewsStatusParam
     );
+    this.getProductReviewsChange();
   }
 
   getConfig(){
@@ -83,6 +86,23 @@ export class CommentManagerPage implements OnInit {
     );
   }
 
+  getProductReviewsChange(){
+    this.subscription.add(
+      this.productReviewsService.getProductReviewsChange().subscribe(res=>{
+        if(res){
+          for(let i=0; i<=this.productReviewses.length-1; i++){
+            let productReviews = this.productReviewses[i];
+            if(productReviews._id === res._id){
+              console.log(res)
+              this.productReviewses[i] = res;
+              this.matTable.renderRows();
+            }
+          }
+        }
+      })
+    )
+  }
+
   filterNameProductReviewsStatus(code: ProductReviewsCodeStatus){
     return this.configService.filterNameProductReviewsStatus(code);
   }
@@ -108,5 +128,9 @@ export class CommentManagerPage implements OnInit {
 
   censorshipReviews(productReviews: ProductReviews){
     this.router.navigate(['/main/comment-manager/comment-processing', productReviews._id]);
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

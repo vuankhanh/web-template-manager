@@ -92,6 +92,7 @@ export class CommentProcessingPage implements OnInit, OnDestroy {
           this.subscription.add(
             this.productReviewsService.changeStatus(tokenStoraged.accessToken, this.productReviews._id, newStatus).subscribe(res=>{
               this.productReviews = res;
+              this.productReviewsService.setProductReviewsChange(this.productReviews);
               this.toastService.shortToastSuccess('Đã đổi trạng thái của bình luận', 'Thành công');
             })
           )
@@ -101,7 +102,7 @@ export class CommentProcessingPage implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-      this.subscription.unsubscribe();
+    this.subscription.unsubscribe();
   }
 
 }
