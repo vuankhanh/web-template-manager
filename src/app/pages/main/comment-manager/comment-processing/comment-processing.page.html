@@ -10,13 +10,13 @@
 <ion-content>
   <ng-container *ngIf="productReviews; else isEmpty">
     <div class="comment-processing-container">
-      <div class="product-container horizontal-container" *ngIf="productReviews.product as product">
+      <div class="product-container horizontal-container" *ngIf="product">
         <div class="limit-size-container">
             <div class="img-container">
                 <img
-                    [src]="product.thumbnailUrl | galleryRoute"
-                    [alt]="product.name"
-                    loading="lazy"
+                  [src]="product.thumbnailUrl | galleryRoute"
+                  [alt]="product.name"
+                  loading="lazy"
                 >
             </div>
         </div>

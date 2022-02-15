@@ -1,8 +1,11 @@
+import { Product } from "./Product";
+
 export type ProductReviewsCodeStatus = 'revoke' | 'pending' | 'confirmed';
 
 export interface ProductReviews{
     _id: string,
-    product: string,
+    status: ProductReviewsCodeStatus,
+    product: string | Product,
     clientInformation: ClientInformation,
     purchaseConfirmation: boolean,
     content: string,

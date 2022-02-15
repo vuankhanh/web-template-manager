@@ -6,6 +6,7 @@ import { ActionConfirmationPage } from '../modal/action-confirmation/action-conf
 
 import { ProductReviewsStatus } from 'src/app/Interfaces/ServerConfig';
 import { ProductReviews, ProductReviewsCodeStatus } from 'src/app/Interfaces/ProductReviews';
+import { Product } from 'src/app/Interfaces/Product';
 
 import { ResponseLogin } from 'src/app/services/api/login.service';
 import { ProductReviewsService } from 'src/app/services/api/product-reviews.service';
@@ -25,6 +26,7 @@ export class CommentProcessingPage implements OnInit, OnDestroy {
   reviewsStatuses: Array<ProductReviewsStatus>;
 
   productReviews: ProductReviews;
+  product: Product
 
   subscription: Subscription = new Subscription();
   constructor(
@@ -49,6 +51,7 @@ export class CommentProcessingPage implements OnInit, OnDestroy {
       ).subscribe(res=>{
         if(res){
           this.productReviews = res;
+          this.product = this.productReviews.product as Product;
         }
       })
     )
