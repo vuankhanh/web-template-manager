@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 
 import { PaginationParams } from 'src/app/Interfaces/PaginationParams';
@@ -8,16 +8,20 @@ import { ResponseLogin } from 'src/app/services/api/login.service';
 import { ProductGalleryVideoResponse, ProductGalleryVideoService } from 'src/app/services/api/product-gallery-video.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 
+import { Subscription } from 'rxjs';
+
 @Component({
   selector: 'app-choose-gallery-video',
   templateUrl: './choose-gallery-video.page.html',
   styleUrls: ['./choose-gallery-video.page.scss'],
 })
-export class ChooseGalleryVideoPage implements OnInit {
+export class ChooseGalleryVideoPage implements OnInit, OnDestroy {
   productGalleryVideoResponse: ProductGalleryVideoResponse;
   productGalleryVideos: Array<ProductGalleryVideo>;
 
   configPagination: PaginationParams;
+
+  private subscription: Subscription = new Subscription();
   constructor(
     public modalController: ModalController,
     private localStorageService: LocalStorageService,
@@ -31,16 +35,18 @@ export class ChooseGalleryVideoPage implements OnInit {
   getProductGalleryVideo(paginationParams?: PaginationParams){
     let tokenStoraged: ResponseLogin = this.localStorageService.get(this.localStorageService.tokenKey);
     if(tokenStoraged && tokenStoraged.accessToken){
-      this.productGalleryVideoService.get(tokenStoraged.accessToken, paginationParams).subscribe(res=>{
-        this.productGalleryVideoResponse = res;
-        this.configPagination = {
-          totalItems: res.totalItems,
-          page: res.page,
-          size: res.size,
-          totalPages: res.totalPages
-        };
-        this.productGalleryVideos = this.productGalleryVideoResponse.data;
-      })
+      this.subscription.add(
+        this.productGalleryVideoService.get(tokenStoraged.accessToken, paginationParams).subscribe(res=>{
+          this.productGalleryVideoResponse = res;
+          this.configPagination = {
+            totalItems: res.totalItems,
+            page: res.page,
+            size: res.size,
+            totalPages: res.totalPages
+          };
+          this.productGalleryVideos = this.productGalleryVideoResponse.data;
+        })
+      )
     }
   }
 
@@ -53,4 +59,7 @@ export class ChooseGalleryVideoPage implements OnInit {
     this.getProductGalleryVideo(this.configPagination);
   }
 
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
 }

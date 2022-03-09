@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 
 import { ProductModifyPage } from '../product-modify/product-modify.page';
@@ -10,15 +10,19 @@ import { ResponseLogin } from 'src/app/services/api/login.service';
 import { PaginationParams } from 'src/app/Interfaces/PaginationParams';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 
+import { Subscription } from 'rxjs';
+
 @Component({
   selector: 'app-product-manager',
   templateUrl: './product-manager.page.html',
   styleUrls: ['./product-manager.page.scss'],
 })
-export class ProductManagerPage implements OnInit {
+export class ProductManagerPage implements OnInit, OnDestroy {
   productResponse: ProductResponse;
   products: Array<Product>;
   configPagination: PaginationParams;
+
+  private subscription: Subscription = new Subscription();
   constructor(
     private modalController: ModalController,
     private productService: ProductService,
@@ -32,16 +36,18 @@ export class ProductManagerPage implements OnInit {
   listenProduct(paginationParams?: PaginationParams){
     let tokenStoraged: ResponseLogin = this.localStorageService.get(this.localStorageService.tokenKey);
     if(tokenStoraged && tokenStoraged.accessToken){
-      this.productService.get(tokenStoraged.accessToken, paginationParams).subscribe(res=>{
-        this.productResponse = res;
-        this.configPagination = {
-          totalItems: this.productResponse.totalItems,
-          page: this.productResponse.page,
-          size: this.productResponse.size,
-          totalPages: this.productResponse.totalPages
-        };
-        this.products = this.productResponse.data;
-      })
+      this.subscription.add(
+        this.productService.get(tokenStoraged.accessToken, paginationParams).subscribe(res=>{
+          this.productResponse = res;
+          this.configPagination = {
+            totalItems: this.productResponse.totalItems,
+            page: this.productResponse.page,
+            size: this.productResponse.size,
+            totalPages: this.productResponse.totalPages
+          };
+          this.products = this.productResponse.data;
+        })
+      )
     }
   }
 
@@ -79,6 +85,10 @@ export class ProductManagerPage implements OnInit {
   changeIndex(index: number){
     this.configPagination.page = index;
     this.listenProduct(this.configPagination);
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }
 interface Params{

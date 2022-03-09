@@ -49,6 +49,11 @@ export class ChoosePostsPage implements OnInit, OnDestroy {
     }
   }
 
+  changeIndex(index: number){
+    this.configPagination.page = index;
+    this.listenPosts('product', this.configPagination);
+  }
+
   choosePosts(posts: Posts){
     this.modalController.dismiss(posts);
   }

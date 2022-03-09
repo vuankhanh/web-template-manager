@@ -1,17 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+
 import { ResponseLogin } from 'src/app/services/api/login.service';
 
 import { RedirectInsertRespone, RedirectService } from 'src/app/services/api/redirect.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
+
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-redirect-manager',
   templateUrl: './redirect-manager.page.html',
   styleUrls: ['./redirect-manager.page.scss'],
 })
-export class RedirectManagerPage implements OnInit {
+export class RedirectManagerPage implements OnInit, OnDestroy {
   originalUrl: string;
   redirectInsertRespone: RedirectInsertRespone;
+
+  subscription: Subscription = new Subscription();
   constructor(
     private redirectService: RedirectService,
     private localStorageService: LocalStorageService
@@ -24,11 +29,17 @@ export class RedirectManagerPage implements OnInit {
     if(this.originalUrl){
       let tokenStoraged: ResponseLogin = this.localStorageService.get(this.localStorageService.tokenKey);
       if(tokenStoraged && tokenStoraged.accessToken){
-        this.redirectService.insert(tokenStoraged.accessToken, this.originalUrl).subscribe(res=>{
-          this.redirectInsertRespone = res;
-        }, err=> this.redirectInsertRespone = null);
+        this.subscription.add(
+          this.redirectService.insert(tokenStoraged.accessToken, this.originalUrl).subscribe(res=>{
+            this.redirectInsertRespone = res;
+          }, err=> this.redirectInsertRespone = null)
+        )
       }
     }
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
 }

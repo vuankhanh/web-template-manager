@@ -3,8 +3,6 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 import { hostConfiguration } from '../../../environments/environment';
 
-import { throwError } from "rxjs";
-
 @Injectable({
   providedIn: 'root'
 })

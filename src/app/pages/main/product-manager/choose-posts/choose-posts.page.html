@@ -18,5 +18,5 @@
       <span>{{ posts.name }}</span>
     </ion-item>
   </ion-list>
-  <app-pagination *ngIf="configPagination" [config]="configPagination"></app-pagination>
+  <app-pagination *ngIf="configPagination" [config]="configPagination" (emitChangeIndex)="changeIndex($event)"></app-pagination>
 </ion-content>

@@ -2,7 +2,6 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 
-
 import { ChooseBannerGalleryPage } from '../choose-banner-gallery/choose-banner-gallery.page';
 import { ProductModifyUnitPage } from '../product-modify-unit/product-modify-unit.page';
 import { ChoosePostsPage } from '../choose-posts/choose-posts.page';
@@ -213,25 +212,27 @@ export class ProductModifyPage implements OnInit, OnDestroy {
       let tokenStoraged: ResponseLogin = this.localStorageService.get(this.localStorageService.tokenKey);
       if(tokenStoraged && tokenStoraged.accessToken){
         let accessToken = tokenStoraged.accessToken;
-        this.productService.update(accessToken, product).subscribe(res=>{
-          if(res){
-            this.toastService.shortToastSuccess('Đã cập nhật Sản phẩm sản phẩm', 'Thành công').then(_=>{
-              this.params = {
-                type: <'update' | 'insert'>this.type,
-                data: res
-              }
-              this.modalController.dismiss(this.params);
-            });
-          }else{
-            this.toastService.shortToastWarning('Sản phẩm đã bị xóa', '');
-          }
-        },error=>{
-          if(error.status === 409){
-            this.toastService.shortToastError('Sản phẩm này đã tồn tại', 'Thất bại');
-          }else{
-            this.toastService.shortToastError('Đã có lỗi xảy ra', 'Thất bại');
-          }
-        })
+        this.subscription.add(
+          this.productService.update(accessToken, product).subscribe(res=>{
+            if(res){
+              this.toastService.shortToastSuccess('Đã cập nhật Sản phẩm sản phẩm', 'Thành công').then(_=>{
+                this.params = {
+                  type: <'update' | 'insert'>this.type,
+                  data: res
+                }
+                this.modalController.dismiss(this.params);
+              });
+            }else{
+              this.toastService.shortToastWarning('Sản phẩm đã bị xóa', '');
+            }
+          },error=>{
+            if(error.status === 409){
+              this.toastService.shortToastError('Sản phẩm này đã tồn tại', 'Thất bại');
+            }else{
+              this.toastService.shortToastError('Đã có lỗi xảy ra', 'Thất bại');
+            }
+          })
+        )
       }else{
         this.toastService.shortToastWarning('Phiên đăng nhập của bạn đã hết hạn', 'Đăng nhập lại');
       }
@@ -243,21 +244,24 @@ export class ProductModifyPage implements OnInit, OnDestroy {
       let tokenStoraged: ResponseLogin = this.localStorageService.get(this.localStorageService.tokenKey);
       if(tokenStoraged && tokenStoraged.accessToken){
         let accessToken = tokenStoraged.accessToken;
-        this.productService.insert(accessToken, this.productForm.value).subscribe(res=>{
-          this.toastService.shortToastSuccess('Đã thêm một sản phẩm', 'Thành công').then(_=>{
-            this.params = {
-              type: <'update' | 'insert'>this.type,
-              data: res
+        this.subscription.add(
+          this.productService.insert(accessToken, this.productForm.value).subscribe(res=>{
+            this.toastService.shortToastSuccess('Đã thêm một sản phẩm', 'Thành công').then(_=>{
+              this.params = {
+                type: <'update' | 'insert'>this.type,
+                data: res
+              }
+              this.productForm.reset();
+              this.modalController.dismiss(this.params);
+            });
+          },error=>{
+            if(error.status === 409){
+              this.toastService.shortToastError('Sản phẩm này đã tồn tại', 'Thất bại');
+            }else{
+              this.toastService.shortToastError('Đã có lỗi xảy ra', 'Thất bại');
             }
-            this.modalController.dismiss(this.params);
-          });
-        },error=>{
-          if(error.status === 409){
-            this.toastService.shortToastError('Sản phẩm này đã tồn tại', 'Thất bại');
-          }else{
-            this.toastService.shortToastError('Đã có lỗi xảy ra', 'Thất bại');
-          }
-        })
+          })
+        )
       }else{
         this.toastService.shortToastWarning('Phiên đăng nhập của bạn đã hết hạn', 'Đăng nhập lại');
       }
