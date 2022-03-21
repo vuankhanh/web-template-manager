@@ -8,7 +8,6 @@ import { Support, SupportDetail } from 'src/app/Interfaces/Support';
 import { Posts } from 'src/app/Interfaces/Posts';
 
 import { SupportService } from 'src/app/services/api/support.service';
-import { PostsService } from 'src/app/services/api/posts.service';
 
 import { Subscription } from 'rxjs';
 @Component({
@@ -27,19 +26,15 @@ export class SupportModifyPage implements OnInit, OnDestroy {
   constructor(
     public modalController: ModalController,
     private formBuilder: FormBuilder,
-    private supportService: SupportService,
-    private postsService: PostsService
+    private supportService: SupportService
   ) { }
 
   ngOnInit() {
-    console.log(this.support);
     if(!this.support){
       this.initForm();
     }else{
       this.subscription.add(
         this.supportService.getDetail(this.support._id).subscribe(res=>{
-          console.log(res);
-        
           this.initForm(res);
           this.posts = res.postsId;
         })
@@ -60,13 +55,10 @@ export class SupportModifyPage implements OnInit, OnDestroy {
     });
 
     modal.present();
-
     const data = await modal.onDidDismiss();
 
     if(data.data){
-
       this.posts = <Posts>data.data;
-      console.log(this.posts);
       this.supportForm.controls['postsId'].setValue(this.posts._id);
     }
   }

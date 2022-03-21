@@ -62,13 +62,6 @@
       >
         {{ type === 'update' ? 'Cập nhật' : 'Tạo mới' }}
       </ion-button>
-
-      <ion-button
-        type="button"
-        (click)="copyValue()"
-      >
-        Hiển thị
-      </ion-button>
     </form>
   </div>
 
@@ -82,5 +75,4 @@
       <ion-icon name="arrow-up-outline"></ion-icon>
     </ion-fab-button>
   </ion-fab>
-  <div [innerHTML]="preview | sanitizeHtmlBinding"></div>
 </ion-content>

@@ -37,7 +37,6 @@ export class PostModifyPage implements OnInit {
     ["align_left", "align_center", "align_right", "align_justify"]
   ];
   postsForm: FormGroup;
-  preview: string = '';
 
   currentPositionScroll: number = 0;
 

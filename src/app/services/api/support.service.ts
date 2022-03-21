@@ -59,7 +59,7 @@ export class SupportService {
     let params: HttpParams = new HttpParams();
     params = params.append('id', id);
 
-    return this.httpClient.put<Array<Support>>(this.urlUpdate+'/'+id, supportWillUpload, { headers, params });
+    return this.httpClient.put<Array<Support>>(this.urlUpdate, supportWillUpload, { headers, params });
   }
 }
 

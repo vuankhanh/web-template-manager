@@ -28,14 +28,12 @@ export class SupportManagementPage implements OnInit {
   getAll(){
     this.subscription.add(
       this.supportService.getAll().subscribe(res=>{
-        console.log(res);
         this.supports = res;
       })
     )
   }
 
   async navigatorToModify(support?: Support){
-    console.log(support);
     const modal = await this.modalController.create({
       component: SupportModifyPage,
       componentProps: {
@@ -47,14 +45,14 @@ export class SupportManagementPage implements OnInit {
     modal.present();
     
     const data = await modal.onDidDismiss();
-    console.log(data);
-    if(data.data){
-      if(support){
-        this.supports.push(data.data.data);
+    let result: Support = <Support> data.data;
+    if(result){
+      if(!support){
+        this.supports.push(result);
       }else{
         for(let [index, support] of this.supports.entries()){
-          if(support._id === data.data.data._id){
-            this.supports[index] = data.data.data;
+          if(support._id === result._id){
+            this.supports[index] = result;
           }
         }
       }
