@@ -11,6 +11,10 @@ const routes: Routes = [
   {
     path: 'identification-modify',
     loadChildren: () => import('../identification-information-modify/identification-information-modify.module').then( m => m.IdentificationInformationModifyPageModule)
+  },
+  {
+    path: 'support-management',
+    loadChildren: () => import('../support-management/main/support-management.module').then( m => m.SupportManagementPageModule)
   }
 ];
 

@@ -1,13 +1,15 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 
 import { IdentificationInformationModifyPage } from '../identification-information-modify/identification-information-modify.page';
+
+import { Identification } from 'src/app/Interfaces/Identification';
 
 import { IdentificationService } from 'src/app/services/api/identification.service';
 import { ResponseLogin } from 'src/app/services/api/login.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
+
 import { Subscription } from 'rxjs';
-import { Identification } from 'src/app/Interfaces/Identification';
-import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-identification-information',
@@ -40,7 +42,7 @@ export class IdentificationInformationPage implements OnInit, OnDestroy {
     }
   }
 
-  async modify(param: 'logo' | 'phoneNumber' | 'socialNetworking' | 'address'){
+  async modify(param: 'logo' | 'phoneNumber' | 'socialNetworking' | 'address' | 'support'){
     const modal = await this.modalController.create({
       component: IdentificationInformationModifyPage,
       componentProps: {

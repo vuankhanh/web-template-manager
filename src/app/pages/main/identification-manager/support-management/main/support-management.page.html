@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Quản lý thông tin</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="support-container">
+    <ion-list>
+      <ion-item *ngFor="let support of supports" (click)="navigatorToModify(support)">
+        <ion-label>
+          <span class="primary-key">
+            {{ support.name }}
+          </span>
+        </ion-label>
+      </ion-item>
+
+    </ion-list>
+  </div>
+
+  <ion-fab horizontal="end" vertical="bottom" slot="fixed">
+    <ion-fab-button color="danger" (click)="navigatorToModify()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

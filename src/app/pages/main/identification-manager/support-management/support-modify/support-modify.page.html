@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="end" (click)="modalController.dismiss()">
+      <ion-button>
+        <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>{{ !support ? 'Thêm mới support' : 'Cập nhật support' }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form *ngIf="supportForm" [formGroup]="supportForm" (ngSubmit)="submitSupport()">
+    <ion-list>
+
+      <ion-item>
+        <ion-label>Tiêu đề: </ion-label>
+        <ion-input formControlName="name"></ion-input>
+      </ion-item>
+
+      <ion-item (click)="choosePosts()">
+        <ion-label>Chọn bài viết: </ion-label>
+        <ion-button >Chọn Bài viết</ion-button>
+      </ion-item>
+
+      <div class="posts-container" *ngIf="posts">
+        <app-posts [editorContent]="posts"></app-posts>
+      </div>
+
+    </ion-list>
+
+    <ion-button type="submit" [disabled]="supportForm.invalid">
+      {{ !support ? 'Tạo mới' : 'Cập nhật' }}
+    </ion-button>
+  </form>
+</ion-content>
